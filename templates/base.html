@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+{%load static%}
+
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@200;300;400&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="{% static 'assets/icons/favicon.ico' %}" type="image/x-icon">
+    <!-- Style - CSS -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
+    <!-- /Style - CSS -->
+    <!-- ChartJS -->
+    <script type="text/javascript" src="{% static 'javascript/Chart.min.js' %}"></script>
+    <!-- /ChartJS -->
+
+</head>
+
+<body>
+    {% include "includes/header.html" %}
+    <section class="content">
+        <div class="wrapper">
+            <div class="block_content">
+                <div class="headline_content">
+                    <h3 class="headline_content_title">{% block headtitle %}{% endblock %}</h3>
+                </div>
+                {% block content %} {% endblock %}
+            </div>
+        </div>
+    </section>
+    {% include "includes/footer.html" %}
+
+    <!-- Javascript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="{% static 'javascript/main.js' %}"></script>
+    <!-- /Javascript -->
+
+</body>
+
+</html>

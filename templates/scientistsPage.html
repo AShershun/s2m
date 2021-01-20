@@ -1,0 +1,127 @@
+{% extends "base.html" %}{% block title %} Науковці {% endblock %} {% block headtitle %} Пошук {% endblock %} {% block content %} {% load static%}
+<div class="search_block">
+    <form class="search_form" action="{% url 'search'  %}" method="GET">
+        {% csrf_token %}
+        <div class="search_block">
+            <select class="search_item search_select" id="search" name="select">
+                <option class="select_item" value="pib ">ПІБ</option>
+                <option class="select_item" value="department">Кафедра</option>
+                <option class="select_item" value="speciality">Спеціальність</option>
+                <option class="select_item" value="orcid">ORCID</option>
+            </select>
+            <input class="search_item search_field" type="search" name="q" placeholder="Пошук" required="">
+            <button class="search_item button_icon search_button_submit" type="submit"></button>
+        </div>
+        <hr class="dividing_line ">
+        <div class="search_filter_block">
+            <p class="filter_result_counter">{{ scientists_counter }} результатів за вашим запитом</p>
+            <div class="filter_form">
+                <select class="search_item filter_select" id="search" name="filter">
+                  <option class="select_item" value="fullname_up">Прізвище А-Я</option>
+                  <option class="select_item" value="fullname_down">Прізвище Я-А</option>
+                  <option class="select_item" value="gsh_up ">h index Google Scholar ↑</option>
+                  <option class="select_item" value="gsh_down ">h index Google Scholar ↓</option>
+                  <option class="select_item" value="ph_up">h index Web of Science ↑</option>
+                  <option class="select_item" value="ph_down">h index Web of Science ↓</option>
+                  <option class="select_item" value="sh_up">h index Scopus ↑</option>
+                  <option class="select_item" value="sh_down">h index Scopus ↓</option>
+                </select>
+            </div>
+        </div>
+    </form>
+</div>
+
+<hr class="dividing_line "> {% for scientist in scientist_list %}
+<div class="profile_card">
+    <div class="profile_card_main_layer">
+        <a href="{% url 'profile' scientist.profile_id %}">
+            <div class="profile_card_header">
+                <h5 class="profile_card_title">{{scientist.lastname_uk}} {{scientist.firstname_uk}} {{scientist.middlename_uk}}</h5>
+                <h5 class="profile_card_title_en">{{scientist.lastname_en}} {{scientist.firstname_en}}</h5>
+            </div>
+        </a>
+        <div class="profile_card_info">
+            <div class="profile_card_info_main">
+                <ul class="profile_card_info_list">
+                    <li class="profile_card_info_list_item">
+                        <p class="profile_card_info_list_item_title">Інститут:</p>
+                        <p class="profile_card_info_list_item_data">{{scientist.department.faculty.institute.title_institute}}</p>
+                    </li>
+                    <li class="profile_card_info_list_item">
+                        <p class="profile_card_info_list_item_title">Факультет:</p>
+                        <p class="profile_card_info_list_item_data">{{scientist.department.faculty.title_faculty}}</p>
+                    </li>
+                    <li class="profile_card_info_list_item">
+                        <p class="profile_card_info_list_item_title">Кафедра:</p>
+                        <p class="profile_card_info_list_item_data">{{scientist.department}}</p>
+                    </li>
+                    <li class="profile_card_info_list_item">
+                        <p class="profile_card_info_list_item_title">Посада:</p>
+                        <p class="profile_card_info_list_item_data">
+                            {% if scientist.post == "" %} Немає {% else %} {{scientist.post}} {% endif %}
+                        </p>
+                    </li>
+                    <li class="profile_card_info_list_item">
+                        <p class="profile_card_info_list_item_title">Ступінь:</p>
+                        <p class="profile_card_info_list_item_data">
+                            {% if scientist.degree == "" %} Немає {% else %} {{scientist.degree}} {% endif %}
+                        </p>
+                    </li>
+                    <li class="profile_card_info_list_item">
+                        <p class="profile_card_info_list_item_title">Звання:</p>
+                        <p class="profile_card_info_list_item_data">
+                            {% if scientist.rank == "" %} Немає {% else %} {{scientist.rank}} {% endif %}
+                        </p>
+                    </li>
+                    <li class="profile_card_info_list_item">
+                        <p class="profile_card_info_list_item_title">Спеціальність:</p>
+                        <p class="profile_card_info_list_item_data">
+                            {% for speciality in scientist.speciality.all %} {% if scientist.speciality == "" %} Немає {% else %} {{speciality.speciality_code}} {{speciality.speciality_title}} {% endif %} {% endfor %}
+                        </p>
+                    </li>
+                </ul>
+            </div>
+            <div class="profile_card_info_scientific">
+                <ul class="profile_card_info_list">
+                    <li class="profile_card_info_list_item">
+                        <p class="profile_card_info_list_item_title">ORCID:</p>
+                        <a href="https://orcid.org/{{scientist.orcid}}" target="_blank" class="profile_card_info_list_item_data profile_scientific_info_link">{{scientist.orcid}}</a>
+                    </li>
+                    <li class="profile_card_info_list_item">
+                        <p class="profile_card_info_list_item_title">Google Scholar: </p>
+                        {% if scientist.google_scholar == '' %} Немає {% else %}
+                        <a href="https://scholar.google.com/{{scientist.google_scholar}}" target="_blank" class="profile_card_info_list_item_data profile_scientific_info_link">Посилання</a> {% endif %}
+                    </li>
+                    <li class="profile_card_info_list_item">
+                        <p class="profile_card_info_list_item_title">h index Google Scholar:</p>
+                        <p class="profile_card_info_list_item_data">{{scientist.h_index_google_scholar}}</p>
+                    </li>
+                    <li class="profile_card_info_list_item">
+                        <p class="profile_card_info_list_item_title">Web of Science: </p>
+                        <!-- {% if scientist.publons == '' %}
+                                Немає
+                            {% else %} -->
+                        <a href="https://publons.com/researcher/{{scientist.publons}}" target="_blank" class="profile_card_info_list_item_data profile_scientific_info_link">{{scientist.publons}}</a> {% endif %}
+                    </li>
+                    <li class="profile_card_info_list_item">
+                        <p class="profile_card_info_list_item_title">h index Web of Science:</p>
+                        <p class="profile_card_info_list_item_data">
+                            {% if scientist.publons == 0 %} Немає {% else %} {{scientist.h_index_publons}} {% endif %}
+                        </p>
+                    </li>
+                    <li class="profile_card_info_list_item">
+                        <p class="profile_card_info_list_item_title">Scopus ID:</p>
+                        {% if scientist.scopusid == '' %} Немає {% else %}
+                        <a href="https://www.scopus.com/authid/detail.uri?authorId={{scientist.scopusid}}" target="_blank" class="profile_card_info_list_item_data profile_scientific_info_link">{{scientist.scopusid}}</a> {% endif %}
+                    </li>
+                    <li class="profile_card_info_list_item">
+                        <p class="profile_card_info_list_item_title">h index Scopus:</p>
+                        <p class="profile_card_info_list_item_data">{{scientist.h_index_scopus}}</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="profile_card_opacity_layer"></div>
+</div>
+{% endfor %} {% include 'includes/pagination.html' %} {% endblock %}

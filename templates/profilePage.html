@@ -1,0 +1,237 @@
+{% extends "base.html" %}{% block title %} Профіль {% endblock %} {% block headtitle %} Профіль {% endblock %} {% block content %}
+
+
+<div class="profile_header">
+    <h4 class="profile_header_title">
+        <p class="profile_header_name">{{scientist.lastname_uk}} {{scientist.firstname_uk}} {{scientist.middlename_uk}}</p>
+        <p class="profile_header_name_en">{{scientist.lastname_en}} {{scientist.firstname_en}}</p>
+        <div class="profile_header_code">
+            <p class="profile_header_code_title">Код вченого:</p>
+            <p class="profile_header_code_id">{{scientist.profile_id}}</p>
+        </div>
+    </h4>
+    <div class="profile_date_update">
+        <p class="profile_date_update_title">Оновлено:</p>
+        <p class="profile_date_update_data">{{scientist.date_update}}</p>
+    </div>
+</div>
+
+<hr class="dividing_line ">
+<div class="profile_main_info">
+    <ul class="profile_main_info_list">
+        <li class="profile_info_item">
+            <p class="profile_info_item_title">Інститут:</p>
+            <p class="profile_info_item_data">{{scientist.department.faculty.institute.title_institute}}</p>
+        </li>
+        <li class="profile_info_item">
+            <p class="profile_info_item_title">Факультет:</p>
+            <p class="profile_info_item_data">{{scientist.department.faculty.title_faculty}}</p>
+        </li>
+        <li class="profile_info_item">
+            <p class="profile_info_item_title">Кафедра:</p>
+            <p class="profile_info_item_data">{{scientist.department}}</p>
+        </li>
+        <li class="profile_info_item">
+            <p class="profile_info_item_title">Посада:</p>
+            <p class="profile_info_item_data">
+                {% if scientist.post == "" %} Немає {% else %} {{scientist.post}} {% endif %}
+            </p>
+        </li>
+        <li class="profile_info_item">
+            <p class="profile_info_item_title">Ступінь:</p>
+            <p class="profile_info_item_data">
+                {% if scientist.degree == "" %} Немає {% else %} {{scientist.degree}} {% endif %}
+            </p>
+        </li>
+        <li class="profile_info_item">
+            <p class="profile_info_item_title">Звання:</p>
+            <p class="profile_info_item_data">
+                {% if scientist.degree == "" %} Немає {% else %} {{scientist.degree}} {% endif %}
+            </p>
+        </li>
+        <li class="profile_info_item">
+            <p class="profile_info_item_title">Спеціальність:</p>
+            <p class="profile_info_item_data">
+                {% for speciality in scientist.speciality.all%}{{speciality.speciality_code}} {{speciality.speciality_title}} {% endfor %}
+            </p>
+        </li>
+        <!--         
+        <li class="profile_info_item">
+            <p class="profile_info_item_title">E-mail:</p><a href="mailto:{{scientist.email}}" class="profile_info_item_data profile_scientific_info_link">{{scientist.email}}</a>
+        </li> -->
+        <li class="profile_info_item">
+            <p class="profile_info_item_title">Стан:</p>
+            <p class="profile_info_item_data">{{scientist.work_state}}</p>
+        </li>
+    </ul>
+</div>
+<hr class="dividing_line ">
+<div class="profile_scientific_info_block">
+    <div class="profile_info_item">
+        <p class="profile_info_item_title">ORCID:</p>
+        <a href="https://orcid.org/{{scientist.orcid}}" target="_blank" class="profile_info_item_data profile_scientific_info_link">{{scientist.orcid}}</a>
+    </div>
+    <div class="profile_scientific_info_indicators">
+        <ul class="profile_scientific_info_indicators_list">
+            <li class="profile_info_item">
+                <p class="profile_info_item_title">Google Scholar:</p>
+                {% if scientist.google_scholar == '' %} Немає {% else %}
+                <a href="https://scholar.google.com/{{scientist.google_scholar}}" target="_blank" class="profile_info_item_data profile_scientific_info_link">Посилання</a> {% endif %}
+            </li>
+            <li class="profile_info_item">
+                <p class="profile_info_item_title">h index Google Scholar:</p>
+                <p class="profile_info_item_data">{{scientist.h_index_google_scholar}}</p>
+            </li>
+            <li class="profile_info_item">
+                <p class="profile_info_item_title">Кількість публікацій:</p>
+                <p class="profile_info_item_data">{{scientist.google_scholar_count_pub}}</p>
+            </li>
+        </ul>
+        <ul class="profile_scientific_info_indicators_list">
+            <li class="profile_info_item">
+                <p class="profile_info_item_title">Publons:</p>
+                {% if scientist.publons == '' %} Немає {% else %}
+                <a href="https://publons.com/researcher/{{scientist.publons}}" target="_blank" class="profile_info_item_data profile_scientific_info_link">{{scientist.publons}}</a> {% endif %}
+            </li>
+            <li class="profile_info_item">
+                <p class="profile_info_item_title">h index Web of Science:</p>
+                <p class="profile_info_item_data">{{scientist.h_index_publons}}</p>
+            </li>
+            <li class="profile_info_item">
+                <p class="profile_info_item_title">Кількість публікацій:</p>
+                <p class="profile_info_item_data">{{scientist.publons_count_pub}}</p>
+            </li>
+        </ul>
+        <ul class="profile_scientific_info_indicators_list">
+            <li class="profile_info_item">
+                <p class="profile_info_item_title">Scopus ID:</p>
+                {% if scientist.scopusid == '' %} Немає {% else %}
+                <a href="https://www.scopus.com/authid/detail.uri?authorId={{scientist.scopusid}}" target="_blank" class="profile_info_item_data profile_scientific_info_link">{{scientist.scopusid}}</a> {% endif %}
+            </li>
+            <li class="profile_info_item">
+                <p class="profile_info_item_title">h index Scopus:</p>
+                <p class="profile_info_item_data">{{scientist.h_index_scopus}}</p>
+            </li>
+            <li class="profile_info_item">
+                <p class="profile_info_item_title">Кількість публікацій:</p>
+                <p class="profile_info_item_data">{{scientist.scopus_count_pub}}</p>
+            </li>
+        </ul>
+    </div>
+
+    <div class="profile_scientific_info_chart">
+        <div class="profile_scientific_info_chart_block">
+            <div class="profile_scientific_info_chart_title">Рейтинг h index</div>
+            <div class="profile_scientific_info_chart_area">
+                <canvas class="rating_chart" id="h_index"></canvas>
+                <script type="text/javascript">
+                    var a = document.getElementById('h_index').getContext('2d');
+                    var label = ['Web of Science', 'Scopus'] // 'Google Scholar', 
+                    var data = ['{{scientist.h_index_publons}}', '{{scientist.h_index_scopus}}'] //'{{scientist.h_index_google_scholar}}',
+                    var myLineChart = new Chart(a, {
+                        type: 'bar',
+                        data: {
+                            labels: label,
+                            datasets: [{
+                                data: data,
+                                backgroundColor: [
+                                    'rgba(54, 162, 235, 0.6)',
+                                    'rgba(75, 192, 192, 0.6)',
+                                    'rgba(255, 206, 86, 0.6)',
+
+                                ],
+                            }]
+                        },
+                        options: {
+                            legend: {
+                                display: false
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    ticks: {
+                                        beginAtZero: true,
+                                        stepSize: 1
+                                    }
+                                }]
+                            }
+
+                        }
+                    });
+                </script>
+            </div>
+        </div>
+        <div class="profile_scientific_info_chart_block">
+            <div class="profile_scientific_info_chart_title">Рейтинг кількості публікацій</div>
+            <div class="profile_scientific_info_chart_area">
+                <canvas class="rating_chart" id="count_pub"></canvas>
+                <script type="text/javascript">
+                    //    'Google Scholar',
+                    //    '{{scientist.google_scholar_count_pub}}',
+                    var a = document.getElementById('count_pub').getContext('2d');
+                    var label = ['Web of Science', 'Scopus']
+                    var data = ['{{scientist.publons_count_pub}}', '{{scientist.scopus_count_pub}}']
+                    var myLineChart = new Chart(a, {
+                        type: 'bar',
+                        data: {
+                            labels: label,
+                            datasets: [{
+                                data: data,
+                                backgroundColor: [
+                                    'rgba(75, 192, 192, 0.6)',
+                                    'rgba(255, 206, 86, 0.6)',
+                                ],
+                            }]
+                        },
+                        options: {
+                            legend: {
+                                display: false
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true
+                                }],
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true,
+                                        stepSize: 20
+                                    }
+                                }]
+                            }
+
+                        }
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+{% if scientist.pubs_publons == "" and scientist.pubs_scopus == "" %} {% else %}
+<div class="profile_publication_info">
+    <h5 class="profile_publication_info_title">Публікації</h5>
+    <!-- <div class="profile_publication_info_block">
+        <h6 class="profile_publication_info_block_title">Google Scholar</h6>
+        <p class="profile_publication_info_data">
+            {{scientist.pubs_google_scholar|safe}}
+        </p>
+    </div> -->
+    {% if scientist.pubs_publons == "" %} {% else %}
+    <div class="profile_publication_info_block">
+        <h6 class="profile_publication_info_block_title">Web of Science</h6>
+        <p class="profile_publication_info_data">
+            {{scientist.pubs_publons|safe}}
+        </p>
+    </div>
+    {% endif %} {% if scientist.pubs_scopus == "" %} {% else %}
+    <div class="profile_publication_info_block">
+        <h6 class="profile_publication_info_block_title">Scopus</h6>
+        <p class="profile_publication_info_data">
+            {{scientist.pubs_scopus|safe}}
+        </p>
+    </div>
+    {% endif %}
+</div>
+{% endif %} {% endblock %}

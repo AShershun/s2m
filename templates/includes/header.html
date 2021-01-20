@@ -1,0 +1,56 @@
+{% block header %} {% load static%}
+<header class="header">
+    <div class="navbar">
+        <div class="navbar_item">
+            <a href="/" class="navbar_item_block">
+                <img src="{% static '/assets/icons/s2m_logo.png' %}" class="navbar_item_mainlogo">
+            </a>
+        </div>
+        <div class="navbar_item">
+            <a href="/" class="navbar_item_block">
+                <span class="navbar_item_link">Головна</span>
+            </a>
+        </div>
+        <div class="navbar_item">
+            <a href="/scientists" class="navbar_item_block">
+                <span class="navbar_item_link">Пошук</span>
+            </a>
+        </div>
+        <div class="navbar_item">
+            <a href="/report" class="navbar_item_block">
+                <span class="navbar_item_link">Звіти</span>
+            </a>
+        </div>
+        <div class="navbar_item">
+            <div class="navbar_item_block">
+                <span class="navbar_item_link"></span>
+            </div>
+        </div>
+        <div class="navbar_item">
+            <a href="/information" class="navbar_item_block">
+                <span class="navbar_item_link">Довідка</span>
+            </a>
+        </div>
+        <div class="navbar_item">
+            <div class="navbar_item_block">
+               <!-- <form class="navbar_form" method="POST" action="login">
+                    {% csrf_token %}
+                    <div class="navbar_login">
+                        <p class="navbar_login_placeholder">Логін:</p>
+                        <input type="text" name="username" class="navbar_login_field" required>
+                        <p class="navbar_login_placeholder">Пароль:</p>
+                        <input type="password" name="password" class="navbar_login_field" required>
+                    </div>
+                    <button type="submit" class="navbar_item_link">Вхід</button>
+	       </form>-->
+            </div>
+        </div>
+        <div class="navbar_item">
+            <a href="https://library.onaft.edu.ua" target="_blank" class="navbar_item_block">
+                <img src="{% static 'assets/icons/lib_logo_white.png' %}" class="navbar_item_logo">
+            </a>
+        </div>
+    </div>
+</header>
+
+{% endblock %}
