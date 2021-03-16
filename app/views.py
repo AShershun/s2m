@@ -173,7 +173,7 @@ class ScientistsPage(ListView):
     model = Scientist
     queryset = Scientist.objects.order_by('lastname_uk').filter(draft=False)
     template_name = "scientistsPage.html"
-    paginate_by = 10
+    paginate_by = 15
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
