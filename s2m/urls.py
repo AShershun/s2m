@@ -9,7 +9,7 @@ urlpatterns = (
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('', views.MainPage.as_view()),
     path('scientists/search/', views.Search.as_view(), name="search"),
-    path('scientists/', views.ScientistsPage.as_view()),
+    path('scientists/', views.ScientistsPage.as_view(), name="scientists"),
     path('information/', views.information, name="information"),
     path('report/', views.report, name="report"),
     path('report/export/', views.export, name="export"),

@@ -126,8 +126,8 @@
                 <canvas class="rating_chart" id="h_index"></canvas>
                 <script type="text/javascript">
                     var a = document.getElementById('h_index').getContext('2d');
-                    var label = ['Web of Science', 'Scopus'] // 'Google Scholar', 
-                    var data = ['{{scientist.h_index_publons}}', '{{scientist.h_index_scopus}}'] //'{{scientist.h_index_google_scholar}}',
+                    var label = ['Web of Science', 'Scopus', 'Google Scholar']
+                    var data = ['{{scientist.h_index_publons}}', '{{scientist.h_index_scopus}}', '{{scientist.h_index_google_scholar}}']
                     var myLineChart = new Chart(a, {
                         type: 'bar',
                         data: {

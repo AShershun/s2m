@@ -3,16 +3,18 @@
 
 <div class="rating_scientist">
     <h3 class="rating_scientist_title">Топ-10 науковців за кількістю публікацій</h3>
+    <!-- ---------------- First Diagram ---------------- -->
     <nav class="rating_scientist_nav">
         <ul class="rating_scientist_nav_list">
-            <li class="rating_scientist_nav_list_item active"><a href="#rating_google_scholar" class="rating_scientist_nav_list_link">Google Scholar</a></li>
+            <!-- <li class="rating_scientist_nav_list_item active"><a href="#rating_google_scholar" class="rating_scientist_nav_list_link">Google Scholar</a></li> -->
+            <li class="rating_scientist_nav_list_item active"><a href="#rating_scopus" class="rating_scientist_nav_list_link">Scopus</a></li>
             <li class="rating_scientist_nav_list_item"><a href="#rating_publons" class="rating_scientist_nav_list_link">Web of Science</a></li>
-            <li class="rating_scientist_nav_list_item"><a href="#rating_scopus" class="rating_scientist_nav_list_link">Scopus</a></li>
+            
         </ul>
     </nav>
 
     <div class="rating_scientist_block">
-        <div class="rating_scientist_container active" id="rating_google_scholar">
+        <!-- <div class="rating_scientist_container active" id="rating_google_scholar">
             <div class="rating_scientist_graph">
                 <canvas class="rating_chart" id="google_scholar"></canvas>
                 <script type="text/javascript">
@@ -94,7 +96,7 @@
                     </li>
                 </ul>
             </div>
-        </div>
+        </div> -->
         <div class="rating_scientist_container" id="rating_publons">
             <div class="rating_scientist_graph">
                 <canvas class="rating_chart" id="publons"></canvas>
@@ -178,7 +180,7 @@
                 </ul>
             </div>
         </div>
-        <div class="rating_scientist_container" id="rating_scopus">
+        <div class="rating_scientist_container active" id="rating_scopus">
             <div class="rating_scientist_graph">
                 <canvas class="rating_chart" id="scopus"></canvas>
                 <script type="text/javascript">
@@ -263,6 +265,269 @@
         </div>
     </div>
 
+    <h3 class="rating_scientist_title">Топ-10 науковців за h-index</h3>
+    <!-- ---------------- Second Diagram ---------------- -->
+    <nav class="rating_scientist_nav">
+        <ul class="rating_scientist_nav_list">
+            <li class="rating_scientist_nav_list_item_h active"><a href="#rating_scopus_h" class="rating_scientist_nav_list_link_h">Scopus</a></li>
+            <li class="rating_scientist_nav_list_item_h"><a href="#rating_publons_h" class="rating_scientist_nav_list_link_h">Web of Science</a></li>
+            <li class="rating_scientist_nav_list_item_h"><a href="#rating_google_scholar_h" class="rating_scientist_nav_list_link_h">Google Scholar</a></li>    
+        </ul>
+    </nav>
+
+    <div class="rating_scientist_block">
+    <div class="rating_scientist_container_h active" id="rating_scopus_h">
+            <div class="rating_scientist_graph">
+                <canvas class="rating_chart" id="scopus_h"></canvas>
+                <script type="text/javascript">
+                    var a = document.getElementById('scopus_h').getContext('2d');
+                    var label = ['{{scientist_scopus_h_1}}', '{{scientist_scopus_h_2}}', '{{scientist_scopus_h_3}}', '{{scientist_scopus_h_4}}', '{{scientist_scopus_h_5}}', '{{scientist_scopus_h_6}}', '{{scientist_scopus_h_7}}', '{{scientist_scopus_h_8}}', '{{scientist_scopus_h_9}}', '{{scientist_scopus_h_10}}']
+                    var data = ['{{scopus_h_1}}', '{{scopus_h_2}}', '{{scopus_h_3}}', '{{scopus_h_4}}', '{{scopus_h_5}}', '{{scopus_h_6}}', '{{scopus_h_7}}', '{{scopus_h_8}}', '{{scopus_h_9}}', '{{scopus_h_10}}']
+                    var myLineChart = new Chart(a, {
+                        type: 'bar',
+                        data: {
+                            labels: label,
+                            datasets: [{
+                                data: data,
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.6)',
+                                    'rgba(54, 162, 235, 0.6)',
+                                    'rgba(255, 206, 86, 0.6)',
+                                    'rgba(75, 192, 192, 0.6)',
+                                    'rgba(153, 102, 255, 0.6)',
+                                    'rgba(255, 159, 64, 0.6)',
+                                    'rgba(255, 99, 132, 0.6)',
+                                    'rgba(54, 162, 235, 0.6)',
+                                    'rgba(255, 206, 86, 0.6)',
+                                    'rgba(75, 192, 192, 0.6)',
+                                    'rgba(153, 102, 255, 0.6)'
+                                ],
+                            }]
+                        },
+                        options: {
+                            legend: {
+                                display: false
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: false
+                                }],
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true,
+                                        stepSize: 1
+                                    }
+                                }]
+                            }
+
+                        }
+                    });
+                </script>
+            </div>
+            <div class="rating_scientist_top_block">
+                <ul class="rating_scientist_top_list">
+                    <li class="rating_scientist_top_list_item">
+                        <a href="/profile/{{scopus_profile_id_h_1}}" class="rating_scientist_top_list_link">1. {{scientist_scopus_h_1}}</a>
+                    </li>
+                    <li class="rating_scientist_top_list_item">
+                        <a href="/profile/{{scopus_profile_id_h_2}}" class="rating_scientist_top_list_link">2. {{scientist_scopus_h_2}}</a>
+                    </li>
+                    <li class="rating_scientist_top_list_item">
+                        <a href="/profile/{{scopus_profile_id_h_3}}" class="rating_scientist_top_list_link">3. {{scientist_scopus_h_3}}</a>
+                    </li>
+                    <li class="rating_scientist_top_list_item">
+                        <a href="/profile/{{scopus_profile_id_h_4}}" class="rating_scientist_top_list_link">4. {{scientist_scopus_h_4}}</a>
+                    </li>
+                    <li class="rating_scientist_top_list_item">
+                        <a href="/profile/{{scopus_profile_id_h_5}}" class="rating_scientist_top_list_link">5. {{scientist_scopus_h_5}}</a>
+                    </li>
+                    <li class="rating_scientist_top_list_item">
+                        <a href="/profile/{{scopus_profile_id_h_6}}" class="rating_scientist_top_list_link">6. {{scientist_scopus_h_6}}</a>
+                    </li>
+                    <li class="rating_scientist_top_list_item">
+                        <a href="/profile/{{scopus_profile_id_h_7}}" class="rating_scientist_top_list_link">7. {{scientist_scopus_h_7}}</a>
+                    </li>
+                    <li class="rating_scientist_top_list_item">
+                        <a href="/profile/{{scopus_profile_id_h_8}}" class="rating_scientist_top_list_link">8. {{scientist_scopus_h_8}}</a>
+                    </li>
+                    <li class="rating_scientist_top_list_item">
+                        <a href="/profile/{{scopus_profile_id_h_9}}" class="rating_scientist_top_list_link">9. {{scientist_scopus_h_9}}</a>
+                    </li>
+                    <li class="rating_scientist_top_list_item">
+                        <a href="/profile/{{scopus_profile_id_h_10}}" class="rating_scientist_top_list_link">10. {{scientist_scopus_h_10}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="rating_scientist_container_h" id="rating_publons_h">
+            <div class="rating_scientist_graph">
+                <canvas class="rating_chart" id="publons_h"></canvas>
+                <script type="text/javascript">
+                    var a = document.getElementById('publons_h').getContext('2d');
+                    var label = ['{{scientist_publons_h_1}}', '{{scientist_publons_h_2}}', '{{scientist_publons_h_3}}', '{{scientist_publons_h_4}}', '{{scientist_publons_h_5}}', '{{scientist_publons_h_6}}', '{{scientist_publons_h_7}}', '{{scientist_publons_h_8}}', '{{scientist_publons_h_9}}', '{{scientist_publons_h_10}}']
+                    var data = ['{{publons_h_1}}', '{{publons_h_2}}', '{{publons_h_3}}', '{{publons_h_4}}', '{{publons_h_5}}', '{{publons_h_6}}', '{{publons_h_7}}', '{{publons_h_8}}', '{{publons_h_9}}', '{{publons_h_10}}']
+                    var myLineChart = new Chart(a, {
+                        type: 'bar',
+                        data: {
+                            labels: label,
+                            datasets: [{
+                                data: data,
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.6)',
+                                    'rgba(54, 162, 235, 0.6)',
+                                    'rgba(255, 206, 86, 0.6)',
+                                    'rgba(75, 192, 192, 0.6)',
+                                    'rgba(153, 102, 255, 0.6)',
+                                    'rgba(255, 159, 64, 0.6)',
+                                    'rgba(255, 99, 132, 0.6)',
+                                    'rgba(54, 162, 235, 0.6)',
+                                    'rgba(255, 206, 86, 0.6)',
+                                    'rgba(75, 192, 192, 0.6)',
+                                    'rgba(153, 102, 255, 0.6)'
+                                ],
+                            }]
+                        },
+                        options: {
+                            legend: {
+                                display: false
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: false
+                                }],
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true,
+                                        stepSize: 1
+                                    }
+                                }]
+                            }
+
+                        }
+                    });
+                </script>
+            </div>
+            <div class="rating_scientist_top_block">
+                <ul class="rating_scientist_top_list">
+                    <li class="rating_scientist_top_list_item">
+                        <a href="/profile/{{publons_profile_id_h_1}}" class="rating_scientist_top_list_link">1. {{scientist_publons_h_1}}</a>
+                    </li>
+                    <li class="rating_scientist_top_list_item">
+                        <a href="/profile/{{publons_profile_id_h_2}}" class="rating_scientist_top_list_link">2. {{scientist_publons_h_2}}</a>
+                    </li>
+                    <li class="rating_scientist_top_list_item">
+                        <a href="/profile/{{publons_profile_id_h_3}}" class="rating_scientist_top_list_link">3. {{scientist_publons_h_3}}</a>
+                    </li>
+                    <li class="rating_scientist_top_list_item">
+                        <a href="/profile/{{publons_profile_id_h_4}}" class="rating_scientist_top_list_link">4. {{scientist_publons_h_4}}</a>
+                    </li>
+                    <li class="rating_scientist_top_list_item">
+                        <a href="/profile/{{publons_profile_id_h_5}}" class="rating_scientist_top_list_link">5. {{scientist_publons_h_5}}</a>
+                    </li>
+                    <li class="rating_scientist_top_list_item">
+                        <a href="/profile/{{publons_profile_id_h_6}}" class="rating_scientist_top_list_link">6. {{scientist_publons_h_6}}</a>
+                    </li>
+                    <li class="rating_scientist_top_list_item">
+                        <a href="/profile/{{publons_profile_id_h_7}}" class="rating_scientist_top_list_link">7. {{scientist_publons_h_7}}</a>
+                    </li>
+                    <li class="rating_scientist_top_list_item">
+                        <a href="/profile/{{publons_profile_id_h_8}}" class="rating_scientist_top_list_link">8. {{scientist_publons_h_8}}</a>
+                    </li>
+                    <li class="rating_scientist_top_list_item">
+                        <a href="/profile/{{publons_profile_id_h_9}}" class="rating_scientist_top_list_link">9. {{scientist_publons_h_9}}</a>
+                    </li>
+                    <li class="rating_scientist_top_list_item">
+                        <a href="/profile/{{publons_profile_id_h_10}}" class="rating_scientist_top_list_link">10. {{scientist_publons_h_10}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    <div class="rating_scientist_container_h " id="rating_google_scholar_h">
+            <div class="rating_scientist_graph">
+                <canvas class="rating_chart" id="google_scholar_h"></canvas>
+                <script type="text/javascript">
+                    var a = document.getElementById('google_scholar_h').getContext('2d');
+                    var label = ['{{scientist_google_scholar_h_1}}', '{{scientist_google_scholar_h_2}}', '{{scientist_google_scholar_h_3}}', '{{scientist_google_scholar_h_4}}', '{{scientist_google_scholar_h_5}}', '{{scientist_google_scholar_h_6}}', '{{scientist_google_scholar_h_7}}', '{{scientist_google_scholar_h_8}}', '{{scientist_google_scholar_h_9}}', '{{scientist_google_scholar_h_10}}']
+                    var data = ['{{google_scholar_h_1}}', '{{google_scholar_h_2}}', '{{google_scholar_h_3}}', '{{google_scholar_h_4}}', '{{google_scholar_h_5}}', '{{google_scholar_h_6}}', '{{google_scholar_h_7}}', '{{google_scholar_h_8}}', '{{google_scholar_h_9}}', '{{google_scholar_h_10}}']
+                    var myLineChart = new Chart(a, {
+                        type: 'bar',
+                        data: {
+                            labels: label,
+                            datasets: [{
+                                data: data,
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.6)',
+                                    'rgba(54, 162, 235, 0.6)',
+                                    'rgba(255, 206, 86, 0.6)',
+                                    'rgba(75, 192, 192, 0.6)',
+                                    'rgba(153, 102, 255, 0.6)',
+                                    'rgba(255, 159, 64, 0.6)',
+                                    'rgba(255, 99, 132, 0.6)',
+                                    'rgba(54, 162, 235, 0.6)',
+                                    'rgba(255, 206, 86, 0.6)',
+                                    'rgba(75, 192, 192, 0.6)',
+                                    'rgba(153, 102, 255, 0.6)'
+                                ],
+                            }]
+                        },
+                        options: {
+                            legend: {
+                                display: false
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: false
+                                }],
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true,
+                                        stepSize: 1
+                                    }
+                                }]
+                            }
+
+                        }
+                    });
+                </script>
+            </div>
+            <div class="rating_scientist_top_block">
+                <ul class="rating_scientist_top_list">
+                    <li class="rating_scientist_top_list_item">
+                        <a href="/profile/{{google_scholar_profile_id_h_1}}" class="rating_scientist_top_list_link">1. {{scientist_google_scholar_h_1}}</a>
+                    </li>
+                    <li class="rating_scientist_top_list_item">
+                        <a href="/profile/{{google_scholar_profile_id_h_2}}" class="rating_scientist_top_list_link">2. {{scientist_google_scholar_h_2}}</a>
+                    </li>
+                    <li class="rating_scientist_top_list_item">
+                        <a href="/profile/{{google_scholar_profile_id_h_3}}" class="rating_scientist_top_list_link">3. {{scientist_google_scholar_h_3}}</a>
+                    </li>
+                    <li class="rating_scientist_top_list_item">
+                        <a href="/profile/{{google_scholar_profile_id_h_4}}" class="rating_scientist_top_list_link">4. {{scientist_google_scholar_h_4}}</a>
+                    </li>
+                    <li class="rating_scientist_top_list_item">
+                        <a href="/profile/{{google_scholar_profile_id_h_5}}" class="rating_scientist_top_list_link">5. {{scientist_google_scholar_h_5}}</a>
+                    </li>
+                    <li class="rating_scientist_top_list_item">
+                        <a href="/profile/{{google_scholar_profile_id_h_6}}" class="rating_scientist_top_list_link">6. {{scientist_google_scholar_h_6}}</a>
+                    </li>
+                    <li class="rating_scientist_top_list_item">
+                        <a href="/profile/{{google_scholar_profile_id_h_7}}" class="rating_scientist_top_list_link">7. {{scientist_google_scholar_h_7}}</a>
+                    </li>
+                    <li class="rating_scientist_top_list_item">
+                        <a href="/profile/{{google_scholar_profile_id_h_8}}" class="rating_scientist_top_list_link">8. {{scientist_google_scholar_h_8}}</a>
+                    </li>
+                    <li class="rating_scientist_top_list_item">
+                        <a href="/profile/{{google_scholar_profile_id_h_9}}" class="rating_scientist_top_list_link">9. {{scientist_google_scholar_h_9}}</a>
+                    </li>
+                    <li class="rating_scientist_top_list_item">
+                        <a href="/profile/{{google_scholar_profile_id_h_10}}" class="rating_scientist_top_list_link">10. {{scientist_google_scholar_h_10}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
     <hr class="dividing_line ">
 
     <div class="about_us_block">

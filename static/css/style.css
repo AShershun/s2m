@@ -406,7 +406,7 @@
         list-style-type: none;
     }
     
-    .rating_scientist_nav_list_item {
+    .rating_scientist_nav_list_item, .rating_scientist_nav_list_item_h {
         padding: 5px 0 0;
         border-radius: 8px 8px 0 0;
         background: #b3c9d6;
@@ -414,12 +414,12 @@
         margin: 0 1px;
     }
     
-    .rating_scientist_nav_list_item.active {
+    .rating_scientist_nav_list_item.active, .rating_scientist_nav_list_item_h.active {
         background: #d8e9f1;
         z-index: 3;
     }
     
-    .rating_scientist_nav_list_link {
+    .rating_scientist_nav_list_link, .rating_scientist_nav_list_link_h {
         padding: 5px 40px 5px;
         text-decoration: none;
         font-size: 18px;
@@ -431,10 +431,10 @@
     .rating_scientist_block {
         position: relative;
         height: 518px;
-        margin-bottom: 30px;
+        margin-bottom: 50px;
     }
     
-    .rating_scientist_container {
+    .rating_scientist_container, .rating_scientist_container_h {
         width: calc(100% - 80px);
         opacity: 0;
         box-shadow: 0 3px 15px 0px rgba(122, 122, 122, 0.5);
@@ -449,7 +449,7 @@
         justify-content: space-between;
     }
     
-    .rating_scientist_container.active {
+    .rating_scientist_container.active, .rating_scientist_container_h.active {
         opacity: 1;
         z-index: 2;
     }

@@ -143,8 +143,8 @@ class Scientist(models.Model):
     h_index_google_scholar = models.PositiveSmallIntegerField('h-індекс Google Scholar', default=0)
     google_scholar_count_pub = models.PositiveSmallIntegerField('Кількість публікацій Google Scholar', default=0)
     publons = models.CharField('Publons', max_length=100, blank=True, null=False, unique=False, help_text="P-2507-2015")
-    h_index_publons = models.PositiveSmallIntegerField('h-індекс Publons', default=0)
-    publons_count_pub = models.PositiveSmallIntegerField('Кількість публікацій Pulons', default=0)
+    h_index_publons = models.PositiveSmallIntegerField('h-індекс WoS', default=0)
+    publons_count_pub = models.PositiveSmallIntegerField('Кількість публікацій WoS', default=0)
     scopusid = models.CharField('Scopus ID', max_length=200, blank=True, null=False, unique=False,
                                 help_text="24337331300")
     h_index_scopus = models.PositiveSmallIntegerField('h-індекс Scopus', default=0)
