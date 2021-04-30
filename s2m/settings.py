@@ -95,7 +95,7 @@ DATABASES = {
         'HOST': '192.168.0.109',
         'PORT': '5431',
         'OPTIONS': {
-            'options': '-c search_path=s2m'  # DB Shema
+            'options': '-c search_path=s2m'  # DB Schema
         }
     }
 }

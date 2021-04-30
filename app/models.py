@@ -1,11 +1,6 @@
 from django.db import models
-from datetime import time
-from datetime import date
 from django.urls.base import reverse
 from django.contrib.auth.models import User
-
-
-# help_text="Подсказка"
 
 
 class Institute(models.Model):
@@ -114,10 +109,6 @@ class Speciality(models.Model):
         return '%s' % self.speciality_title
 
 
-# def get_context_data(self, **kwargs):
-#        context = super().get_context_data(**kwargs)
-#        context['scientists_counter'] = self.queryset.count()
-
 class Scientist(models.Model):
     id_scientist = models.AutoField(primary_key=True)
     lastname_uk = models.CharField('Прізвище', max_length=200)
@@ -172,11 +163,11 @@ class Scientist(models.Model):
             self.profile_id = self.profile_id.zfill(4)
             super(Scientist, self).save()
 
-    def get_absolute_url(self):
-        return reverse("profile", kwargs={"profile_id": self.profile_id})
+    # def get_absolute_url(self):
+    #     return reverse("profile", kwargs={"profile_id": self.profile_id})
 
-    def get_fio(self):
-        return '%s %s %s' % (self.lastname_uk, self.firstname_uk, self.middlename_uk)
+    # def get_fio(self):
+    #     return '%s %s %s' % (self.lastname_uk, self.firstname_uk, self.middlename_uk)
 
     def __str__(self):
         return '%s %s %s' % (self.lastname_uk, self.firstname_uk, self.middlename_uk)

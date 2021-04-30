@@ -98,9 +98,7 @@
                     </li>
                     <li class="profile_card_info_list_item">
                         <p class="profile_card_info_list_item_title">Web of Science: </p>
-                        <!-- {% if scientist.publons == '' %}
-                                Немає
-                            {% else %} -->
+                        {% if scientist.publons == '' %} Немає {% else %}
                         <a href="https://publons.com/researcher/{{scientist.publons}}" target="_blank" class="profile_card_info_list_item_data profile_scientific_info_link">{{scientist.publons}}</a> {% endif %}
                     </li>
                     <li class="profile_card_info_list_item">
@@ -124,4 +122,4 @@
     </div>
     <div class="profile_card_opacity_layer"></div>
 </div>
-{% endfor %}  {% endblock %}
+{% endfor %} {% include 'includes/pagination.html' %}  {% endblock %}

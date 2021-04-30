@@ -3,9 +3,8 @@ import csv
 import xlwt
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic.list import ListView
 from django.views.generic.base import View
-
 from app.models import (Degree, Department, Faculty, Institute, Post, Rank,
                         Scientist, Speciality)
 
@@ -35,7 +34,7 @@ class MainPage(View):
         scopus_h = Scientist.objects.all().order_by('h_index_scopus').filter(h_index_scopus__isnull=False,
                                                                              draft=False).reverse()[:10]
         publons_h = Scientist.objects.all().order_by('h_index_publons').filter(h_index_publons__isnull=False,
-                                                                             draft=False).reverse()[:10]
+                                                                               draft=False).reverse()[:10]
         publons = Scientist.objects.all().order_by('publons_count_pub').filter(publons_count_pub__isnull=False,
                                                                                draft=False).reverse()[:10]
         scopus = Scientist.objects.all().order_by('scopus_count_pub').filter(scopus_count_pub__isnull=False,
@@ -68,7 +67,7 @@ class MainPage(View):
             scopus_profile_id.append(scopus_id)
 
         context = {
-            #Publons Publications Top
+            # Publons Publications Top
             'scientist_publons_1': scientist_publons[0],
             'scientist_publons_2': scientist_publons[1],
             'scientist_publons_3': scientist_publons[2],
@@ -100,7 +99,7 @@ class MainPage(View):
             'publons_profile_id_9': publons_profile_id[8],
             'publons_profile_id_10': publons_profile_id[9],
 
-            #Scopus Publications Top
+            # Scopus Publications Top
             'scientist_scopus_1': scientist_scopus[0],
             'scientist_scopus_2': scientist_scopus[1],
             'scientist_scopus_3': scientist_scopus[2],
@@ -218,35 +217,35 @@ class MainPage(View):
 
             # Google Scholar h index
             'scientist_google_scholar_h_1': (
-                        google_scholar_h[0].lastname_uk + " " + google_scholar_h[0].firstname_uk + " " +
-                        google_scholar_h[0].middlename_uk),
+                    google_scholar_h[0].lastname_uk + " " + google_scholar_h[0].firstname_uk + " " +
+                    google_scholar_h[0].middlename_uk),
             'scientist_google_scholar_h_2': (
-                        google_scholar_h[1].lastname_uk + " " + google_scholar_h[1].firstname_uk + " " +
-                        google_scholar_h[1].middlename_uk),
+                    google_scholar_h[1].lastname_uk + " " + google_scholar_h[1].firstname_uk + " " +
+                    google_scholar_h[1].middlename_uk),
             'scientist_google_scholar_h_3': (
-                        google_scholar_h[2].lastname_uk + " " + google_scholar_h[2].firstname_uk + " " +
-                        google_scholar_h[2].middlename_uk),
+                    google_scholar_h[2].lastname_uk + " " + google_scholar_h[2].firstname_uk + " " +
+                    google_scholar_h[2].middlename_uk),
             'scientist_google_scholar_h_4': (
-                        google_scholar_h[3].lastname_uk + " " + google_scholar_h[3].firstname_uk + " " +
-                        google_scholar_h[3].middlename_uk),
+                    google_scholar_h[3].lastname_uk + " " + google_scholar_h[3].firstname_uk + " " +
+                    google_scholar_h[3].middlename_uk),
             'scientist_google_scholar_h_5': (
-                        google_scholar_h[4].lastname_uk + " " + google_scholar_h[4].firstname_uk + " " +
-                        google_scholar_h[4].middlename_uk),
+                    google_scholar_h[4].lastname_uk + " " + google_scholar_h[4].firstname_uk + " " +
+                    google_scholar_h[4].middlename_uk),
             'scientist_google_scholar_h_6': (
-                        google_scholar_h[5].lastname_uk + " " + google_scholar_h[5].firstname_uk + " " +
-                        google_scholar_h[5].middlename_uk),
+                    google_scholar_h[5].lastname_uk + " " + google_scholar_h[5].firstname_uk + " " +
+                    google_scholar_h[5].middlename_uk),
             'scientist_google_scholar_h_7': (
-                        google_scholar_h[6].lastname_uk + " " + google_scholar_h[6].firstname_uk + " " +
-                        google_scholar_h[6].middlename_uk),
+                    google_scholar_h[6].lastname_uk + " " + google_scholar_h[6].firstname_uk + " " +
+                    google_scholar_h[6].middlename_uk),
             'scientist_google_scholar_h_8': (
-                        google_scholar_h[7].lastname_uk + " " + google_scholar_h[7].firstname_uk + " " +
-                        google_scholar_h[7].middlename_uk),
+                    google_scholar_h[7].lastname_uk + " " + google_scholar_h[7].firstname_uk + " " +
+                    google_scholar_h[7].middlename_uk),
             'scientist_google_scholar_h_9': (
-                        google_scholar_h[8].lastname_uk + " " + google_scholar_h[8].firstname_uk + " " +
-                        google_scholar_h[8].middlename_uk),
+                    google_scholar_h[8].lastname_uk + " " + google_scholar_h[8].firstname_uk + " " +
+                    google_scholar_h[8].middlename_uk),
             'scientist_google_scholar_h_10': (
-                        google_scholar_h[9].lastname_uk + " " + google_scholar_h[9].firstname_uk + " " +
-                        google_scholar_h[9].middlename_uk),
+                    google_scholar_h[9].lastname_uk + " " + google_scholar_h[9].firstname_uk + " " +
+                    google_scholar_h[9].middlename_uk),
             'google_scholar_h_1': google_scholar_h[0].h_index_google_scholar,
             'google_scholar_h_2': google_scholar_h[1].h_index_google_scholar,
             'google_scholar_h_3': google_scholar_h[2].h_index_google_scholar,
@@ -536,7 +535,8 @@ def export_xls(request):
     wb = xlwt.Workbook(encoding='utf-8')
     ws = wb.add_sheet('Звіт')
     font_style = xlwt.easyxf(
-        'font: bold on; font: name Times New Roman; font: height 260; align: vert centre; align: horiz center; align: wrap yes; borders: left thin, right thin, top thin, bottom thin')
+        'font: bold on; font: name Times New Roman; font: height 260; align: vert centre; align: horiz center; align: '
+        'wrap yes; borders: left thin, right thin, top thin, bottom thin')
     columns = ['Факультет (Інститут)', 'Кафедра, відділ тощо',
                'Прізвище ім\'я, по батькові науково-педагогічного працівника', 'ID Scopus', 'Індекс Гірша Scopus',
                'ID Web of Science',
@@ -546,7 +546,8 @@ def export_xls(request):
     for col_num in range(len(columns)):
         ws.write(row_num, col_num, columns[col_num], font_style)
     font_style = xlwt.easyxf(
-        ' font: name Times New Roman; font: height 240; align: vert centre; align: horiz center; align: wrap yes; borders: left thin, right thin, top thin, bottom thin')
+        'font: name Times New Roman; font: height 240; align: vert centre; align: horiz center; align: wrap yes; '
+        'borders: left thin, right thin, top thin, bottom thin')
     rows = Scientist.objects.filter(draft=False).order_by('lastname_uk').values_list(
         'department__faculty__title_faculty', 'department__title_department',
         'lastname_uk',
