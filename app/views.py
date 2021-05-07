@@ -29,15 +29,15 @@ class MainPage(View):
     """Дані вчених для побудови графіку"""
 
     def get(self, request):
-        google_scholar_h = Scientist.objects.all().order_by('h_index_google_scholar').filter(
+        google_scholar_h = Scientist.objects.all().order_by('h_index_google_scholar', 'lastname_uk').filter(
             h_index_google_scholar__isnull=False, draft=False).reverse()[:10]
-        scopus_h = Scientist.objects.all().order_by('h_index_scopus').filter(h_index_scopus__isnull=False,
+        scopus_h = Scientist.objects.all().order_by('h_index_scopus', 'lastname_uk').filter(h_index_scopus__isnull=False,
                                                                              draft=False).reverse()[:10]
-        publons_h = Scientist.objects.all().order_by('h_index_publons').filter(h_index_publons__isnull=False,
+        publons_h = Scientist.objects.all().order_by('h_index_publons', 'lastname_uk').filter(h_index_publons__isnull=False,
                                                                                draft=False).reverse()[:10]
-        publons = Scientist.objects.all().order_by('publons_count_pub').filter(publons_count_pub__isnull=False,
+        publons = Scientist.objects.all().order_by('publons_count_pub', 'lastname_uk').filter(publons_count_pub__isnull=False,
                                                                                draft=False).reverse()[:10]
-        scopus = Scientist.objects.all().order_by('scopus_count_pub').filter(scopus_count_pub__isnull=False,
+        scopus = Scientist.objects.all().order_by('scopus_count_pub', 'lastname_uk').filter(scopus_count_pub__isnull=False,
                                                                              draft=False).reverse()[:10]
 
         # Publons Data
@@ -277,7 +277,7 @@ class ScientistsPage(ListView):
     queryset = Scientist.objects.order_by('lastname_uk').filter(draft=False)
     context_object_name = "scientist_list"
     template_name = "scientistsPage.html"
-    paginate_by = 600
+    paginate_by = 15
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -548,9 +548,10 @@ def export_xls(request):
     font_style = xlwt.easyxf(
         'font: name Times New Roman; font: height 240; align: vert centre; align: horiz center; align: wrap yes; '
         'borders: left thin, right thin, top thin, bottom thin')
-    rows = Scientist.objects.filter(draft=False).order_by('lastname_uk').values_list(
+    pib = ('lastname_uk', 'firstname_uk', 'middlename_uk')
+    rows = Scientist.objects.filter(draft=False).values_list( #.order_by('lastname_uk')
         'department__faculty__title_faculty', 'department__title_department',
-        'lastname_uk',
+        ('lastname_uk', 'firstname_uk', 'middlename_uk'),
         'scopusid',
         'h_index_scopus',
         'publons', 'h_index_publons'
