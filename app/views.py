@@ -538,9 +538,9 @@ def export_xls(request):
         'font: bold on; font: name Times New Roman; font: height 260; align: vert centre; align: horiz center; align: '
         'wrap yes; borders: left thin, right thin, top thin, bottom thin')
     columns = ['Факультет (Інститут)', 'Кафедра, відділ тощо',
-               'Прізвище ім\'я, по батькові науково-педагогічного працівника', 'ID Scopus', 'Індекс Гірша Scopus',
-               'ID Web of Science',
-               'Індекс Гірша Web of Science']
+               'Прізвище', 'Ім\'я', 'По батькові науково-педагогічного працівника', 'ID Scopus', 'Індекс Гірша Scopus',
+               'Кількість публікацій Scopus', 'ID Web of Science',
+               'Індекс Гірша Web of Science', 'Кількість публікацій WoS']
     row_num = 0
 
     for col_num in range(len(columns)):
@@ -548,13 +548,11 @@ def export_xls(request):
     font_style = xlwt.easyxf(
         'font: name Times New Roman; font: height 240; align: vert centre; align: horiz center; align: wrap yes; '
         'borders: left thin, right thin, top thin, bottom thin')
-    pib = ('lastname_uk', 'firstname_uk', 'middlename_uk')
-    rows = Scientist.objects.filter(draft=False).values_list( #.order_by('lastname_uk')
+    rows = Scientist.objects.filter(draft=False).order_by('lastname_uk').values_list(
         'department__faculty__title_faculty', 'department__title_department',
-        ('lastname_uk', 'firstname_uk', 'middlename_uk'),
-        'scopusid',
-        'h_index_scopus',
-        'publons', 'h_index_publons'
+        'lastname_uk', 'firstname_uk', 'middlename_uk',
+        'scopusid', 'h_index_scopus', 'scopus_count_pub',
+        'publons', 'h_index_publons', 'publons_count_pub'
     )
 
     for row in rows:
@@ -565,11 +563,15 @@ def export_xls(request):
 
     ws.col(0).width = 256 * 24
     ws.col(1).width = 256 * 22
-    ws.col(2).width = 256 * 52
-    ws.col(3).width = 256 * 15
-    ws.col(4).width = 256 * 16
-    ws.col(5).width = 256 * 16
-    ws.col(6).width = 256 * 19
+    ws.col(2).width = 256 * 30
+    ws.col(3).width = 256 * 16
+    ws.col(4).width = 256 * 20
+    ws.col(5).width = 256 * 15
+    ws.col(6).width = 256 * 16
+    ws.col(7).width = 256 * 13
+    ws.col(8).width = 256 * 16
+    ws.col(9).width = 256 * 19
+    ws.col(10).width = 256 * 13
     ws.row(0).height = 256 * 5
     wb.save(response)
 
