@@ -1,10 +1,9 @@
 {% extends "base.html" %}{% block title %} Звіти {% endblock %} {% block headtitle %} Звіти {% endblock %} {% block content %}
     {% load static%}
 <div class="report_block">
-
     <div class="report_information_block">
         <div class="report_information">
-            <p class="report_information_paragraph">Табліця 3. Наукометричні показники (відповідно статусу национального ЗВО).<br> Включає такі дані: </p>
+            <p class="report_information_paragraph">Табліця 3 та Табліця 4. Річний звіт про виконання критеріїв.<br> Включає такі дані: </p>
             <li class="report_information_list_item">
                 Факультет (Інститут);
             </li>
@@ -21,10 +20,16 @@
                 Індекс Гірша Scopus.
             </li>
             <li class="report_information_list_item">
+                Кількість публікацій Scopus.
+            </li>
+            <li class="report_information_list_item">
                 ID Web of Science.
             </li>
             <li class="report_information_list_item">
                 Індекс Гірша Web of Science.
+            </li>
+            <li class="report_information_list_item">
+                Кількість публікацій WoS.
             </li>
         </div>
         <div class="report_export_button_block">
@@ -38,7 +43,6 @@
             <img class="report_document_example" src="{% static 'assets/Document_table_3.jpg' %}">
         </div>
     </div>
-
 </div>
 <!-- 
 <a href="/export">Експорт</a>

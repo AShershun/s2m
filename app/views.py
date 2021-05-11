@@ -540,9 +540,10 @@ def export_xls(request):
         'font: bold on; font: name Times New Roman; font: height 260; align: vert centre; align: horiz center; align: '
         'wrap yes; borders: left thin, right thin, top thin, bottom thin')
     columns = ['Факультет (Інститут)', 'Кафедра, відділ тощо',
-               'Прізвище', 'Ім\'я', 'По батькові науково-педагогічного працівника', 'ID Scopus', 'Індекс Гірша Scopus',
+               'Прізвище', 'Ім\'я', 'По батькові', 'ID Scopus', 'Індекс Гірша Scopus',
                'Кількість публікацій Scopus', 'ID Web of Science',
-               'Індекс Гірша Web of Science', 'Кількість публікацій WoS']
+               'Індекс Гірша Web of Science', 'Кількість публікацій WoS', 'Публікації Scopus', 'Публікації Web of '
+                                                                                               'Science']
     row_num = 0
 
     for col_num in range(len(columns)):
@@ -554,12 +555,12 @@ def export_xls(request):
         'department__faculty__title_faculty', 'department__title_department',
         'lastname_uk', 'firstname_uk', 'middlename_uk',
         'scopusid', 'h_index_scopus', 'scopus_count_pub',
-        'publons', 'h_index_publons', 'publons_count_pub'
+        'publons', 'h_index_publons', 'publons_count_pub', 'pubs_scopus', 'pubs_publons'
     )
 
     for row in rows:
         row_num += 1
-        ws.row(row_num).height = 256 * 6
+        ws.row(row_num).height = 256 * 7
         for col_num in range(len(row)):
             ws.write(row_num, col_num, row[col_num], font_style)
 
@@ -574,6 +575,8 @@ def export_xls(request):
     ws.col(8).width = 256 * 16
     ws.col(9).width = 256 * 19
     ws.col(10).width = 256 * 13
+    ws.col(11).width = 256 * 45
+    ws.col(12).width = 256 * 45
     ws.row(0).height = 256 * 5
     wb.save(response)
 
