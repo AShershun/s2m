@@ -35,6 +35,8 @@ ALLOWED_HOSTS = [
     'localhost',
     '192.168.1.16',
     '195.138.86.105',
+    '192.168.1.252',
+    's2m.onaft.edu.ua'
 ]
 
 # Application definition

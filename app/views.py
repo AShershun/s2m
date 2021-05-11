@@ -5,8 +5,6 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.base import View
-from app.models import (Degree, Department, Faculty, Institute, Post, Rank,
-                        Scientist, Speciality)
 
 from .forms import *
 
@@ -31,14 +29,18 @@ class MainPage(View):
     def get(self, request):
         google_scholar_h = Scientist.objects.all().order_by('h_index_google_scholar', 'lastname_uk').filter(
             h_index_google_scholar__isnull=False, draft=False).reverse()[:10]
-        scopus_h = Scientist.objects.all().order_by('h_index_scopus', 'lastname_uk').filter(h_index_scopus__isnull=False,
-                                                                             draft=False).reverse()[:10]
-        publons_h = Scientist.objects.all().order_by('h_index_publons', 'lastname_uk').filter(h_index_publons__isnull=False,
-                                                                               draft=False).reverse()[:10]
-        publons = Scientist.objects.all().order_by('publons_count_pub', 'lastname_uk').filter(publons_count_pub__isnull=False,
-                                                                               draft=False).reverse()[:10]
-        scopus = Scientist.objects.all().order_by('scopus_count_pub', 'lastname_uk').filter(scopus_count_pub__isnull=False,
-                                                                             draft=False).reverse()[:10]
+        scopus_h = Scientist.objects.all().order_by('h_index_scopus', 'lastname_uk').filter(
+            h_index_scopus__isnull=False,
+            draft=False).reverse()[:10]
+        publons_h = Scientist.objects.all().order_by('h_index_publons', 'lastname_uk').filter(
+            h_index_publons__isnull=False,
+            draft=False).reverse()[:10]
+        publons = Scientist.objects.all().order_by('publons_count_pub', 'lastname_uk').filter(
+            publons_count_pub__isnull=False,
+            draft=False).reverse()[:10]
+        scopus = Scientist.objects.all().order_by('scopus_count_pub', 'lastname_uk').filter(
+            scopus_count_pub__isnull=False,
+            draft=False).reverse()[:10]
 
         # Publons Data
         scientist_publons = []
