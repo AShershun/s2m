@@ -156,7 +156,8 @@ class Scientist(models.Model):
         verbose_name = 'Науковець'
         verbose_name_plural = 'Науковці'
 
-    def save(self):
+    def save(self, *args, **kwargs):
+        self.fullname_uk = self.lastname_uk + self.middlename_uk + self.firstname_uk
         super(Scientist, self).save()
         if not self.profile_id:
             self.profile_id = str(self.id_scientist)
@@ -166,8 +167,8 @@ class Scientist(models.Model):
     # def get_absolute_url(self):
     #     return reverse("profile", kwargs={"profile_id": self.profile_id})
 
-    # def get_fio(self):
-    #     return '%s %s %s' % (self.lastname_uk, self.firstname_uk, self.middlename_uk)
+    def get_fio(self):
+        return '%s %s %s' % (self.lastname_uk, self.firstname_uk, self.middlename_uk)
 
     def __str__(self):
         return '%s %s %s' % (self.lastname_uk, self.firstname_uk, self.middlename_uk)

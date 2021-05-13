@@ -1,12 +1,15 @@
 import csv
 
 import xlwt
+from django.db.models.functions import Concat
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.base import View
 
 from .forms import *
+from django.db.models.functions import Concat
+from django.db.models import F, Value
 
 
 # def login(request):
@@ -298,46 +301,63 @@ class Search(ListView):
         filter_dropdown_menu = self.request.GET.get('filter')
         if "pib" in select:
             if "fullname_up" in filter_dropdown_menu:
-                queryset = Scientist.objects.filter(draft=False,
-                                                    lastname_uk__icontains=self.request.GET.get("q")).order_by(
-                    'lastname_uk')
+                queryset = Scientist.objects.annotate(
+                    fullname_uk=Concat(F('lastname_uk'), Value(' '), F('firstname_uk'), Value(' '),
+                                       F('middlename_uk'))).filter(draft=False,
+                                                                   fullname_uk__icontains=self.request.GET.get(
+                                                                       "q")).order_by("lastname_uk")
             else:
                 if "fullname_down" in filter_dropdown_menu:
-                    queryset = Scientist.objects.filter(draft=False,
-                                                        lastname_uk__icontains=self.request.GET.get("q")).order_by(
-                        'lastname_uk').reverse()
+                    queryset = Scientist.objects.annotate(
+                        fullname_uk=Concat(F('lastname_uk'), Value(' '), F('firstname_uk'), Value(' '),
+                                           F('middlename_uk'))).filter(draft=False,
+                                                                       fullname_uk__icontains=self.request.GET.get(
+                                                                           "q")).order_by('lastname_uk').reverse()
                 else:
                     if "gsh_down" in filter_dropdown_menu:
-                        queryset = Scientist.objects.filter(draft=False,
-                                                            lastname_uk__icontains=self.request.GET.get("q")).order_by(
-                            'h_index_google_scholar')
+                        queryset = Scientist.objects.annotate(
+                            fullname_uk=Concat(F('lastname_uk'), Value(' '), F('firstname_uk'), Value(' '),
+                                               F('middlename_uk'))).filter(draft=False,
+                                                                           fullname_uk__icontains=self.request.GET.get(
+                                                                               "q")).order_by('h_index_google_scholar')
                     else:
                         if "gsh_up" in filter_dropdown_menu:
-                            queryset = Scientist.objects.filter(draft=False,
-                                                                lastname_uk__icontains=self.request.GET.get(
-                                                                    "q")).order_by(
+                            queryset = Scientist.objects.annotate(
+                                fullname_uk=Concat(F('lastname_uk'), Value(' '), F('firstname_uk'), Value(' '),
+                                                   F('middlename_uk'))).filter(draft=False,
+                                                                               fullname_uk__icontains=self.request.GET.get(
+                                                                                   "q")).order_by(
                                 'h_index_google_scholar').reverse()
                         else:
                             if "ph_down" in filter_dropdown_menu:
-                                queryset = Scientist.objects.filter(draft=False,
-                                                                    lastname_uk__icontains=self.request.GET.get(
-                                                                        "q")).order_by('h_index_publons')
+                                queryset = Scientist.objects.annotate(
+                                    fullname_uk=Concat(F('lastname_uk'), Value(' '), F('firstname_uk'), Value(' '),
+                                                       F('middlename_uk'))).filter(draft=False,
+                                                                                   fullname_uk__icontains=self.request.GET.get(
+                                                                                       "q")).order_by('h_index_publons')
                             else:
                                 if "ph_up" in filter_dropdown_menu:
-                                    queryset = Scientist.objects.filter(draft=False,
-                                                                        lastname_uk__icontains=self.request.GET.get(
-                                                                            "q")).order_by(
+                                    queryset = Scientist.objects.annotate(
+                                        fullname_uk=Concat(F('lastname_uk'), Value(' '), F('firstname_uk'), Value(' '),
+                                                           F('middlename_uk'))).filter(draft=False,
+                                                                                       fullname_uk__icontains=self.request.GET.get(
+                                                                                           "q")).order_by().order_by(
                                         'h_index_publons').reverse()
                                 else:
                                     if "sh_down" in filter_dropdown_menu:
-                                        queryset = Scientist.objects.filter(draft=False,
-                                                                            lastname_uk__icontains=self.request.GET.get(
-                                                                                "q")).order_by('h_index_scopus')
+                                        queryset = Scientist.objects.annotate(
+                                            fullname_uk=Concat(F('lastname_uk'), Value(' '), F('firstname_uk'),
+                                                               Value(' '), F('middlename_uk'))).filter(draft=False,
+                                                                                                       fullname_uk__icontains=self.request.GET.get(
+                                                                                                           "q")).order_by(
+                                            'h_index_scopus')
                                     else:
                                         if "sh_up" in filter_dropdown_menu:
-                                            queryset = Scientist.objects.filter(draft=False,
-                                                                                lastname_uk__icontains=self.request.GET.get(
-                                                                                    "q")).order_by(
+                                            queryset = Scientist.objects.annotate(
+                                                fullname_uk=Concat(F('lastname_uk'), Value(' '), F('firstname_uk'),
+                                                                   Value(' '), F('middlename_uk'))).filter(draft=False,
+                                                                                                           fullname_uk__icontains=self.request.GET.get(
+                                                                                                               "q")).order_by(
                                                 'h_index_scopus').reverse()
         else:
 

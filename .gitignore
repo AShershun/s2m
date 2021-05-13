@@ -128,5 +128,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+#Migrations
+app/migrations
+
 # Project files
 settings.py
