@@ -46,6 +46,9 @@ class ScientistAdmin(admin.ModelAdmin):
             "classes": ("collapse",),
             "fields": ("authorization", ("login", "password"))
         }),
+        # ("Auth", {
+        #     "fields": ("User__first_name", "User__username")
+        # }),
         (None, {
             "fields": ("profile_id", "draft")
         }),

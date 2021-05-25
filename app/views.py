@@ -1,7 +1,6 @@
 import csv
 
 import xlwt
-from django.db.models.functions import Concat
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic.list import ListView
