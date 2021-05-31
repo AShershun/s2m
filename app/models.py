@@ -162,11 +162,8 @@ class Scientist(models.Model):
             self.profile_id = self.profile_id.zfill(4)
             super(Scientist, self).save()
 
-    # def get_absolute_url(self):
-    #     return reverse("profile", kwargs={"profile_id": self.profile_id})
-
-    # def get_fio(self):
-    #     return '%s %s %s' % (self.lastname_uk, self.firstname_uk, self.middlename_uk)
+    def get_absolute_url(self):
+        return reverse("profile", kwargs={"profile_id": self.profile_id})
 
     def __str__(self):
         return '%s %s %s' % (self.lastname_uk, self.firstname_uk, self.middlename_uk)

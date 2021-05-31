@@ -15,16 +15,13 @@ import sys
 import psycopg2
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 PROJECT_ROOT = os.path.dirname(__file__)
-# sys.path.insert(0, os.path.join(PROJECT_ROOT, 'app'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = ')1h$4yuw5^jx(n^qz+2=f@dcj4@qwr!%_zsmmq^irce22md8n_'
-
 LOGIN_REDIRECT_URL = '/'
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -36,7 +33,7 @@ ALLOWED_HOSTS = [
     '192.168.1.16',
     '195.138.86.105',
     's2m.onaft.edu.ua',
-    '192.168.1.252',
+    '192.168.1.252'
 ]
 
 # Application definition
@@ -50,7 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ckeditor',
     'ckeditor_uploader',
-    'app'
+    'app.apps.AppConfig'
 ]
 
 MIDDLEWARE = [
