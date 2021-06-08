@@ -93,21 +93,6 @@ class Rank(models.Model):
         return '%s' % self.title_rank
 
 
-class Speciality(models.Model):
-    id_speciality = models.AutoField(primary_key=True)
-    speciality_title = models.CharField('Назва', unique=True, max_length=200)
-    speciality_code = models.CharField('Код спеціальності', unique=True, max_length=20)
-
-    class Meta:
-        managed = False
-        db_table = 'speciality'
-        verbose_name = 'Спеціальність'
-        verbose_name_plural = 'Спеціальності'
-
-    def __str__(self):
-        return '%s' % self.speciality_title
-
-
 class Scientist(models.Model):
     id_scientist = models.AutoField(primary_key=True)
     lastname_uk = models.CharField('Прізвище', max_length=200)
@@ -139,13 +124,7 @@ class Scientist(models.Model):
                                 help_text="24337331300")
     h_index_scopus = models.PositiveSmallIntegerField('h-індекс Scopus', default=0)
     scopus_count_pub = models.PositiveSmallIntegerField('Кількість публікацій Scopus', default=0)
-    pubs_google_scholar = models.TextField('Публікації Google Scholar', blank=True)
-    pubs_publons = models.TextField('Публікації Pulons', blank=True, null=False)
-    pubs_scopus = models.TextField('Публікації Scopus', blank=True, null=False)
     date_update = models.DateField("Дата оновленя", auto_now=True, null=False)
-    authorization = models.BooleanField('Авторизація', default=False)
-    login = models.CharField('Логін', max_length=120, blank=True)
-    password = models.CharField('Пароль', max_length=50, blank=True)
     profile_id = models.CharField('Код користувача', max_length=4, editable=True, unique=True, blank=True)
     draft = models.BooleanField('Чернетка', default=False)
 
@@ -167,6 +146,53 @@ class Scientist(models.Model):
 
     def __str__(self):
         return '%s %s %s' % (self.lastname_uk, self.firstname_uk, self.middlename_uk)
+
+
+class PublicationScopus(models.Model):
+    id_publication = models.AutoField(primary_key=True)
+    publication_title = models.CharField('Публікації Scopus', unique=True, max_length=600)
+    scientist_id = models.ForeignKey(Scientist, db_column='scientist_id', on_delete=models.CASCADE, null=False,
+                                     to_field='id_scientist', verbose_name="Науковець")
+
+    class Meta:
+        managed = False
+        db_table = 'publication_scopus'
+        verbose_name = 'Публікація Scopus'
+        verbose_name_plural = 'Публікації Scopus'
+
+    def __str__(self):
+        return '%s' % self.publication_title
+
+
+class PublicationWos(models.Model):
+    id_publication = models.AutoField(primary_key=True)
+    publication_title = models.CharField('Публікації WoS', unique=True, max_length=600)
+    scientist_id = models.ForeignKey(Scientist, db_column='scientist_id', on_delete=models.CASCADE, null=False,
+                                     to_field='id_scientist', verbose_name="Науковець")
+
+    class Meta:
+        managed = False
+        db_table = 'publication_wos'
+        verbose_name = 'Публікація WoS'
+        verbose_name_plural = 'Публікації WoS'
+
+    def __str__(self):
+        return '%s' % self.publication_title
+
+
+class Speciality(models.Model):
+    id_speciality = models.AutoField(primary_key=True)
+    speciality_title = models.CharField('Назва', unique=True, max_length=200)
+    speciality_code = models.CharField('Код спеціальності', unique=True, max_length=20)
+
+    class Meta:
+        managed = False
+        db_table = 'speciality'
+        verbose_name = 'Спеціальність'
+        verbose_name_plural = 'Спеціальності'
+
+    def __str__(self):
+        return '%s' % self.speciality_title
 
 
 class ScientistSpeciality(models.Model):

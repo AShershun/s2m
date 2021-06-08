@@ -1,10 +1,12 @@
 import csv
 
 import xlwt
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.base import View
+from django.db.models import Count
 
 from .forms import *
 from django.db.models.functions import Concat
@@ -304,7 +306,8 @@ class Search(ListView):
                     fullname_uk=Concat(F('lastname_uk'), Value(' '), F('firstname_uk'), Value(' '),
                                        F('middlename_uk'))).filter(draft=False,
                                                                    fullname_uk__icontains=self.request.GET.get(
-                                                                       "q")).order_by("lastname_uk")
+                                                                       "q")).order_by(
+                    "lastname_uk")
             else:
                 if "fullname_down" in filter_dropdown_menu:
                     queryset = Scientist.objects.annotate(
@@ -503,7 +506,8 @@ class Search(ListView):
                                                                                             orcid__icontains=self.request.GET.get(
                                                                                                 "q")).order_by(
                                                             'h_index_scopus').reverse()
-
+        a = "QUERYSET!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!:" + str(select)
+        print(a)
         return queryset
 
 
@@ -523,11 +527,16 @@ def information(request):
     return render(request, 'informationPage.html')
 
 
+# @login_required(redirect_field_name='')
 def report(request):
     """Сторінка звітів"""
+    # if request.user.is_authenticated():
     return render(request, 'reportPage.html')
+    # else:
+    #     return render(request, 'informationPage.html')
 
 
+@login_required
 def export(request):
     response = HttpResponse(content_type='text/csv')
     response.write(u'\ufeff'.encode('utf8'))
@@ -550,6 +559,7 @@ def export(request):
     return response
 
 
+@login_required(redirect_field_name='')
 def export_xls(request):
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename="Report.xls"'

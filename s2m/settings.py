@@ -23,6 +23,7 @@ PROJECT_ROOT = os.path.dirname(__file__)
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = ')1h$4yuw5^jx(n^qz+2=f@dcj4@qwr!%_zsmmq^irce22md8n_'
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
