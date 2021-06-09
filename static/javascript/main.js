@@ -1,10 +1,10 @@
-$('button.navbar_item_link').on('click', function(e) {
-    e.preventDefault();
-    $('.navbar_login').slideToggle('active');
-});
-$('.content').on('click', function(e) {
-    $('.navbar_login').slideUp();
-});
+// $('button.navbar_item_link').on('click', function(e) {
+//     e.preventDefault();
+//     $('.navbar_login').slideToggle('active');
+// });
+// $('.content').on('click', function(e) {
+//     $('.navbar_login').slideUp();
+// });
 
 
 $('.rating_scientist_nav_list_link').on('click', function(e) {

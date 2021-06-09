@@ -1,4 +1,5 @@
 {% block footer %} {% load static%}
+
 <footer class="footer">
     <div class="footer_block">
         <div class="footer_nav_block">
@@ -39,10 +40,13 @@
                         <a href="/scientists" class="footer_nav_menu_link">Пошук</a>
                     </li>
                     <li class="footer_nav_item">
+                        <a href="/report" class="footer_nav_menu_link">Звіти</a>
+                    </li>
+                    <li class="footer_nav_item">
                         <a href="/information" class="footer_nav_menu_link">Довідка</a>
                     </li>
                     <li class="footer_nav_item">
-                        <a href="/report" class="footer_nav_menu_link">Звіти</a>
+                        <a href="{% url 'login'%}" class="footer_nav_menu_link">Авторизація</a>
                     </li>
                 </ul>
             </div>
@@ -87,7 +91,7 @@
         <hr class="dividing_line_footer">
         <div class="footer_copyright">
             <div class="footer_copyright_text">
-                <p>Created by Oleksandr Shershun, Zhanna Titurenko © ONAFTLibrary, {% now 'Y' %}. All rights reserved. </p>
+                <p>Created by Oleksandr Shershun, Zhanna Titurenko <a class="footer_copyright_text" href="{% url 'admin:index'%}">©</a> ONAFTLibrary, {% now 'Y' %}. All rights reserved. </p>
             </div>
             <img src="{% static 'assets/icons/s2m_logo.png' %}" class="footer_copyright_logo">
         </div>

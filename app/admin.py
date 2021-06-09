@@ -1,21 +1,8 @@
 from django.contrib import admin
 from .models import Degree, Department, Faculty, Institute, Post, Rank, Scientist, Speciality, WorkState, \
     PublicationScopus, PublicationWos
-from ckeditor_uploader.widgets import CKEditorUploadingWidget
+# from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django.contrib.gis import forms
-
-
-# CKEditor
-class ScientistAdminForm(forms.ModelForm):
-    pubs_google_scholar = forms.CharField(label="Публікації Google Scholar", widget=CKEditorUploadingWidget(),
-                                          required=False)
-    pubs_publons = forms.CharField(label="Публікації Pulons", widget=CKEditorUploadingWidget(), required=False)
-    pubs_scopus = forms.CharField(label="Публікації Scopus", widget=CKEditorUploadingWidget(), required=False)
-
-    class Meta:
-        model = Scientist
-        fields = '__all__'
-
 
 @admin.register(Institute)
 class InstituteAdmin(admin.ModelAdmin):
@@ -120,7 +107,7 @@ class ScientistAdmin(admin.ModelAdmin):
         }),
     )
     inlines = (PublicationWosInline, PublicationScopusInline,)
-    form = ScientistAdminForm
+    # form = ScientistAdminForm
 
     def get_queryset(self, request):
         queryset = super(ScientistAdmin, self).get_queryset(request)

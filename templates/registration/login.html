@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block title %} Авторизація {% endblock %} {% block headtitle %} Авторизація {% endblock %} {% block content %}
+    <form method="post">
+      {% csrf_token %}
+        <div class="form_login">
+            {{ form.as_p }}
+            <div class="login_button_block">
+                <button class="main_button login_button" type="submit">Увійти</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}

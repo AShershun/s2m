@@ -1,31 +1,16 @@
 import csv
-
 import xlwt
+from django.contrib.auth import authenticate, logout
+
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.views.generic.list import ListView
+from django.views.generic import ListView
 from django.views.generic.base import View
-from django.db.models import Count
-
 from .forms import *
 from django.db.models.functions import Concat
 from django.db.models import F, Value
 
-
-# def login(request):
-#     if request.method == 'POST':
-
-
-# def login(request):
-#     if request.method == 'POST':
-#         username = request.POST['username']
-#         password = request.POST['password']
-
-#         user =
-#     else:
-#         return render(request, 'mainPage.html')
-# pass
 
 class MainPage(View):
     """Дані вчених для побудови графіку"""
@@ -506,8 +491,6 @@ class Search(ListView):
                                                                                             orcid__icontains=self.request.GET.get(
                                                                                                 "q")).order_by(
                                                             'h_index_scopus').reverse()
-        a = "QUERYSET!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!:" + str(select)
-        print(a)
         return queryset
 
 
@@ -536,7 +519,7 @@ def report(request):
     #     return render(request, 'informationPage.html')
 
 
-@login_required
+@login_required(login_url='/accounts/login/')
 def export(request):
     response = HttpResponse(content_type='text/csv')
     response.write(u'\ufeff'.encode('utf8'))

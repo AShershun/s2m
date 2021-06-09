@@ -4,9 +4,7 @@ from app import views
 
 urlpatterns = (
     path('admin/', admin.site.urls),
-    path('ckeditor/', include('ckeditor_uploader.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
-    # path('accounts/login/$', views.login, name='login'),
     path('', views.MainPage.as_view()),
     path('scientists/', views.ScientistsPage.as_view(), name="scientists"),
     path('scientists/search/', views.Search.as_view(), name="search"),
