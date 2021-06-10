@@ -206,11 +206,10 @@
     }
     /* Header
 -----------------------------------------------------------------------------*/
-    /* .header {} */
-    
+
     .navbar {
         display: flex;
-        margin-bottom: 80px;
+        margin-bottom: 30px;
         max-height: 110px;
     }
     
@@ -258,7 +257,7 @@
     .navbar_item:nth-child(7) .navbar_item_block {
         display: flex;
         flex-direction: column;
-        padding-top: 25px;
+        padding-top: 60px;
         background-color: #fed877;
     }
     
@@ -284,24 +283,7 @@
         line-height: 1;
         box-shadow: 0 0 12px 5px rgba(122, 122, 122, 0.5)
     }
-    
-    .navbar_login {
-        display: none;
-    }
-    
-    input.navbar_login_field {
-        font-size: 16px;
-        padding-left: 5px;
-        margin-bottom: 10px;
-        z-index: 5;
-        width: 80%;
-    }
-    
-    p.navbar_login_placeholder {
-        text-align: left;
-        margin-left: 20px;
-    }
-    
+
     button.navbar_item_link {
         outline: none;
         border: 0;
@@ -339,6 +321,22 @@
     .navbar_item_logo,
     .navbar_item_mainlogo {
         height: 75px;
+    }
+
+    .navbar_authorization {
+        margin-bottom: 100px;
+    }
+
+    .authorization_label {
+        display: flex;
+        float: right;
+        padding-right: 15px;
+        font-size: 16px;
+    }
+
+    .authorization_name {
+        font-weight: 600;
+        padding-left: 5px;
     }
     /* Base 
 -----------------------------------------------------------------------------*/

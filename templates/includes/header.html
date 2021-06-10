@@ -43,19 +43,9 @@
         <div class="navbar_item">
             {% if user.is_authenticated %}
                 <a href="{% url 'logout'%}" class="navbar_item_block">
-                    {% if user.first_name %}
-                        <div class="navbar_item_login">{{ user.first_name }} {{user.last_name}}</div>
-                    {% else %}
-                        <div class="navbar_item_login">{{ user.username }}</div>
-                    {% endif %}
                     <span class="navbar_item_link">Вийти</span>
                 </a>
             {% else %}
-                <style type="text/css">
-                .navbar_item:nth-child(7) .navbar_item_block {
-                       padding-top: 65px;
-                    }
-                </style>
                 <a href="{% url 'login'%}" class="navbar_item_block">
                     <span class="navbar_item_link">Авторизація</span>
                 </a>
@@ -66,6 +56,20 @@
                 <img src="{% static 'assets/icons/lib_logo_white.png' %}" class="navbar_item_logo">
             </a>
         </div>
+    </div>
+    <div class="navbar_authorization">
+            {% if user.is_authenticated %}
+                <div class="authorization_label">
+                    <i>Ви війшли як</i>
+                    <b class="authorization_name">
+                        {% if user.first_name %}
+                            <div class="navbar_item_login">{{ user.first_name }} {{user.last_name}}</div>
+                        {% else %}
+                            <div class="navbar_item_login">{{ user.username }}</div>
+                        {% endif %}
+                    </b>
+                </div>
+            {% endif %}
     </div>
 </header>
 

@@ -1,8 +1,8 @@
 from django.contrib import admin
 from .models import Degree, Department, Faculty, Institute, Post, Rank, Scientist, Speciality, WorkState, \
     PublicationScopus, PublicationWos
-# from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django.contrib.gis import forms
+
 
 @admin.register(Institute)
 class InstituteAdmin(admin.ModelAdmin):
@@ -85,7 +85,8 @@ class ScientistAdmin(admin.ModelAdmin):
     list_display = ("name", "email", "orcid", "profile_id", "draft", "date_update")
     list_display_links = ("name",)
     list_filter = ("department__faculty__institute", "draft")
-    search_fields = ("profile_id", "lastname_uk", "lastname_en", "email",)#"post__title_post", "degree__title_degree", "rank__title_rank", "speciality__speciality_title", "speciality__speciality_code", "work_state__title_work_state"
+    search_fields = ("profile_id", "lastname_uk", "lastname_en",
+                     "email",)  # "post__title_post", "degree__title_degree", "rank__title_rank", "speciality__speciality_title", "speciality__speciality_code", "work_state__title_work_state"
     readonly_fields = ("profile_id",)
     save_on_top = True
     list_editable = ("draft",)
@@ -107,6 +108,7 @@ class ScientistAdmin(admin.ModelAdmin):
         }),
     )
     inlines = (PublicationWosInline, PublicationScopusInline,)
+
     # form = ScientistAdminForm
 
     def get_queryset(self, request):
