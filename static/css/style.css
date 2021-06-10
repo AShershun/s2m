@@ -1166,8 +1166,8 @@
         display: block;
     }
 
-     .page_wrap:after, footer{
-        height: 252px;
+     .page_wrap:after{
+        height: 60px;
     }
 
     .page_wrap{
