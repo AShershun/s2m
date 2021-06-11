@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.auth.decorators import login_required
 from django.urls import path, include
 from app import views
 
@@ -10,9 +11,8 @@ urlpatterns = (
     path('scientists/search/', views.Search.as_view(), name="search"),
     path('profile/<str:profile_id>', views.ProfilePage.as_view(), name="profile"),
     path('information/', views.information, name="information"),
-    path('report/', views.report, name="report"),
-    # path('report/export/', views.export, name="export"),
-    path('report/export_xls/', views.export_xls, name="export_xls"),
+    path('report/', login_required(views.report), name="report"),
+    path('report/export_xls/', login_required(views.export_xls), name="export_xls"),
 )
 
 
