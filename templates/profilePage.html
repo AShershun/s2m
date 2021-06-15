@@ -52,7 +52,7 @@
         <li class="profile_info_item">
             <p class="profile_info_item_title">Спеціальність:</p>
             <p class="profile_info_item_data">
-                {% if scientist.speciality_set.all %} {% for speciality in scientist.speciality.all%}{{speciality.speciality_code}} {{speciality.speciality_title}} {% endfor %} {% else %} Не вказано  {% endif %}
+                {% if scientist.speciality_set.all %} {% for speciality in scientist.speciality.all%} {{speciality.speciality_code}} {{speciality.speciality_title}} {% endfor %} {% else %} Не вказано  {% endif %}
             </p>
         </li>
         <!--         

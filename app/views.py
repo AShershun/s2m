@@ -1,6 +1,5 @@
 import csv
 import xlwt
-from django.contrib.auth import authenticate, logout
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -444,59 +443,11 @@ class Search(ListView):
                                                                                         speciality__speciality_title__icontains=self.request.GET.get(
                                                                                             "q")).order_by(
                                                         'h_index_scopus').reverse()
-                else:
-
-                    if "orcid" in select:
-                        if "fullname_up" in filter_dropdown_menu:
-                            queryset = Scientist.objects.filter(draft=False,
-                                                                orcid__icontains=self.request.GET.get("q")).order_by(
-                                'lastname_uk')
-                        else:
-                            if "fullname_down" in filter_dropdown_menu:
-                                queryset = Scientist.objects.filter(draft=False, orcid__icontains=self.request.GET.get(
-                                    "q")).order_by('lastname_uk').reverse()
-                            else:
-                                if "gsh_down" in filter_dropdown_menu:
-                                    queryset = Scientist.objects.filter(draft=False,
-                                                                        orcid__icontains=self.request.GET.get(
-                                                                            "q")).order_by(
-                                        'h_index_google_scholar')
-                                else:
-                                    if "gsh_up" in filter_dropdown_menu:
-                                        queryset = Scientist.objects.filter(draft=False,
-                                                                            orcid__icontains=self.request.GET.get(
-                                                                                "q")).order_by(
-                                            'h_index_google_scholar').reverse()
-                                    else:
-                                        if "ph_down" in filter_dropdown_menu:
-                                            queryset = Scientist.objects.filter(draft=False,
-                                                                                orcid__icontains=self.request.GET.get(
-                                                                                    "q")).order_by(
-                                                'h_index_publons')
-                                        else:
-                                            if "ph_up" in filter_dropdown_menu:
-                                                queryset = Scientist.objects.filter(draft=False,
-                                                                                    orcid__icontains=self.request.GET.get(
-                                                                                        "q")).order_by(
-                                                    'h_index_publons').reverse()
-                                            else:
-                                                if "sh_down" in filter_dropdown_menu:
-                                                    queryset = Scientist.objects.filter(draft=False,
-                                                                                        orcid__icontains=self.request.GET.get(
-                                                                                            "q")).order_by(
-                                                        'h_index_scopus')
-                                                else:
-                                                    if "sh_up" in filter_dropdown_menu:
-                                                        queryset = Scientist.objects.filter(draft=False,
-                                                                                            orcid__icontains=self.request.GET.get(
-                                                                                                "q")).order_by(
-                                                            'h_index_scopus').reverse()
         return queryset
 
 
 class ProfilePage(View):
     """Сторінка вченого"""
-
     def get(self, request, profile_id):
         profile_scientist = Scientist.objects.get(profile_id=profile_id)
         context = {
@@ -513,10 +464,7 @@ def information(request):
 # @login_required(redirect_field_name='')
 def report(request):
     """Сторінка звітів"""
-    # if request.user.is_authenticated():
     return render(request, 'reportPage.html')
-    # else:
-    #     return render(request, 'informationPage.html')
 
 
 @login_required(login_url='/accounts/login/')
@@ -542,7 +490,7 @@ def export(request):
     return response
 
 
-@login_required(redirect_field_name='')
+@login_required(login_url='/accounts/login/')
 def export_xls(request):
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename="Report.xls"'
