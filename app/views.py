@@ -9,6 +9,7 @@ from django.views.generic.base import View
 from .forms import *
 from django.db.models.functions import Concat
 from django.db.models import F, Value
+from .models import Scientist
 
 
 class MainPage(View):
@@ -269,9 +270,14 @@ class ScientistsPage(ListView):
     template_name = "scientistsPage.html"
     paginate_by = 15
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
         context['scientists_counter'] = self.queryset.count()
+        context['form'] = SelectForm(initial={
+            # 'search': self.request.GET.get('search', ''),
+            'select': self.request.GET.get('select', ''),
+        })
+
         return context
 
 
@@ -284,7 +290,7 @@ class Search(ListView):
         queryset = ""
         select = self.request.GET.get('select')
         filter_dropdown_menu = self.request.GET.get('filter')
-        if "pib" in select:
+        if "fullname" in select:
             if "fullname_up" in filter_dropdown_menu:
                 queryset = Scientist.objects.annotate(
                     fullname_uk=Concat(F('lastname_uk'), Value(' '), F('firstname_uk'), Value(' '),
@@ -443,11 +449,21 @@ class Search(ListView):
                                                                                         speciality__speciality_title__icontains=self.request.GET.get(
                                                                                             "q")).order_by(
                                                         'h_index_scopus').reverse()
+
         return queryset
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['form'] = SelectForm(initial={
+            # 'search': self.request.GET.get('search', ''),
+            'select': self.request.GET.get('select', ''),
+        })
+        return context
 
 
 class ProfilePage(View):
     """Сторінка вченого"""
+
     def get(self, request, profile_id):
         profile_scientist = Scientist.objects.get(profile_id=profile_id)
         context = {

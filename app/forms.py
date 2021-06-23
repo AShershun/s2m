@@ -1,11 +1,11 @@
-from django import forms
-from app.models import Degree, Department, Faculty, Institute, Post, Rank, Scientist, Speciality
+from django.forms import Form, ChoiceField, CharField
 
 
-class SelectForm(forms.ModelForm):
-    class Meta:
-        model = Scientist
-        fields = [
-            'lastname_uk',
-            'firstname_uk',
-        ]
+class SelectForm(Form):
+    FILTER_CHOICES = (
+        ('fullname', 'ПІБ'),
+        ('department', 'Кафедра'),
+        ('speciality', 'Спеціальність'),
+    )
+    # search = CharField(required=False)
+    select = ChoiceField(choices=FILTER_CHOICES)

@@ -3,17 +3,23 @@
     <form class="search_form" action="{% url 'search'  %}" method="GET">
         {% csrf_token %}
         <div class="search_block">
-            <select class="search_item search_select" id="search" name="select">
-                <option class="select_item" value="pib ">ПІБ</option>
-                <option class="select_item" value="department">Кафедра</option>
-                <option class="select_item" value="speciality">Спеціальність</option>
-            </select>
-            <input class="search_item search_field" type="search" name="q" placeholder="Пошук" required="">
+<!--            <select class="search_item search_select" id="search" name="select">-->
+<!--                <option class="select_item" value="fullname ">ПІБ</option>-->
+<!--                <option class="select_item" value="department">Кафедра</option>-->
+<!--                <option class="select_item" value="speciality">Спеціальність</option>-->
+<!--            </select>-->
+            <span class="search_item search_select">
+<!--             Select created in forms.py -->
+                {{ form.select }}
+            </span>
+            <input class="search_item search_field" type="search" name="q" placeholder="Пошук">
             <button class="search_item button_icon search_button_submit" type="submit"></button>
         </div>
         <hr class="dividing_line ">
         <div class="search_filter_block">
-            <p class="filter_result_counter">{{ scientists_counter }} результатів за вашим запитом</p>
+            {% if scientists_counter %}
+                <p class="filter_result_counter"> {{ scientists_counter }} результатів за вашим запитом</p>
+            {% endif %}
             <div class="filter_form">
                 <select class="search_item filter_select" id="search" name="filter">
                   <option class="select_item" value="fullname_up">Прізвище А-Я</option>

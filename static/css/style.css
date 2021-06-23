@@ -532,11 +532,17 @@
         outline: none;
     }
     
-    .search_select {
+    select#id_select {
         width: 180px;
         margin-right: 12px;
         float: left;
+        height: 35px;
+        color: #639999;
+        border-radius: 3px;
+        font-size: 18px;
+        vertical-align: middle;
         outline: none;
+
     }
     
     .select_item:hover {
@@ -612,6 +618,7 @@
         width: 100%;
         display: flex;
         align-items: flex-end;
+        justify-content: flex-end;
     }
     
     .filter_form {
