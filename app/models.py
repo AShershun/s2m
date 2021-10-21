@@ -216,7 +216,7 @@ class ScientistSpeciality(models.Model):
 
 class Keyword(models.Model):
     id_keyword = models.AutoField(primary_key=True)
-    keyword_title = models.CharField('Назва', unique=False, max_length=200)
+    keyword_title = models.CharField('Назва', unique=True, max_length=200)
 
     class Meta:
         ordering = ('keyword_title',)
