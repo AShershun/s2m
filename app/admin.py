@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Degree, Department, Faculty, Institute, Post, Rank, Scientist, Speciality, WorkState, \
-    PublicationScopus, PublicationWos
+    PublicationScopus, PublicationWos, Keyword
 from django.contrib.gis import forms
 
 
@@ -48,7 +48,13 @@ class RankAdmin(admin.ModelAdmin):
 
 @admin.register(Speciality)
 class SpecialityAdmin(admin.ModelAdmin):
-    list_display = ("speciality_title", "speciality_code")
+    list_display = ("speciality_title", "speciality_code", )
+    search_fields = ("speciality_title",)
+
+
+@admin.register(Keyword)
+class PublicationWosAdmin(admin.ModelAdmin):
+    list_display = ("keyword_title",)
 
 
 @admin.register(WorkState)
@@ -108,8 +114,6 @@ class ScientistAdmin(admin.ModelAdmin):
         }),
     )
     inlines = (PublicationWosInline, PublicationScopusInline,)
-
-    # form = ScientistAdminForm
 
     def get_queryset(self, request):
         queryset = super(ScientistAdmin, self).get_queryset(request)

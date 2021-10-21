@@ -42,6 +42,7 @@ class Department(models.Model):
                                 verbose_name="Факультет")
 
     class Meta:
+        ordering = ('title_department',)
         managed = False
         db_table = 'department'
         verbose_name = 'Кафедра'
@@ -56,6 +57,7 @@ class Degree(models.Model):
     title_degree = models.CharField('Назва', unique=True, max_length=200)
 
     class Meta:
+        ordering = ('title_degree',)
         managed = False
         db_table = 'degree'
         verbose_name = 'Наукова ступінь'
@@ -110,6 +112,7 @@ class Scientist(models.Model):
     post = models.ForeignKey('Post', on_delete=models.CASCADE, db_column='post', to_field='id_post', blank=True,
                              verbose_name="Посада")
     speciality = models.ManyToManyField('Speciality', blank=True, verbose_name="Спеціальність")
+    keyword = models.ManyToManyField('Keyword', blank=True, verbose_name="Ключеве слово")
     work_state = models.ForeignKey('WorkState', on_delete=models.CASCADE, db_column='work_state', to_field='id_state',
                                    verbose_name="Робочий статус", default="Працює")
     orcid = models.CharField('ORCID', max_length=25, help_text="0000-0002-1398-1472", blank=True)
@@ -184,8 +187,10 @@ class Speciality(models.Model):
     id_speciality = models.AutoField(primary_key=True)
     speciality_title = models.CharField('Назва', unique=True, max_length=200)
     speciality_code = models.CharField('Код спеціальності', unique=True, max_length=20)
+    keyword = models.ManyToManyField('Keyword', blank=True, verbose_name="Ключеве слово")
 
     class Meta:
+        ordering = ('speciality_title',)
         managed = False
         db_table = 'speciality'
         verbose_name = 'Спеціальність'
@@ -207,6 +212,35 @@ class ScientistSpeciality(models.Model):
         db_table = 'scientist_speciality'
         verbose_name = 'Науковець - Спеціальність'
         verbose_name_plural = 'Науковці - Спеціальності'
+
+
+class Keyword(models.Model):
+    id_keyword = models.AutoField(primary_key=True)
+    keyword_title = models.CharField('Назва', unique=False, max_length=200)
+
+    class Meta:
+        ordering = ('keyword_title',)
+        managed = False
+        db_table = 'keyword'
+        verbose_name = 'Ключове слово'
+        verbose_name_plural = 'Ключові слова'
+
+    def __str__(self):
+        return '%s' % self.keyword_title
+
+
+class SpecialityKeyword(models.Model):
+    id = models.AutoField(primary_key=True)
+    speciality_id = models.ForeignKey(Speciality, db_column='speciality_id', on_delete=models.CASCADE, null=True,
+                                      to_field='id_speciality', verbose_name="Спеціальність")
+    keyword_id = models.ForeignKey(Keyword, db_column='keyword_id', on_delete=models.CASCADE, null=True,
+                                   to_field='id_keyword', verbose_name="Ключево слово")
+
+    class Meta:
+        managed = False
+        db_table = 'speciality_keyword'
+        verbose_name = 'Спеціальність - Ключево слово'
+        verbose_name_plural = 'Спеціальності - Ключеві слова'
 
 
 class WorkState(models.Model):
