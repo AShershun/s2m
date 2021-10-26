@@ -484,7 +484,7 @@ def report(request):
 
 
 @login_required(login_url='/accounts/login/')
-def export_xls(request):
+def export(request):
     response = HttpResponse(content_type='text/csv')
     response.write(u'\ufeff'.encode('utf8'))
     writer = csv.writer(response)
@@ -507,7 +507,7 @@ def export_xls(request):
 
 
 @login_required(login_url='/accounts/login/')
-def export(request):
+def export_xls(request):
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename="Report.xls"'
     wb = xlwt.Workbook(encoding='utf-8')
@@ -518,8 +518,7 @@ def export(request):
     columns = ['Факультет (Інститут)', 'Кафедра, відділ тощо',
                'Прізвище', 'Ім\'я', 'По батькові', 'ID Scopus', 'Індекс Гірша Scopus',
                'Кількість публікацій Scopus', 'ID Web of Science',
-               'Індекс Гірша Web of Science', 'Кількість публікацій WoS', 'Публікації Scopus', 'Публікації Web of '
-                                                                                               'Science']
+               'Індекс Гірша Web of Science', 'Кількість публікацій WoS']
     row_num = 0
 
     for col_num in range(len(columns)):
@@ -531,7 +530,7 @@ def export(request):
         'department__faculty__title_faculty', 'department__title_department',
         'lastname_uk', 'firstname_uk', 'middlename_uk',
         'scopusid', 'h_index_scopus', 'scopus_count_pub',
-        'publons', 'h_index_publons', 'publons_count_pub', 'pubs_scopus', 'pubs_publons'
+        'publons', 'h_index_publons', 'publons_count_pub', 
     )
 
     for row in rows:
