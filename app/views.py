@@ -274,7 +274,6 @@ class ScientistsPage(ListView):
         context = super().get_context_data(*args, **kwargs)
         context['scientists_counter'] = self.queryset.count()
         context['form'] = SelectForm(initial={
-            # 'search': self.request.GET.get('search', ''),
             'select': self.request.GET.get('select', ''),
         })
 

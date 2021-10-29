@@ -81,7 +81,13 @@
                     <li class="profile_card_info_list_item">
                         <p class="profile_card_info_list_item_title">Спеціальність:</p>
                         <p class="profile_card_info_list_item_data">
-                            {% for speciality in scientist.speciality.all %} {% if scientist.speciality == "" %} Немає {% else %} {{speciality.speciality_code}} {{speciality.speciality_title}} {% endif %} {% endfor %}
+                            {% for speciality in scientist.speciality.all %}
+                                {% if scientist.speciality == "" %}
+                                    Немає
+                                {% else %}
+                                    {{speciality.speciality_code}} {{speciality.speciality_title}};
+                                {% endif %}
+                            {% endfor %}
                         </p>
                     </li>
                 </ul>

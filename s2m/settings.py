@@ -90,7 +90,7 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'alexander',  # login db
         'PASSWORD': '010980',  # password db
-        'HOST': '192.168.1.171',
+        'HOST': '192.168.1.17',
         'PORT': '5431',
         'OPTIONS': {
             'options': '-c search_path=s2m'  # DB Schema

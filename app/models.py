@@ -197,7 +197,7 @@ class Speciality(models.Model):
         verbose_name_plural = 'Спеціальності'
 
     def __str__(self):
-        return '%s' % self.speciality_title
+        return '%s' ' ' '%s' % (self.speciality_code, self.speciality_title)
 
 
 class ScientistSpeciality(models.Model):
