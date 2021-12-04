@@ -9,7 +9,7 @@ from django.views.generic.base import View
 from .forms import *
 from django.db.models.functions import Concat
 from django.db.models import F, Value
-from .models import Scientist
+from .models import Scientist, Speciality
 
 
 class MainPage(View):
@@ -448,6 +448,56 @@ class Search(ListView):
                                                                                         speciality__speciality_title__icontains=self.request.GET.get(
                                                                                             "q")).order_by(
                                                         'h_index_scopus').reverse()
+                else:
+
+                    if "keyword" in select:
+                        if "fullname_up" in filter_dropdown_menu:
+                            queryset = Scientist.objects.filter(draft=False,
+                                                                lastname_uk__icontains=self.request.GET.get(
+                                                                    "q")).order_by(
+                                'lastname_uk')
+                        else:
+                            if "fullname_down" in filter_dropdown_menu:
+                                queryset = Scientist.objects.filter(draft=False,
+                                                                    speciality__keyword__keyword_title__icontains=self.request.GET.get(
+                                                                        "q")).order_by(
+                                    'lastname_uk').reverse()
+                            else:
+                                if "gsh_down" in filter_dropdown_menu:
+                                    queryset = Scientist.objects.filter(draft=False,
+                                                                        speciality__keyword__keyword_title__icontains=self.request.GET.get(
+                                                                            "q")).order_by(
+                                        'h_index_google_scholar')
+                                else:
+                                    if "gsh_up" in filter_dropdown_menu:
+                                        queryset = Scientist.objects.filter(draft=False,
+                                                                            speciality__keyword__keyword_title__icontains=self.request.GET.get(
+                                                                                "q")).order_by(
+                                            'h_index_google_scholar').reverse()
+                                    else:
+                                        if "ph_down" in filter_dropdown_menu:
+                                            queryset = Scientist.objects.filter(draft=False,
+                                                                                speciality__keyword__keyword_title__icontains=self.request.GET.get(
+                                                                                    "q")).order_by(
+                                                'h_index_publons')
+                                        else:
+                                            if "ph_up" in filter_dropdown_menu:
+                                                queryset = Scientist.objects.filter(draft=False,
+                                                                                    speciality__keyword__keyword_title__icontains=self.request.GET.get(
+                                                                                        "q")).order_by(
+                                                    'h_index_publons').reverse()
+                                            else:
+                                                if "sh_down" in filter_dropdown_menu:
+                                                    queryset = Scientist.objects.filter(draft=False,
+                                                                                        speciality__keyword__keyword_title__icontains=self.request.GET.get(
+                                                                                            "q")).order_by(
+                                                        'h_index_scopus')
+                                                else:
+                                                    if "sh_up" in filter_dropdown_menu:
+                                                        queryset = Scientist.objects.filter(draft=False,
+                                                                                            speciality__keyword__keyword_title__icontains=self.request.GET.get(
+                                                                                                "q")).order_by(
+                                                            'h_index_scopus').reverse()
 
         return queryset
 
@@ -465,8 +515,10 @@ class ProfilePage(View):
 
     def get(self, request, profile_id):
         profile_scientist = Scientist.objects.get(profile_id=profile_id)
+        # speciality = Scientist.objects.get(profile_id=profile_id).values('speciality')
         context = {
-            'scientist': profile_scientist
+            'scientist': profile_scientist,
+            # 'specialitys': speciality
         }
         return render(request, 'profilePage.html', context)
 
@@ -529,7 +581,7 @@ def export_xls(request):
         'department__faculty__title_faculty', 'department__title_department',
         'lastname_uk', 'firstname_uk', 'middlename_uk',
         'scopusid', 'h_index_scopus', 'scopus_count_pub',
-        'publons', 'h_index_publons', 'publons_count_pub', 
+        'publons', 'h_index_publons', 'publons_count_pub',
     )
 
     for row in rows:

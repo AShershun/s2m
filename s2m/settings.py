@@ -32,9 +32,11 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
     '192.168.1.16',
-    '195.138.86.105',
+    '195.138.86.105', #external ip
     's2m.onaft.edu.ua',
-    '192.168.1.252'
+    '192.168.1.252', #localhost
+    '192.168.0.108', #localhost
+    '192.168.1.57' #localhost
 ]
 
 # Application definition
@@ -90,7 +92,7 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'alexander',  # login db
         'PASSWORD': '010980',  # password db
-        'HOST': '192.168.1.17',
+        'HOST': '192.168.1.11', #'192.168.1.57',
         'PORT': '5431',
         'OPTIONS': {
             'options': '-c search_path=s2m'  # DB Schema

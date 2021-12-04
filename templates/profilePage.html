@@ -52,25 +52,30 @@
         <li class="profile_info_item">
             <p class="profile_info_item_title">Спеціальність:</p>
             <p class="profile_info_item_data">
-                {% for speciality in scientist.speciality.all %}
-                    {% if scientist.speciality == "" %}
-                        Немає
-                    {% else %}
+                {% if scientist.speciality.all %}
+                    {% for speciality in scientist.speciality.all %}
                         {{speciality.speciality_code}} {{speciality.speciality_title}};
-                    {% endif %}
-                {% endfor %}
+                    {% endfor %}
+                {% else %}
+                    Немає
+                {% endif %}
             </p>
         </li>
         <li class="profile_info_item">
             <p class="profile_info_item_title">Ключові слова:</p>
             <p class="profile_info_item_data">
-                {% for keyword in scientist.speciality.keyword.all %}
-                    {% if scientist.speciality.keyword == "" %}
-                        Немає
-                    {% else %}
+<!--                {% for spec in specialitys %}-->
+<!--                    {{speciality_title}}-->
+<!--                {% endfor %}-->
+                {{specialitys}}
+                {% if scientist.speciality.keyword.all %}
+                    {{scientist.speciality.keyword.keyword_title}};
+                    {% for keyword in scientist.speciality_set.keyword.all %}
                         {{keyword.keyword_title}};
-                    {% endif %}
-                {% endfor %}
+                    {% endfor %}
+                {% else %}
+                    Немає
+                {% endif %}
             </p>
         </li>
         <!--         

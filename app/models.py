@@ -112,7 +112,6 @@ class Scientist(models.Model):
     post = models.ForeignKey('Post', on_delete=models.CASCADE, db_column='post', to_field='id_post', blank=True,
                              verbose_name="Посада")
     speciality = models.ManyToManyField('Speciality', blank=True, verbose_name="Спеціальність")
-    keyword = models.ManyToManyField('Keyword', blank=True, verbose_name="Ключеве слово")
     work_state = models.ForeignKey('WorkState', on_delete=models.CASCADE, db_column='work_state', to_field='id_state',
                                    verbose_name="Робочий статус", default="Працює")
     orcid = models.CharField('ORCID', max_length=25, help_text="0000-0002-1398-1472", blank=True)
@@ -185,7 +184,7 @@ class PublicationWos(models.Model):
 
 class Speciality(models.Model):
     id_speciality = models.AutoField(primary_key=True)
-    speciality_title = models.CharField('Назва', unique=True, max_length=200)
+    speciality_title = models.CharField('Назва', unique=True, max_length=200, null=False)
     speciality_code = models.CharField('Код спеціальності', unique=True, max_length=20)
     keyword = models.ManyToManyField('Keyword', blank=True, verbose_name="Ключеве слово")
 
@@ -231,9 +230,9 @@ class Keyword(models.Model):
 
 class SpecialityKeyword(models.Model):
     id = models.AutoField(primary_key=True)
-    speciality_id = models.ForeignKey(Speciality, db_column='speciality_id', on_delete=models.CASCADE, null=True,
+    speciality_id = models.ForeignKey(Speciality, db_column='speciality_id', on_delete=models.CASCADE,
                                       to_field='id_speciality', verbose_name="Спеціальність")
-    keyword_id = models.ForeignKey(Keyword, db_column='keyword_id', on_delete=models.CASCADE, null=True,
+    keyword_id = models.ForeignKey(Keyword, db_column='keyword_id', on_delete=models.CASCADE,
                                    to_field='id_keyword', verbose_name="Ключево слово")
 
     class Meta:

@@ -169,7 +169,8 @@
         /* 1 */
         margin-left: auto;
         /* 1 */
-        max-width: 1370px;
+        /*max-width: 1370px;*/
+        width: 78%;
     }
     /*    }*/
     /*    @media only screen and (min-width: 1599px) {*/
@@ -245,7 +246,7 @@
     }
     
     .navbar_item:nth-child(5) .navbar_item_block {
-        padding-top: 80px;
+        padding-top: 78px;
         background-color: #82d8e5;
     }
     
@@ -306,7 +307,6 @@
     }
 
     .navbar_item_login {
-        font-size: 17px;
         margin-bottom: 25px;
     }
 
@@ -318,9 +318,13 @@
         transition: 0.5s ease;
     }
     
-    .navbar_item_logo,
-    .navbar_item_mainlogo {
-        height: 75px;
+    .navbar_item_logo, .navbar_item_mainlogo {
+        width: 50%;
+        display: block;
+    }
+
+    img.navbar_item_mainlogo {
+        width: 60%;
     }
 
     .navbar_authorization {
@@ -389,7 +393,17 @@
     .rating_scientist {
         margin: 40px 0 50px;
     }
-    
+
+    .rating_scientist_graph {
+        position: relative;
+    }
+
+    .rating_scientist_graph>canvas {
+        height: 90%;
+        position: absolute;
+        bottom: 0;
+    }
+
     h3.rating_scientist_title {
         font-size: 30px;
         font-weight: bold;
@@ -469,7 +483,7 @@
         border-left: 3px solid #6b99b3;
         width: 100%;
         padding-left: 20px;
-        height: 438px;
+        height: 97%;
     }
     
     .rating_scientist_top_list_item {
@@ -652,8 +666,8 @@
     }
     
     .profile_card_opacity_layer {
-        height: 230px;
-        width: 24.5%;
+        height: 100%;
+        width: 23%;
         background: #fff;
         opacity: 0.43;
         right: 0;
@@ -706,12 +720,13 @@
         display: flex;
         background-color: #ebf6fc;
         width: 100%;
+        justify-content: space-between;
     }
     
     .profile_card_info_main {
         padding-left: 10px;
-        width: 75%;
-        height: 170px;
+        width: 70%;
+        height: auto;
         z-index: 3;
     }
     
@@ -738,6 +753,11 @@
     
     .profile_card_info_list_item_data {
         color: black;
+    }
+
+    p.profile_card_info_list_item_data {
+        overflow: hidden;
+        white-space: nowrap;
     }
     
     .profile_card_info_scientific .profile_card_info_list_item:first-child {
@@ -888,7 +908,7 @@
     
     .profile_header_title {
         font-size: 30px;
-        width: 80%;
+        width: 70%;
     }
     
     .profile_header_name,
@@ -1179,7 +1199,7 @@
 
     .page_wrap{
         min-height: 74.66%;
-        margin-bottom: 160px;
+        margin-bottom: 80px;
     }
 
 
@@ -1350,4 +1370,1107 @@
         font-size: 17px;
         margin-left: auto;
         margin-right: 0;
+    }
+
+     /*-------------------- Media Queries --------------------*/
+
+    @media screen and (max-width:1025px) {
+        .navbar_item_logo, .navbar_item_mainlogo {
+            width: 55%;
+        }
+
+        img.navbar_item_mainlogo {
+            width: 75%;
+        }
+
+        .navbar_item_block {
+            font-size: 16px;
+        }
+
+        .authorization_label {
+            font-size: 14px;
+        }
+
+        .navbar_authorization {
+            margin-bottom: 70px;
+        }
+
+        .headline_content_title {
+            font-size: 22px;
+        }
+
+        h3.rating_scientist_title {
+            font-size: 20px;
+        }
+
+        .rating_scientist_nav_list_link, .rating_scientist_nav_list_link_h {
+            font-size: 16px;
+        }
+
+        .rating_scientist_top_list_item {
+            padding: 5px 0;
+        }
+
+        .rating_scientist_top_list_link {
+            font-size: 13px;
+        }
+
+        .rating_scientist_block {
+            height: 490px;
+        }
+
+        .about_us_block_title {
+            font-size: 20px;
+        }
+
+        p.about_us_info {
+            font-size: 15px;
+        }
+
+        .profile_card_header {
+            font-size: 21px;
+        }
+
+        .profile_card_info_list {
+            font-size: 14px;
+        }
+
+        h6.footer_nav_title {
+            font-size: 15px;
+        }
+
+        ul.footer_nav_list {
+            font-size: 13px;
+        }
+
+        .footer_nav_main_logo {
+            height: 40px;
+        }
+
+        .footer_nav_social_network_logo {
+            height: 24px;
+        }
+
+        .footer_copyright_text {
+            font-size: 9px;
+        }
+
+        .search_item {
+            font-size: 14px;
+        }
+
+        select#id_select {
+            font-size: 14px;
+        }
+
+        .filter_result_counter {
+            font-size: 12px;
+        }
+
+        .profile_header_title {
+            font-size: 22px;
+        }
+
+        .profile_header_name, .profile_header_name_en {
+            padding:8px 0 ;
+        }
+
+        .profile_date_update, .profile_header_code {
+            font-size: 12px;
+        }
+
+        .profile_main_info_list {
+            font-size: 15px;
+        }
+
+        .profile_scientific_info_block {
+            font-size: 15px;
+        }
+
+        .profile_publication_info_title {
+            font-size: 22px;
+        }
+
+        .profile_publication_info_block_title {
+            font-size: 18px;
+        }
+
+        .profile_publication_info_item {
+            font-size: 15px;
+        }
+
+        p.information_paragraph {
+            font-size: 15px;
+        }
+
+        .information_block_title {
+            font-size: 18px;
+        }
+
+        .form_login p, .login_button_block {
+            width: 72%;
+        }
+
+        button.main_button {
+            font-size: 15px;
+        }
+
+        .report_information {
+            font-size: 15px;
+        }
+
+        a.report_export_link {
+            font-size: 16px;
+        }
+    }
+    @media screen and (min-width:1026px) and (max-width:1150px) {
+        .navbar_item_logo, .navbar_item_mainlogo {
+            width: 60%;
+        }
+
+        img.navbar_item_mainlogo {
+            width: 78%;
+        }
+
+        .navbar_item_block {
+            font-size: 17px;
+        }
+
+        .authorization_label {
+            font-size: 15px;
+        }
+
+        .navbar_authorization {
+            margin-bottom: 80px;
+        }
+
+        .headline_content_title {
+            font-size: 23px;
+        }
+
+        h3.rating_scientist_title {
+            font-size: 22px;
+        }
+
+        .rating_scientist_nav_list_link, .rating_scientist_nav_list_link_h {
+            font-size: 17px;
+        }
+
+        .rating_scientist_top_list_item {
+            padding: 6px 0;
+        }
+
+        .rating_scientist_top_list_link {
+            font-size: 13px;
+        }
+
+        .rating_scientist_block {
+            height: 490px;
+        }
+
+        .about_us_block_title {
+            font-size: 22px;
+        }
+
+        p.about_us_info {
+            font-size: 16px;
+        }
+
+        .profile_card_header {
+            font-size: 22px;
+        }
+
+        .profile_card_info_list {
+            font-size: 14px;
+        }
+
+        h6.footer_nav_title {
+            font-size: 16px;
+        }
+
+        ul.footer_nav_list {
+            font-size: 14px;
+        }
+
+        .footer_nav_main_logo {
+            height: 42px;
+        }
+
+        .footer_nav_social_network_logo {
+            height: 26px;
+        }
+
+        .footer_copyright_text {
+            font-size: 10px;
+        }
+
+        .search_item {
+            font-size: 15px;
+        }
+
+        select#id_select {
+            font-size: 15px;
+        }
+
+        .filter_result_counter {
+            font-size: 13px;
+        }
+
+        .profile_header_title {
+            font-size: 23px;
+        }
+
+        .profile_header_name, .profile_header_name_en {
+            padding:8px 0 ;
+        }
+
+        .profile_date_update, .profile_header_code {
+            font-size: 13px;
+        }
+
+        .profile_main_info_list {
+            font-size: 16px;
+        }
+
+        .profile_scientific_info_block {
+            font-size: 16px;
+        }
+
+        .profile_publication_info_title {
+            font-size: 23px;
+        }
+
+        .profile_publication_info_block_title {
+            font-size: 20px;
+        }
+
+        p.information_paragraph {
+            font-size: 16px;
+        }
+
+        .information_block_title {
+            font-size: 20px;
+        }
+
+        .form_login p, .login_button_block {
+            width: 72%;
+        }
+
+        button.main_button {
+            font-size: 16px;
+        }
+
+        .report_information {
+            font-size: 16px;
+        }
+
+        a.report_export_link {
+            font-size: 17px;
+        }
+    }
+    @media screen and (min-width:1151px) and (max-width:1280px) {
+        .navbar_item_logo, .navbar_item_mainlogo {
+            width: 60%;
+        }
+
+        img.navbar_item_mainlogo {
+            width: 82%;
+        }
+
+        .navbar_item_block {
+            font-size: 18px;
+        }
+
+        .authorization_label {
+            font-size: 15px;
+        }
+
+        .navbar_authorization {
+            margin-bottom: 95px;
+        }
+
+        .headline_content_title {
+            font-size: 24px;
+        }
+
+        h3.rating_scientist_title {
+            font-size: 23px;
+        }
+
+        .rating_scientist_nav_list_link, .rating_scientist_nav_list_link_h {
+            font-size: 17px;
+        }
+
+        .rating_scientist_top_list_item {
+            padding: 8px 0;
+        }
+
+        .rating_scientist_top_list_link {
+            font-size: 15px;
+        }
+
+        .rating_scientist_block {
+            height: 520px;
+        }
+
+        .about_us_block_title {
+            font-size: 23px;
+        }
+
+        p.about_us_info {
+            font-size: 17px;
+        }
+
+        .profile_card_header {
+            font-size: 23px;
+        }
+
+        .profile_card_info_list {
+            font-size: 15px;
+        }
+
+        h6.footer_nav_title {
+            font-size: 17px;
+        }
+
+        ul.footer_nav_list {
+            font-size: 15px;
+        }
+
+        .footer_nav_main_logo {
+            height: 46px;
+        }
+
+        .footer_nav_social_network_logo {
+            height: 28px;
+        }
+
+        .footer_copyright_text {
+            font-size: 11px;
+        }
+
+        .search_item {
+            font-size: 16px;
+        }
+
+        select#id_select {
+            font-size: 16px;
+        }
+
+        .filter_result_counter {
+            font-size: 14px;
+        }
+
+        .profile_header_title {
+            font-size: 23px;
+        }
+
+        .profile_header_name, .profile_header_name_en {
+            padding:9px 0 ;
+        }
+
+        .profile_date_update, .profile_header_code {
+            font-size: 14px;
+        }
+
+        .profile_main_info_list {
+            font-size: 17px;
+        }
+
+        .profile_scientific_info_block {
+            font-size: 17px;
+        }
+
+        .profile_publication_info_title {
+            font-size: 24px;
+        }
+
+        .profile_publication_info_block_title {
+            font-size: 22px;
+        }
+
+        p.information_paragraph {
+            font-size: 17px;
+        }
+
+        .information_block_title {
+            font-size: 21px;
+        }
+
+        .form_login p, .login_button_block {
+            width: 72%;
+        }
+
+        button.main_button {
+            font-size: 17px;
+        }
+
+        .report_information {
+            font-size: 17px;
+        }
+
+        a.report_export_link {
+            font-size: 18px;
+        }
+    }
+    @media screen and (min-width:1281px) and (max-width:1390px) {
+        /*.wrapper {*/
+        /*    max-width: 1050px;*/
+        /*}*/
+
+        .navbar_item_logo, .navbar_item_mainlogo {
+            width: 60%;
+        }
+
+        img.navbar_item_mainlogo {
+            width: 80%;
+        }
+
+        .navbar_item_block {
+            font-size: 19px
+        }
+
+        .headline_content_title {
+            font-size: 24px;
+        }
+
+        h3.rating_scientist_title {
+            font-size: 24px;
+        }
+
+        .rating_scientist_nav_list_link, .rating_scientist_nav_list_link_h {
+            font-size: 16px;
+        }
+
+        .rating_scientist_top_list_link {
+            font-size: 16px;
+        }
+
+        .rating_scientist_block {
+            height: 580px;
+        }
+
+        p.about_us_info {
+            font-size: 16px;
+        }
+
+        .profile_card_header {
+            font-size: 21px;
+        }
+
+        .profile_card_info_list {
+            font-size: 14px;
+        }
+
+        h6.footer_nav_title {
+            font-size: 16px;
+        }
+
+        ul.footer_nav_list {
+            font-size: 14px;
+        }
+
+        .footer_nav_main_logo {
+            height: 50px;
+        }
+
+        .footer_nav_social_network_logo {
+            height: 26px;
+        }
+
+        .footer_copyright_text {
+            font-size: 11px;
+        }
+
+        .search_item {
+            font-size: 16px;
+        }
+
+        select#id_select {
+            font-size: 16px;
+        }
+
+        .filter_result_counter {
+            font-size: 13px;
+        }
+
+        .profile_header_title {
+            font-size: 26px;
+        }
+
+        .profile_date_update, .profile_header_code {
+            font-size: 13px;
+        }
+
+        .profile_main_info_list {
+            font-size: 17px;
+        }
+
+        .profile_scientific_info_block {
+            font-size: 16px;
+        }
+
+        p.information_paragraph {
+            font-size: 16px;
+        }
+
+        .information_block_title {
+            font-size: 22px;
+        }
+
+        .form_login p, .login_button_block {
+            width: 52%;
+        }
+
+        button.main_button {
+            font-size: 15px;
+        }
+
+        .report_information {
+            font-size: 15px;
+        }
+
+        a.report_export_link {
+            font-size: 16px;
+        }
+    }
+    @media screen and (min-width:1391px) and (max-width:1540px) {
+        /*.wrapper {*/
+        /*    max-width: 1160px;*/
+        /*}*/
+
+        .navbar_item_logo, .navbar_item_mainlogo {
+            width: 60%;
+        }
+
+        img.navbar_item_mainlogo {
+            width: 82%;
+        }
+
+        .navbar_item_block {
+            font-size: 20px
+        }
+
+        .headline_content_title {
+            font-size: 28px;
+        }
+
+        h3.rating_scientist_title {
+            font-size: 26px;
+        }
+        .rating_scientist_block {
+            height: 590px;
+        }
+
+        .rating_scientist_nav_list_link, .rating_scientist_nav_list_link_h {
+            font-size: 17px;
+        }
+
+        .rating_scientist_top_list_link {
+            font-size: 17px;
+        }
+
+        p.about_us_info {
+            font-size: 17px;
+        }
+
+        .profile_card_header {
+            font-size: 21px;
+        }
+
+        .profile_card_info_list {
+            font-size: 17px;
+        }
+
+        h6.footer_nav_title {
+            font-size: 18px;
+        }
+
+        ul.footer_nav_list {
+            font-size: 16px;
+        }
+
+        .footer_nav_main_logo {
+            height: 54px;
+        }
+
+        .footer_nav_social_network_logo {
+            height: 30px;
+        }
+
+        .footer_copyright_text {
+            font-size: 13px;
+        }
+
+        .search_item {
+            font-size: 17px;
+        }
+
+        select#id_select {
+            font-size: 17px;
+        }
+
+        .filter_result_counter {
+            font-size: 14px;
+        }
+
+        .profile_header_title {
+            font-size: 27px;
+        }
+
+        .profile_date_update, .profile_header_code {
+            font-size: 15px;
+        }
+
+        .profile_main_info_list {
+            font-size: 19px;
+        }
+
+        .profile_scientific_info_block {
+            font-size: 19px;
+        }
+
+        p.information_paragraph {
+            font-size: 18px;
+        }
+
+        .information_block_title {
+            font-size: 24px;
+        }
+
+        .form_login p, .login_button_block {
+            width: 55%;
+        }
+
+        button.main_button {
+            font-size: 18px;
+        }
+
+        .report_information {
+            font-size: 18px;
+        }
+
+        a.report_export_link {
+            font-size: 19px;
+        }
+
+    }
+    @media screen and (min-width:1541px) and (max-width:1680px) {
+        /*.wrapper {*/
+        /*    max-width: 1160px;*/
+        /*}*/
+
+        .navbar_item_logo, .navbar_item_mainlogo {
+            width: 60%;
+        }
+
+        img.navbar_item_mainlogo {
+            width: 82%;
+        }
+
+        .navbar_item_block {
+            font-size: 22px
+        }
+
+        .headline_content_title {
+            font-size: 30px;
+        }
+
+        h3.rating_scientist_title {
+            font-size: 28px;
+        }
+        .rating_scientist_block {
+            height: 590px;
+        }
+
+        .rating_scientist_nav_list_link, .rating_scientist_nav_list_link_h {
+            font-size: 19px;
+        }
+
+        .rating_scientist_top_list_link {
+            font-size: 18px;
+        }
+
+        .rating_scientist_top_list_item {
+            padding: 14px 0;
+        }
+
+        p.about_us_info {
+            font-size: 18px;
+        }
+
+        .profile_card_header {
+            font-size: 23px;
+        }
+
+        .profile_card_info_list {
+            font-size: 18px;
+        }
+
+        li.profile_card_info_list_item {
+            height: 20px;
+        }
+
+        h6.footer_nav_title {
+            font-size: 20px;
+        }
+
+        ul.footer_nav_list {
+            font-size: 17px;
+        }
+
+        .footer_nav_main_logo {
+            height: 56px;
+        }
+
+        .footer_nav_social_network_logo {
+            height: 32px;
+        }
+
+        .footer_copyright_text {
+            font-size: 14px;
+        }
+
+        .search_item {
+            font-size: 18px;
+        }
+
+        select#id_select {
+            font-size: 18px;
+        }
+
+        .filter_result_counter {
+            font-size: 15px;
+        }
+
+        .profile_header_title {
+            font-size: 28px;
+        }
+
+        .profile_date_update, .profile_header_code {
+            font-size: 16px;
+        }
+
+        .profile_main_info_list {
+            font-size: 20px;
+        }
+
+        .profile_scientific_info_block {
+            font-size: 20px;
+        }
+
+        .profile_publication_info_block_title {
+            font-size: 24px;
+        }
+
+        p.profile_publication_info_item {
+            font-size: 18px;
+        }
+
+        p.information_paragraph {
+            font-size: 19px;
+        }
+
+        .information_block_title {
+            font-size: 26px;
+        }
+
+        .form_login p, .login_button_block {
+            width: 55%;
+        }
+
+        button.main_button {
+            font-size: 19px;
+        }
+
+        .report_information {
+            font-size: 19px;
+        }
+
+        a.report_export_link {
+            font-size: 20px;
+        }
+
+    }
+    @media screen and (min-width:1681px) and (max-width:1800px) {
+        /*.wrapper {*/
+        /*    max-width: 1160px;*/
+        /*}*/
+
+        .navbar_item_logo, .navbar_item_mainlogo {
+            width: 60%;
+        }
+
+        img.navbar_item_mainlogo {
+            width: 82%;
+        }
+
+        .navbar_item_block {
+            font-size: 24px
+        }
+
+        .headline_content_title {
+            font-size: 32px;
+        }
+
+        h3.rating_scientist_title {
+            font-size: 30px;
+        }
+        .rating_scientist_block {
+            height: 650px;
+        }
+
+        .rating_scientist_nav_list_link, .rating_scientist_nav_list_link_h {
+            font-size: 20px;
+        }
+
+        .rating_scientist_top_list_link {
+            font-size: 20px;
+        }
+
+        .rating_scientist_top_list_item {
+            padding: 14px 0;
+        }
+
+        p.about_us_info {
+            font-size: 19px;
+        }
+
+        .profile_card_header {
+            font-size: 24px;
+        }
+
+        .profile_card_info_list {
+            font-size: 19px;
+        }
+
+        li.profile_card_info_list_item {
+            height: 20px;
+        }
+
+        h6.footer_nav_title {
+            font-size: 20px;
+        }
+
+        ul.footer_nav_list {
+            font-size: 17px;
+        }
+
+        .footer_nav_main_logo {
+            height: 56px;
+        }
+
+        .footer_nav_social_network_logo {
+            height: 32px;
+        }
+
+        .footer_copyright_text {
+            font-size: 14px;
+        }
+
+        .search_item {
+            font-size: 18px;
+        }
+
+        select#id_select {
+            font-size: 18px;
+        }
+
+        .filter_result_counter {
+            font-size: 15px;
+        }
+
+        .profile_header_title {
+            font-size: 28px;
+        }
+
+        .profile_date_update, .profile_header_code {
+            font-size: 16px;
+        }
+
+        .profile_main_info_list {
+            font-size: 20px;
+        }
+
+        .profile_scientific_info_block {
+            font-size: 20px;
+        }
+
+        .profile_publication_info_block_title {
+            font-size: 24px;
+        }
+
+        p.profile_publication_info_item {
+            font-size: 19px;
+        }
+
+        p.information_paragraph {
+            font-size: 19px;
+        }
+
+        .information_block_title {
+            font-size: 26px;
+        }
+
+        .form_login p, .login_button_block {
+            width: 45%;
+        }
+
+        button.main_button {
+            font-size: 19px;
+        }
+
+        .report_information {
+            font-size: 19px;
+        }
+
+        a.report_export_link {
+            font-size: 20px;
+        }
+
+    }
+    @media screen and (min-width:1801px) and (max-width:1920px) {
+        /*.wrapper {*/
+        /*    max-width: 1160px;*/
+        /*}*/
+
+        .navbar_item_logo, .navbar_item_mainlogo {
+            width: 60%;
+        }
+
+        img.navbar_item_mainlogo {
+            width: 82%;
+        }
+
+        .navbar_item_block {
+            font-size: 24px
+        }
+
+        .headline_content_title {
+            font-size: 32px;
+        }
+
+        h3.rating_scientist_title {
+            font-size: 31px;
+        }
+        .rating_scientist_block {
+            height: 650px;
+        }
+
+        .rating_scientist_nav_list_link, .rating_scientist_nav_list_link_h {
+            font-size: 22px;
+        }
+
+        .rating_scientist_top_list_link {
+            font-size: 22px;
+        }
+
+        .rating_scientist_top_list_item {
+            padding: 15px 0;
+        }
+
+        p.about_us_info {
+            font-size: 20px;
+        }
+
+        .profile_card_header {
+            font-size: 25px;
+        }
+
+        .profile_card_info_list {
+            font-size: 20px;
+        }
+
+        li.profile_card_info_list_item {
+            height: 22px;
+        }
+
+        h6.footer_nav_title {
+            font-size: 22px;
+        }
+
+        ul.footer_nav_list {
+            font-size: 18px;
+        }
+
+        .footer_nav_main_logo {
+            height: 58px;
+        }
+
+        .footer_nav_social_network_logo {
+            height: 34px;
+        }
+
+        .footer_copyright_text {
+            font-size: 15px;
+        }
+
+        .search_item {
+            font-size: 20px;
+        }
+
+        select#id_select {
+            font-size: 20px;
+        }
+
+        .filter_result_counter {
+            font-size: 16px;
+        }
+
+        .profile_header_title {
+            font-size: 30px;
+        }
+
+        p.profile_info_item_data {
+            line-height: 22px;
+        }
+
+        .profile_date_update, .profile_header_code {
+            font-size: 17px;
+        }
+
+        .profile_main_info_list {
+            font-size: 22px;
+        }
+
+        .profile_scientific_info_block {
+            font-size: 22px;
+        }
+
+        .profile_publication_info_block_title {
+            font-size: 26px;
+        }
+
+        p.profile_publication_info_item {
+            font-size: 20px;
+        }
+
+        p.information_paragraph {
+            font-size: 20px;
+        }
+
+        .information_block_title {
+            font-size: 26px;
+        }
+
+        .form_login p, .login_button_block {
+            width: 45%;
+        }
+
+        .form_login {
+            margin-bottom: 57px;
+        }
+
+        button.main_button {
+            font-size: 20px;
+        }
+
+        .report_information {
+            font-size: 21px;
+        }
+
+        a.report_export_link {
+            font-size: 22px;
+        }
+
     }
