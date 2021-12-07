@@ -64,14 +64,11 @@
         <li class="profile_info_item">
             <p class="profile_info_item_title">Ключові слова:</p>
             <p class="profile_info_item_data">
-<!--                {% for spec in specialitys %}-->
-<!--                    {{speciality_title}}-->
-<!--                {% endfor %}-->
-                {{specialitys}}
-                {% if scientist.speciality.keyword.all %}
-                    {{scientist.speciality.keyword.keyword_title}};
-                    {% for keyword in scientist.speciality_set.keyword.all %}
-                        {{keyword.keyword_title}};
+                {% if not scientist.speciality.keyword.all %}
+                    {% for speciality in scientist.speciality.all %}
+                        {% for keyword in speciality.keyword.all %}
+                            {{keyword.keyword_title}};
+                        {% endfor %}
                     {% endfor %}
                 {% else %}
                     Немає

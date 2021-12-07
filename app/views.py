@@ -453,7 +453,7 @@ class Search(ListView):
                     if "keyword" in select:
                         if "fullname_up" in filter_dropdown_menu:
                             queryset = Scientist.objects.filter(draft=False,
-                                                                lastname_uk__icontains=self.request.GET.get(
+                                                                speciality__keyword__keyword_title__icontains=self.request.GET.get(
                                                                     "q")).order_by(
                                 'lastname_uk')
                         else:
@@ -515,10 +515,8 @@ class ProfilePage(View):
 
     def get(self, request, profile_id):
         profile_scientist = Scientist.objects.get(profile_id=profile_id)
-        # speciality = Scientist.objects.get(profile_id=profile_id).values('speciality')
         context = {
             'scientist': profile_scientist,
-            # 'specialitys': speciality
         }
         return render(request, 'profilePage.html', context)
 
