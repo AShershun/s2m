@@ -54,7 +54,7 @@
             <p class="profile_info_item_data">
                 {% if scientist.speciality.all %}
                     {% for speciality in scientist.speciality.all %}
-                        <a href="{% url 'search' %}?&select=speciality&q={{speciality.speciality_title}}&filter=fullname_up "> {{speciality.speciality_code}} {{speciality.speciality_title}} </a>;
+                        <a href="{% url 'search' %}?&select=speciality&q={{speciality.speciality_title}}&filter=fullname_up ">{{speciality.speciality_code}} {{speciality.speciality_title}}</a>;
                     {% endfor %}
                 {% else %}
                     Немає
