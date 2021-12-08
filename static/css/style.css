@@ -2421,8 +2421,12 @@
             font-size: 30px;
         }
 
-        p.profile_info_item_data {
-            line-height: 22px;
+        p.profile_info_item_data, li.profile_info_item {
+            line-height: 24px;
+        }
+
+        p.profile_info_item_data a {
+            color: #2d5050;
         }
 
         .profile_date_update, .profile_header_code {

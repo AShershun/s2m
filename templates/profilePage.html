@@ -67,7 +67,7 @@
                 {% if not scientist.speciality.keyword.all %}
                     {% for speciality in scientist.speciality.all %}
                         {% for keyword in speciality.keyword.all %}
-                            {{keyword.keyword_title}};
+                            <a href="{% url 'search' %}?&select=keyword&q={{keyword.keyword_title}}&filter=fullname_up ">{{keyword.keyword_title}}</a>;
                         {% endfor %}
                     {% endfor %}
                 {% else %}
