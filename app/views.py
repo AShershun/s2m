@@ -404,7 +404,7 @@ class Search(ListView):
                 if "speciality" in select:
                     if "fullname_up" in filter_dropdown_menu:
                         queryset = Scientist.objects.filter(draft=False,
-                                                            lastname_uk__icontains=self.request.GET.get("q")).order_by(
+                                                            speciality__speciality_title__icontains=self.request.GET.get("q")).order_by(
                             'lastname_uk')
                     else:
                         if "fullname_down" in filter_dropdown_menu:
