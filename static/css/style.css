@@ -945,6 +945,10 @@
         padding: 8px 0 8px;
         display: flex;
     }
+
+    p.profile_info_item_data a {
+        color: #2d5050;
+    }
     
     .profile_scientific_info_block {
         font-size: 18px;
@@ -2423,10 +2427,6 @@
 
         p.profile_info_item_data, li.profile_info_item {
             line-height: 24px;
-        }
-
-        p.profile_info_item_data a {
-            color: #2d5050;
         }
 
         .profile_date_update, .profile_header_code {

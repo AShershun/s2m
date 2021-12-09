@@ -64,7 +64,7 @@
         <li class="profile_info_item">
             <p class="profile_info_item_title">Ключові слова:</p>
             <p class="profile_info_item_data">
-                {% if not scientist.speciality.keyword.all %}
+                {% if scientist.speciality.all %}
                     {% for speciality in scientist.speciality.all %}
                         {% for keyword in speciality.keyword.all %}
                             <a href="{% url 'search' %}?&select=keyword&q={{keyword.keyword_title}}&filter=fullname_up ">{{keyword.keyword_title}}</a>;
