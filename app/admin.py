@@ -88,7 +88,7 @@ class PublicationWosInline(admin.StackedInline):
 
 @admin.register(Scientist)
 class ScientistAdmin(admin.ModelAdmin):
-    list_display = ("name", "email", "orcid", "profile_id", "draft", "date_update")
+    list_display = ("name", "orcid", "profile_id", "draft", "date_update")
     list_display_links = ("name",)
     list_filter = ("department__faculty__institute", "draft")
     search_fields = ("profile_id", "lastname_uk", "lastname_en",
