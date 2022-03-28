@@ -511,7 +511,7 @@ class Search(ListView):
 
 
 class ProfilePage(View):
-    """Сторінка вченого"""
+    """ Сторінка вченого"""
 
     def get(self, request, profile_id):
         profile_scientist = Scientist.objects.get(profile_id=profile_id)
@@ -540,7 +540,7 @@ def export(request):
     response['Content-Disposition'] = 'attachment; filename=download.csv'
     writer.writerow(
         ['Кафедра', 'ПІБ', 'ПІБ En', 'ORCID', 'Google Scholar', 'GS h-index', 'GS кількість публікацій', 'Publons',
-         'Publons h-index', 'Publons кідькість публікацій', 'Scopus', 'Scopus h-index', 'Scopus кількість публікацій'])
+         'Publons h-index', 'Publons кількість публікацій', 'Scopus', 'Scopus h-index', 'Scopus кількість публікацій'])
 
     for scientist in Scientist.objects.filter(draft=False).values_list('department__title_department',
                                                                        'lastname_uk', 'lastname_en', 'orcid',
