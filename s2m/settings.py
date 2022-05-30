@@ -34,6 +34,7 @@ ALLOWED_HOSTS = [
     '192.168.1.16',
     '195.138.86.105', #external ip
     's2m.onaft.edu.ua',
+    's2m.ontu.edu.ua',
     '192.168.1.252', #localhost
     '192.168.0.108', #localhost
     '192.168.1.57' #localhost
