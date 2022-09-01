@@ -526,7 +526,6 @@ def information(request):
     return render(request, 'informationPage.html')
 
 
-# @login_required(redirect_field_name='')
 def report(request):
     """Сторінка звітів"""
     return render(request, 'reportPage.html')
@@ -567,7 +566,7 @@ def export_xls(request):
     columns = ['Факультет (Інститут)', 'Кафедра, відділ тощо',
                'Прізвище', 'Ім\'я', 'По батькові', 'ID Scopus', 'Індекс Гірша Scopus',
                'Кількість публікацій Scopus', 'ID Web of Science',
-               'Індекс Гірша Web of Science', 'Кількість публікацій WoS']
+               'Індекс Гірша Web of Science', 'Кількість публікацій WoS', 'Публікації Scopus', 'Публікації WoS']
     row_num = 0
 
     for col_num in range(len(columns)):
@@ -579,7 +578,7 @@ def export_xls(request):
         'department__faculty__title_faculty', 'department__title_department',
         'lastname_uk', 'firstname_uk', 'middlename_uk',
         'scopusid', 'h_index_scopus', 'scopus_count_pub',
-        'publons', 'h_index_publons', 'publons_count_pub',
+        'publons', 'h_index_publons', 'publons_count_pub', 
     )
 
     for row in rows:

@@ -16,7 +16,6 @@ docker==4.2.2
 docker-compose==1.26.2
 dockerpty==0.4.1
 docopt==0.6.2
-freeze==3.0
 idna==2.10
 jsonschema==3.2.0
 lxml==4.7.1
