@@ -126,6 +126,8 @@ class Scientist(models.Model):
                                 help_text="24337331300")
     h_index_scopus = models.PositiveSmallIntegerField('h-індекс Scopus', default=0)
     scopus_count_pub = models.PositiveSmallIntegerField('Кількість публікацій Scopus', default=0)
+    publications_wos = models.ManyToManyField('PublicationWos', blank=True, verbose_name="Публікації WoS")
+    publications_scopus = models.ManyToManyField('PublicationScopus', blank=True, verbose_name="Публікації Scopus")
     date_update = models.DateField("Дата оновленя", auto_now=True, null=False)
     profile_id = models.CharField('Код користувача', max_length=4, editable=True, unique=True, blank=True)
     draft = models.BooleanField('Чернетка', default=False)
@@ -152,9 +154,9 @@ class Scientist(models.Model):
 
 class PublicationScopus(models.Model):
     id_publication = models.AutoField(primary_key=True)
-    publication_title = models.CharField('Публікації Scopus', unique=True, max_length=600)
-    scientist_id = models.ForeignKey(Scientist, db_column='scientist_id', on_delete=models.CASCADE, null=False,
-                                     to_field='id_scientist', verbose_name="Науковець")
+    publication_title = models.CharField('Публікація Scopus', unique=True, max_length=800)
+    doi = models.CharField('DOI Публікації Scopus', unique=True, blank=True, max_length=200)
+    link = models.CharField('Посилання на публікацію Scopus', unique=True, blank=True, max_length=500)
 
     class Meta:
         managed = False
@@ -166,11 +168,25 @@ class PublicationScopus(models.Model):
         return '%s' % self.publication_title
 
 
+class ScientistPublicationScopus(models.Model):
+    id = models.AutoField(primary_key=True)
+    scientist_id = models.ForeignKey(Scientist, db_column='scientist_id', on_delete=models.CASCADE, null=True,
+                                     to_field='id_scientist', verbose_name="Науковець")
+    publication_id = models.ForeignKey(PublicationScopus, db_column='publication_id', on_delete=models.CASCADE, null=True,
+                                      to_field='id_publication', verbose_name="Публікація Scopus")
+
+    class Meta:
+        managed = False
+        db_table = 'scientist_publication_scopus'
+        verbose_name = 'Науковець - Публікація Scopus'
+        verbose_name_plural = 'Науковці - Публікації Scopus'
+
+
 class PublicationWos(models.Model):
     id_publication = models.AutoField(primary_key=True)
     publication_title = models.CharField('Публікації WoS', unique=True, max_length=600)
-    scientist_id = models.ForeignKey(Scientist, db_column='scientist_id', on_delete=models.CASCADE, null=False,
-                                     to_field='id_scientist', verbose_name="Науковець")
+    doi = models.CharField('DOI Публікації WoS', unique=True, blank=True, max_length=200)
+    link = models.CharField('Посилання на публікацію Scopus', unique=True, blank=True, max_length=500)
 
     class Meta:
         managed = False
@@ -180,6 +196,20 @@ class PublicationWos(models.Model):
 
     def __str__(self):
         return '%s' % self.publication_title
+
+
+class ScientistPublicationWos(models.Model):
+    id = models.AutoField(primary_key=True)
+    scientist_id = models.ForeignKey(Scientist, db_column='scientist_id', on_delete=models.CASCADE, null=True,
+                                     to_field='id_scientist', verbose_name="Науковець")
+    publication_id = models.ForeignKey(PublicationWos, db_column='publication_id', on_delete=models.CASCADE, null=True,
+                                      to_field='id_publication', verbose_name="Публікація Wos")
+
+    class Meta:
+        managed = False
+        db_table = 'scientist_publication_wos'
+        verbose_name = 'Науковець - Публікація WoS'
+        verbose_name_plural = 'Науковці - Публікації WoS'
 
 
 class Speciality(models.Model):
@@ -230,9 +260,9 @@ class Keyword(models.Model):
 
 class SpecialityKeyword(models.Model):
     id = models.AutoField(primary_key=True)
-    speciality_id = models.ForeignKey(Speciality, db_column='speciality_id', on_delete=models.CASCADE,
+    speciality_id = models.ForeignKey(Speciality, db_column='speciality_id', on_delete=models.CASCADE, null=True,
                                       to_field='id_speciality', verbose_name="Спеціальність")
-    keyword_id = models.ForeignKey(Keyword, db_column='keyword_id', on_delete=models.CASCADE,
+    keyword_id = models.ForeignKey(Keyword, db_column='keyword_id', on_delete=models.CASCADE, null=True,
                                    to_field='id_keyword', verbose_name="Ключево слово")
 
     class Meta:

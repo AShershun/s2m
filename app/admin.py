@@ -53,7 +53,7 @@ class SpecialityAdmin(admin.ModelAdmin):
 
 
 @admin.register(Keyword)
-class PublicationWosAdmin(admin.ModelAdmin):
+class KeywordAdmin(admin.ModelAdmin):
     list_display = ("keyword_title",)
 
 
@@ -67,23 +67,9 @@ class PublicationScopusAdmin(admin.ModelAdmin):
     list_display = ("publication_title",)
 
 
-class PublicationScopusInline(admin.StackedInline):
-    model = PublicationScopus
-    can_delete = True
-    verbose_name = 'Публікація Scopus'
-    extra = 2
-
-
 @admin.register(PublicationWos)
 class PublicationWosAdmin(admin.ModelAdmin):
     list_display = ("publication_title",)
-
-
-class PublicationWosInline(admin.StackedInline):
-    model = PublicationWos
-    can_delete = True
-    verbose_name = 'Публікація WoS'
-    extra = 2
 
 
 @admin.register(Scientist)
@@ -113,7 +99,6 @@ class ScientistAdmin(admin.ModelAdmin):
             "fields": ("profile_id", "draft")
         }),
     )
-    inlines = (PublicationWosInline, PublicationScopusInline,)
 
     def get_queryset(self, request):
         queryset = super(ScientistAdmin, self).get_queryset(request)

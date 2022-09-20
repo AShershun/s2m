@@ -13,6 +13,7 @@ urlpatterns = (
     path('information/', views.information, name="information"),
     path('report/', login_required(views.report), name="report"),
     path('report/export_xls/', login_required(views.export_xls), name="export_xls"),
+    path('report/export_xlsx/', login_required(views.export_xlsx), name="export_xlsx"),
 )
 
 
