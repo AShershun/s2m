@@ -1,7 +1,7 @@
 import io
 import csv
-import xlwt
-import xlsxwriter
+import openpyxl
+import pandas as pd
 
 from datetime import datetime
 from itertools import chain
@@ -14,7 +14,9 @@ from django.views.generic import ListView
 from django.views.generic.base import View
 from django.db.models.functions import Concat
 from django.db.models import F, Value
-from .models import Department, PublicationScopus, Scientist, Speciality, PublicationWos
+from openpyxl.styles import Alignment, Font, Border
+from openpyxl.utils import get_column_letter
+from .models import Department, PublicationScopus, Scientist, Speciality, PublicationWos, ScientistPublicationScopus, ScientistPublicationWos
 
 
 class MainPage(View):
@@ -289,6 +291,7 @@ class ScientistsPage(ListView):
 class Search(ListView):
     """Пошук вчених та сортування за ознаками"""
     
+    context_object_name = "scientist_list"
     paginate_by = 15
     template_name = "scientistsPage.html"
 
@@ -510,6 +513,7 @@ class Search(ListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
+        context['scientists_counter'] = self.get_queryset().count()
         context['form'] = SelectForm(initial={
             'select': self.request.GET.get('select', ''),
         })
@@ -540,202 +544,111 @@ def report(request):
 @login_required(login_url='/accounts/login/')
 def export_xlsx(request):
     '''Генерація файлу .xlsx з данми кожного вченого окрім тих які позначені як draft'''
-    
-    output = io.BytesIO()
-    
-    workbook = xlsxwriter.Workbook(output)
-    worksheet = workbook.add_worksheet('Звіт')
 
+    # Створюємо  Workbook
+    workbook = openpyxl.Workbook()
 
-    bold = workbook.add_format({'bold': True})
-     
-    # Add a format for the header cells.
-    header_format = workbook.add_format({
-        'border': 2,
-        'bg_color': '#C6EFCE',
-        'bold': True,
-        'text_wrap': True,
-        'font_size': 13,
-        'align': 'center',
-        'valign': 'vcenter',	
-    })
+    # Створюємо лист (worksheet)
+    worksheet = workbook.active
+    worksheet.title = "Звіт"
     
-    worksheet.set_default_row(100)
+
+    queryset = Scientist.objects.filter(draft=False).prefetch_related('department__faculty').order_by('lastname_uk')
+
+    # Створюємо порожній DataFrame для зберігання даних
+    data = pd.DataFrame(columns=['Факультет (Інститут)', 'Кафедра, відділ тощо', 'ПІБ', 'ID Scopus', 'Індекс Гірша Scopus',
+               'Кількість публікацій Scopus', 'ID Web of Science',
+               'Індекс Гірша Web of Science', 'Кількість публікацій WoS', 'Публікації Scopus', 'Публікації WoS'])
     
-    headers = ['Факультет (Інститут)', 'Кафедра, відділ тощо',
-               'ПІБ', 'ID Scopus', 'Індекс Гірша Scopus',
+    # Заповнюємо DataFrame даними із queryset
+    for scientist in queryset:
+
+        full_name = ' '.join([scientist.lastname_uk, scientist.firstname_uk, scientist.middlename_uk])
+        title_department = scientist.department.title_department if scientist.department else ''
+        title_faculty = scientist.department.faculty.title_faculty if scientist.department.faculty else ''
+        
+        # Отримуємо всі назви публікацій та об'єднуємо їх в один рядок
+        scopus_publication_titles = ',\n'.join([f"{index+1}. {publication.publication_title}" for index, publication in enumerate(scientist.publication_wos.all())])
+        wos_publication_titles = ',\n'.join([f"{index+1}. {publication.publication_title}" for index, publication in enumerate(scientist.publication_scopus.all())])
+
+        # Додаємо дані в DataFrame
+        data.loc[len(data)] = [title_faculty, title_department, full_name, scientist.scopusid, scientist.h_index_scopus,
+                               scientist.scopus_count_pub, scientist.publons, scientist.h_index_publons,
+                               scientist.publons_count_pub, scopus_publication_titles, wos_publication_titles]
+    
+    
+    # worksheet.column_dimensions.group('A', 'B', hidden=True, outline_level=0)
+    worksheet.column_dimensions['A'].width = 40
+    worksheet.column_dimensions['B'].width = 35
+
+    # worksheet.column_dimensions.group('C', 'D', hidden=True, outline_level=0)
+    worksheet.column_dimensions['C'].width = 40
+    worksheet.column_dimensions['D'].width = 18
+
+    # worksheet.column_dimensions.group('E', 'I', hidden=True, outline_level=0)
+    worksheet.column_dimensions['E'].width = 18
+    worksheet.column_dimensions['F'].width = 18
+    worksheet.column_dimensions['G'].width = 18
+    worksheet.column_dimensions['H'].width = 18
+    worksheet.column_dimensions['I'].width = 18
+
+    # worksheet.column_dimensions.group('J', 'K', hidden=True, outline_level=0)
+    worksheet.column_dimensions['J'].width = 85
+    worksheet.column_dimensions['K'].width = 85
+
+    
+    # Форматування комірок
+    border = Border(left=openpyxl.styles.Side(border_style='thin'), right=openpyxl.styles.Side(border_style='thin'), top=openpyxl.styles.Side(border_style='thin'), bottom=openpyxl.styles.Side(border_style='thin'))
+    alignment = Alignment(horizontal='center', vertical='center', wrap_text=True)
+    font = Font(size=12)
+    
+    #Встановлення висоти комірок
+    endRow = 800
+    for i in range(0, endRow):
+        worksheet.row_dimensions[i+1].height=58
+
+    # Заповнюємо таблицю Excel даними з DataFrame
+    start_row_index = 2
+    for row in data.itertuples(index=False):
+        row_index = start_row_index
+        for col_index, value in enumerate(row, start=1):
+            cell = worksheet.cell(row=row_index, column=col_index)
+            cell.value = value
+
+        start_row_index += 1   
+        
+    
+
+    # Застосовуємо форматування для кожного стовпця
+    for column in worksheet.columns:
+        for cell in column:
+            cell.border = border
+            cell.alignment = alignment
+            cell.font = font
+            
+    headers = ['Факультет (Інститут)', 'Кафедра, відділ тощо', 'ПІБ', 'ID Scopus', 'Індекс Гірша Scopus',
                'Кількість публікацій Scopus', 'ID Web of Science',
                'Індекс Гірша Web of Science', 'Кількість публікацій WoS', 'Публікації Scopus', 'Публікації WoS']
     
-    col = 0    
-    for header in headers:
-        worksheet.write(0, col, header, header_format)
-        col += 1
+    # Застосовуємо форматування для першого рядка
+    row_index = 1
+    for col_index, header in enumerate(headers, start=1):
+        cell = worksheet.cell(row=row_index, column=col_index)
+        cell.value = header
+        cell.font = Font(bold=True, size=13)
     
-    # Start from the first cell below the headers.
-    row = 1
-    col = 0
+    for cell in worksheet['D'][1:]:
+        cell.font = Font(underline='single', color='0563C1')
+        cell.hyperlink = f"https://www.scopus.com/authid/detail.uri?authorId={cell.value}"
     
-    scientist_list = Scientist.objects.filter(draft=False).order_by('lastname_uk').values_list(
-        'id_scientist', 'department__faculty__title_faculty', 'department__title_department',
-        'lastname_uk', 'firstname_uk', 'middlename_uk',
-        'scopusid', 'h_index_scopus', 'scopus_count_pub',
-        'publons', 'h_index_publons', 'publons_count_pub',
-    )
-    
-    cells_format = workbook.add_format({
-        'border': 1,
-        'text_wrap': True,
-        'font_size': 12,
-        'align': 'center',
-        'valign': 'vcenter',	
-    }) 
-       
-    for tuple in scientist_list:
-        worksheet.write(row, col, tuple[0+1], cells_format) # department__faculty__title_faculty
-        worksheet.write(row, col+1, tuple[1+1], cells_format) # department__title_department
-        worksheet.write(row, col+2, tuple[2+1] + ' ' + tuple[3+1] + ' ' + tuple[4+1], cells_format) # lastname_uk + firstname_uk + middlename_uk
-        worksheet.write(row, col+3, tuple[5+1], cells_format) # scopusid
-        worksheet.write(row, col+4, tuple[6+1], cells_format) # h_index_scopus
-        worksheet.write(row, col+5, tuple[7+1], cells_format) # scopus_count_pub
-        worksheet.write(row, col+6, tuple[8+1], cells_format) # publons
-        worksheet.write(row, col+7, tuple[9+1], cells_format) # h_index_publons
-        worksheet.write(row, col+8, tuple[10+1], cells_format) # publons_count_pub
-        row += 1
+    for cell in worksheet['G'][1:]:
+        cell.font = Font(underline='single', color='0563C1')
+        cell.hyperlink = f"https://publons.com/researcher/{cell.value}"
 
-    worksheet.set_row(0, 48)
-    worksheet.set_column('A:B', 23)
-    worksheet.set_column('C:C', 38)
-    worksheet.set_column('D:I', 18)
-    worksheet.set_column('J:K', 100)
-    
-    # Get index Scientist and print publication
-    publication_scopus_list = PublicationScopus.objects.order_by('scientist_id').values_list('scientist_id', 'publication_title')
-    publication_wos_list = PublicationWos.objects.order_by('scientist_id').values_list('scientist_id', 'publication_title')
-    
-    all_scopus_publications, all_wos_publications = '', ''
-    print(all_scopus_publications)
-    print(all_wos_publications)
-    
-    check_index_scopus, check_index_wos = 0, 0
-    
-    # for tuple_publication_scopus in publication_scopus_list:
-    #     # print(tuple_publication_scopus[0])
-    #     for tuple_publication_wos in publication_wos_list:
-    #         # print(tuple_publication_scopus[0])
-    #         for index, item in enumerate(scientist_list):
-    #             if check_index_scopus = tu:
-    #                 print(all_scopus_publications)
-    #                 worksheet.write(check_index_scopus+1, col+9, all_scopus_publications, cells_format)
-    #                 all_scopus_publications = ''
-    #                 check_index_scopus = index
-                    
-    #             if check_index_wos != tuple_publication_wos[0]:
-    #                 print(all_wos_publications)
-    #                 worksheet.write(check_index_wos+1, col+9, all_wos_publications, cells_format)
-    #                 all_wos_publications = ''
-    #                 check_index_wos = index
-                    
-    #             if tuple_publication_scopus[0] == item[0]: 
-    #                 all_scopus_publications += '\n' + tuple_publication_scopus[1]
-    #                 # worksheet.write(index+1, col+9, tuple_publication_scopus[1], cells_format)
-                
-    #             if tuple_publication_wos[0] == item[0]: 
-    #                 all_wos_publications += '\n' + tuple_publication_wos[1]
-    #                 # print(scientist_list[index][0])
-    #                 # print("YEEEEEEEEESSSSSSSS")
-    #                 # print(index+1)
-    #                 # worksheet.append(index+1, col+10, tuple_publication_wos[1], cells_format)
-                
-    for tuple_publication_wos in publication_wos_list:
-        # print(tuple_publication_scopus[0])
-            # print(tuple_publication_scopus[0])
-        for index, item in enumerate(scientist_list):          
-                  
-            if check_index_wos != tuple_publication_wos[0]:
-                # print(all_wos_publications)
-                worksheet.write(index+1, col+9, all_wos_publications, cells_format)
-                all_wos_publications = ''
-                check_index_wos = tuple_publication_wos[0]
-                
-            if tuple_publication_wos[0] == item[0]: 
-                all_wos_publications += '\n' + tuple_publication_wos[1]
-                print(all_wos_publications)
-
-
-    workbook.close()
-    
-    output.seek(0)
+        
     filename = "Zvit" + datetime.now().strftime("_%d_%m_%Y") + ".xlsx"
-    response = HttpResponse(output, content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
-
-    return response
-
-
-@login_required(login_url='/accounts/login/')
-def export_xls(request):
-    '''Генерація файлу .xls з данми кожного вченого окрім тих які позначені як draft'''
-    
-    response = HttpResponse(content_type='application/ms-excel')
-    response['Content-Disposition'] = 'attachment; filename="Zvit"' + datetime.now().strftime("%d_%m_%Y") + ".xls"
-    wb = xlwt.Workbook(encoding='utf-8')
-    ws = wb.add_sheet('Звіт')
-    font_style = xlwt.easyxf(
-        'font: bold on; font: name Times New Roman; font: height 260; align: vert center; align: horiz center; align: '
-        'wrap yes; borders: left thin, right thin, top thin, bottom thin')
-    columns = ['Факультет (Інститут)', 'Кафедра, відділ тощо',
-               'Прізвище', 'Ім\'я', 'По батькові', 'ID Scopus', 'Індекс Гірша Scopus',
-               'Кількість публікацій Scopus', 'ID Web of Science',
-               'Індекс Гірша Web of Science', 'Кількість публікацій WoS', 'Публікації Scopus', 'Публікації WoS']
-    row_num = 0
-
-    for col_num in range(len(columns)):
-        ws.write(row_num, col_num, columns[col_num], font_style)
-    font_style = xlwt.easyxf(
-        'font: name Times New Roman; font: height 240; align: vert centre; align: horiz center; align: wrap yes; '
-        'borders: left thin, right thin, top thin, bottom thin')
-    
-    rows = Scientist.objects.filter(draft=False).order_by('lastname_uk').values_list(
-        'department__faculty__title_faculty', 'department__title_department',
-        'lastname_uk', 'firstname_uk', 'middlename_uk',
-        'scopusid', 'h_index_scopus', 'scopus_count_pub',
-        'publons', 'h_index_publons', 'publons_count_pub',
-    )
-    
-    # scientist_list = Scientist.objects.filter(draft=False).order_by('lastname_uk').values_list(
-    #     'department__faculty__title_faculty', 'department__title_department',
-    #     'lastname_uk', 'firstname_uk', 'middlename_uk',
-    #     'scopusid', 'h_index_scopus', 'scopus_count_pub',
-    #     'publons', 'h_index_publons', 'publons_count_pub',
-    # )
-    # print(scientist_list)
-    # print(type(scientist_list))
-    
-    # publication_wos_list = PublicationScopus.objects.values_list('publication_title')
-    # rows = list(chain(scientist_list, publication_wos_list)) # scientist_list , 
-    
-    for row in rows:
-        row_num += 1
-        ws.row(row_num).height = 256 * 7
-        for col_num in range(len(row)):
-            ws.write(row_num, col_num, row[col_num], font_style)
-
-    ws.col(0).width = 256 * 24
-    ws.col(1).width = 256 * 22
-    ws.col(2).width = 256 * 26
-    ws.col(3).width = 256 * 16
-    ws.col(4).width = 256 * 20
-    ws.col(5).width = 256 * 15
-    ws.col(6).width = 256 * 16
-    ws.col(7).width = 256 * 13
-    ws.col(8).width = 256 * 16
-    ws.col(9).width = 256 * 19
-    ws.col(10).width = 256 * 13
-    ws.col(11).width = 256 * 45
-    ws.col(12).width = 256 * 45
-    ws.row(0).height = 256 * 5
-    wb.save(response)
-
+    workbook.save(response)
 
     return response

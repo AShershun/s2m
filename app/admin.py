@@ -56,6 +56,9 @@ class SpecialityAdmin(admin.ModelAdmin):
 class KeywordAdmin(admin.ModelAdmin):
     list_display = ("keyword_title",)
 
+# class KeywordInline(admin.TabularInline):
+#     model = Keyword
+#     extra = 1
 
 @admin.register(WorkState)
 class WorkStateAdmin(admin.ModelAdmin):
@@ -94,6 +97,9 @@ class ScientistAdmin(admin.ModelAdmin):
             "fields": ("orcid", ("google_scholar", "h_index_google_scholar", "google_scholar_count_pub"),
                        ("publons", "h_index_publons", "publons_count_pub"),
                        ("scopusid", "h_index_scopus", "scopus_count_pub"))
+        }),
+        (None, {
+            "fields": ("publication_wos", "publication_scopus")
         }),
         (None, {
             "fields": ("profile_id", "draft")

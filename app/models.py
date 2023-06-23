@@ -42,8 +42,8 @@ class Department(models.Model):
                                 verbose_name="Факультет")
 
     class Meta:
-        ordering = ('title_department',)
         managed = False
+        ordering = ('title_department',)
         db_table = 'department'
         verbose_name = 'Кафедра'
         verbose_name_plural = 'Кафедри'
@@ -57,8 +57,8 @@ class Degree(models.Model):
     title_degree = models.CharField('Назва', unique=True, max_length=200)
 
     class Meta:
-        ordering = ('title_degree',)
         managed = False
+        ordering = ('title_degree',)
         db_table = 'degree'
         verbose_name = 'Наукова ступінь'
         verbose_name_plural = 'Наукові ступені'
@@ -126,8 +126,8 @@ class Scientist(models.Model):
                                 help_text="24337331300")
     h_index_scopus = models.PositiveSmallIntegerField('h-індекс Scopus', default=0)
     scopus_count_pub = models.PositiveSmallIntegerField('Кількість публікацій Scopus', default=0)
-    publications_wos = models.ManyToManyField('PublicationWos', blank=True, verbose_name="Публікації WoS")
-    publications_scopus = models.ManyToManyField('PublicationScopus', blank=True, verbose_name="Публікації Scopus")
+    publication_wos = models.ManyToManyField('PublicationWos', blank=True, verbose_name="Публікації WoS")
+    publication_scopus = models.ManyToManyField('PublicationScopus', blank=True, verbose_name="Публікації Scopus")
     date_update = models.DateField("Дата оновленя", auto_now=True, null=False)
     profile_id = models.CharField('Код користувача', max_length=4, editable=True, unique=True, blank=True)
     draft = models.BooleanField('Чернетка', default=False)
@@ -137,6 +137,7 @@ class Scientist(models.Model):
         db_table = 'scientist'
         verbose_name = 'Науковець'
         verbose_name_plural = 'Науковці'
+        
 
     def save(self, *args, **kwargs):
         super(Scientist, self).save()
@@ -153,10 +154,10 @@ class Scientist(models.Model):
 
 
 class PublicationScopus(models.Model):
-    id_publication = models.AutoField(primary_key=True)
-    publication_title = models.CharField('Публікація Scopus', unique=True, max_length=800)
-    doi = models.CharField('DOI Публікації Scopus', unique=True, blank=True, max_length=200)
-    link = models.CharField('Посилання на публікацію Scopus', unique=True, blank=True, max_length=500)
+    id_publication = models.AutoField(primary_key=True, db_column='id_publication')
+    publication_title = models.CharField('Публікація Scopus', unique=True, max_length=1000)
+    doi = models.CharField('DOI Публікації Scopus', blank=True, max_length=200)
+    link = models.CharField('Посилання на публікацію Scopus', blank=True, max_length=500)
 
     class Meta:
         managed = False
@@ -169,7 +170,7 @@ class PublicationScopus(models.Model):
 
 
 class ScientistPublicationScopus(models.Model):
-    id = models.AutoField(primary_key=True)
+    publicationscopus_id = models.AutoField(primary_key=True, null=False, db_column='publicationscopus_id')
     scientist_id = models.ForeignKey(Scientist, db_column='scientist_id', on_delete=models.CASCADE, null=True,
                                      to_field='id_scientist', verbose_name="Науковець")
     publication_id = models.ForeignKey(PublicationScopus, db_column='publication_id', on_delete=models.CASCADE, null=True,
@@ -183,10 +184,10 @@ class ScientistPublicationScopus(models.Model):
 
 
 class PublicationWos(models.Model):
-    id_publication = models.AutoField(primary_key=True)
-    publication_title = models.CharField('Публікації WoS', unique=True, max_length=600)
-    doi = models.CharField('DOI Публікації WoS', unique=True, blank=True, max_length=200)
-    link = models.CharField('Посилання на публікацію Scopus', unique=True, blank=True, max_length=500)
+    id_publication = models.AutoField(primary_key=True, db_column='id_publication')
+    publication_title = models.CharField('Публікації WoS', unique=True, max_length=1000)
+    doi = models.CharField('DOI Публікації WoS', blank=True, null=True, max_length=200)
+    link = models.CharField('Посилання на публікацію Scopus', blank=True, null=True, max_length=500)
 
     class Meta:
         managed = False
@@ -199,7 +200,7 @@ class PublicationWos(models.Model):
 
 
 class ScientistPublicationWos(models.Model):
-    id = models.AutoField(primary_key=True)
+    publicationwos_id = models.AutoField(primary_key=True, null=False)
     scientist_id = models.ForeignKey(Scientist, db_column='scientist_id', on_delete=models.CASCADE, null=True,
                                      to_field='id_scientist', verbose_name="Науковець")
     publication_id = models.ForeignKey(PublicationWos, db_column='publication_id', on_delete=models.CASCADE, null=True,
@@ -219,8 +220,8 @@ class Speciality(models.Model):
     keyword = models.ManyToManyField('Keyword', blank=True, verbose_name="Ключеве слово")
 
     class Meta:
-        ordering = ('speciality_title',)
         managed = False
+        ordering = ('speciality_title',)
         db_table = 'speciality'
         verbose_name = 'Спеціальність'
         verbose_name_plural = 'Спеціальності'
@@ -248,8 +249,8 @@ class Keyword(models.Model):
     keyword_title = models.CharField('Назва', unique=True, max_length=200)
 
     class Meta:
-        ordering = ('keyword_title',)
         managed = False
+        ordering = ('keyword_title',)
         db_table = 'keyword'
         verbose_name = 'Ключове слово'
         verbose_name_plural = 'Ключові слова'
