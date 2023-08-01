@@ -1268,6 +1268,10 @@
         margin-bottom: auto;
     }
     
+    .footer_nav_logo_block a:hover {
+        opacity: 0.5;
+    }
+
     .footer_nav_main,
     .footer_nav_social_network {
         display: flex;

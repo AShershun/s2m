@@ -1,5 +1,3 @@
-# import io
-# import csv
 import openpyxl
 import pandas as pd
 import pybliometrics
@@ -15,7 +13,7 @@ from django.views.generic import ListView
 from django.views.generic.base import View
 from django.db.models.functions import Concat
 from django.db.models import F, Value
-from .models import Department, PublicationScopus, Scientist, Speciality, PublicationWos, ScientistPublicationScopus, ScientistPublicationWos
+from .models import Scientist
 from openpyxl.styles import Alignment, Font, Border
 #from pybliometrics.scopus import ScopusAuthor
 from pybliometrics.scopus import *
@@ -610,7 +608,7 @@ def naukometria_xlsx(request):
         'department__faculty__institute').order_by('lastname_uk')
 
     # Створюємо порожній DataFrame для зберігання даних
-    data = pd.DataFrame(columns=['Інститут', 'Кафедра', 'ПІБ', 'Ступінь', 'Посади', 'Google Scholar', 'GS h-index', 'Кількість публікацій GS',
+    data = pd.DataFrame(columns=['Інститут', 'Кафедра', 'ПІБ', 'Штат', 'Ступінь', 'Посади', 'Google Scholar', 'GS h-index', 'Кількість публікацій GS',
                         'ORCID', 'ID Scopus', 'Scopus h-index', 'Кількість публікацій Scopus', 'Researcher ID', 'WoS h-index', 'Кількість публікацій WoS'])
 
     # Заповнюємо DataFrame даними із queryset
@@ -624,11 +622,11 @@ def naukometria_xlsx(request):
         title_post = scientist.post.title_post if scientist.post else ''
 
         if len(data) > 0:
-            data.loc[len(data)] = [title_institute, title_department, full_name, title_degree, title_post, scientist.google_scholar, scientist.h_index_google_scholar, scientist.google_scholar_count_pub, scientist.orcid, scientist.scopusid, scientist.h_index_scopus,
+            data.loc[len(data)] = [title_institute, title_department, full_name, scientist.staff, title_degree, title_post, scientist.google_scholar, scientist.h_index_google_scholar, scientist.google_scholar_count_pub, scientist.orcid, scientist.scopusid, scientist.h_index_scopus,
                                    scientist.scopus_count_pub, scientist.publons, scientist.h_index_publons,
                                    scientist.publons_count_pub]
         else:
-            data.loc[0] = [title_institute, title_department, full_name, title_degree, title_post, scientist.google_scholar, scientist.h_index_google_scholar, scientist.google_scholar_count_pub, scientist.orcid, scientist.scopusid, scientist.h_index_scopus,
+            data.loc[0] = [title_institute, title_department, full_name, scientist.staff, title_degree, title_post, scientist.google_scholar, scientist.h_index_google_scholar, scientist.google_scholar_count_pub, scientist.orcid, scientist.scopusid, scientist.h_index_scopus,
                            scientist.scopus_count_pub, scientist.publons, scientist.h_index_publons,
                            scientist.publons_count_pub]
 
@@ -638,22 +636,23 @@ def naukometria_xlsx(request):
 
     # worksheet.column_dimensions.group('C', 'D', hidden=True, outline_level=0)
     worksheet.column_dimensions['C'].width = 24
-    worksheet.column_dimensions['D'].width = 14
+    worksheet.column_dimensions['D'].width = 12
+    worksheet.column_dimensions['E'].width = 14
 
     # worksheet.column_dimensions.group('E', 'I', hidden=True, outline_level=0)
-    worksheet.column_dimensions['E'].width = 12
-    worksheet.column_dimensions['F'].width = 10
+    worksheet.column_dimensions['F'].width = 12
     worksheet.column_dimensions['G'].width = 10
-    worksheet.column_dimensions['H'].width = 16
-    worksheet.column_dimensions['I'].width = 22
-    worksheet.column_dimensions['J'].width = 16
+    worksheet.column_dimensions['H'].width = 10
+    worksheet.column_dimensions['I'].width = 16
+    worksheet.column_dimensions['J'].width = 22
+    worksheet.column_dimensions['K'].width = 16
 
     # worksheet.column_dimensions.group('J', 'K', hidden=True, outline_level=0)
-    worksheet.column_dimensions['K'].width = 12
-    worksheet.column_dimensions['L'].width = 16
+    worksheet.column_dimensions['L'].width = 12
     worksheet.column_dimensions['M'].width = 16
-    worksheet.column_dimensions['N'].width = 10
-    worksheet.column_dimensions['O'].width = 16
+    worksheet.column_dimensions['N'].width = 16
+    worksheet.column_dimensions['O'].width = 10
+    worksheet.column_dimensions['P'].width = 16
 
     # Форматування комірок
     border = Border(left=openpyxl.styles.Side(border_style='thin'), right=openpyxl.styles.Side(
@@ -684,7 +683,7 @@ def naukometria_xlsx(request):
             cell.alignment = alignment
             cell.font = font
 
-    headers = ['Інститут', 'Кафедра', 'ПІБ', 'Ступінь', 'Посади', 'Google Scholar', 'GS h-index', 'Кількість публікацій GS', 'ORCID',
+    headers = ['Інститут', 'Кафедра', 'ПІБ', 'Штат', 'Ступінь', 'Посади', 'Google Scholar', 'GS h-index', 'Кількість публікацій GS', 'ORCID',
                'ID Scopus', 'Scopus h-index', 'Кількість публікацій Scopus', 'Researcher ID', 'WoS h-index', 'Кількість публікацій WoS']
 
     # Застосовуємо форматування для першого рядка
@@ -694,20 +693,6 @@ def naukometria_xlsx(request):
         cell.value = header
         cell.font = Font(bold=True, size=12)
 
-    for cell in worksheet['F'][1:]:
-        cell.font = Font(underline='single', color='0563C1')
-        cell.hyperlink = f"https://scholar.google.com/{cell.value}"
-        if cell.value:
-            cell.value = 'Link'
-
-    for cell in worksheet['J'][1:]:
-        cell.font = Font(underline='single', color='0563C1')
-        cell.hyperlink = f"https://www.scopus.com/authid/detail.uri?authorId={cell.value}"
-
-    for cell in worksheet['M'][1:]:
-        cell.font = Font(underline='single', color='0563C1')
-        cell.hyperlink = f"https://publons.com/researcher/{cell.value}"
-
     for cell in worksheet['A'][1:]:
         cell.font = Font(size=11)
 
@@ -715,14 +700,36 @@ def naukometria_xlsx(request):
         cell.font = Font(size=10)
 
     for cell in worksheet['D'][1:]:
+        if cell.value == 'True':
+            cell.value = 'Так'
+        else:
+            cell.value = 'Ні'
         cell.font = Font(size=10)
-
+        
+    
     for cell in worksheet['E'][1:]:
         cell.font = Font(size=10)
 
-    for cell in worksheet['I'][1:]:
+    for cell in worksheet['F'][1:]:
+        cell.font = Font(size=10)
+
+    for cell in worksheet['G'][1:]:
+        cell.font = Font(underline='single', color='0563C1')
+        cell.hyperlink = f"https://scholar.google.com/{cell.value}"
+        if cell.value:
+            cell.value = 'Link'
+
+    for cell in worksheet['J'][1:]:
         cell.font = Font(size=11, underline='single', color='0563C1')
         cell.hyperlink = f"https://orcid.org/{cell.value}"
+
+    for cell in worksheet['K'][1:]:
+        cell.font = Font(underline='single', color='0563C1')
+        cell.hyperlink = f"https://www.scopus.com/authid/detail.uri?authorId={cell.value}"
+
+    for cell in worksheet['N'][1:]:
+        cell.font = Font(underline='single', color='0563C1')
+        cell.hyperlink = f"https://publons.com/researcher/{cell.value}"
 
     filename = "Scientometrics" + datetime.now().strftime("_%d_%m_%Y") + ".xlsx"
     response = HttpResponse(

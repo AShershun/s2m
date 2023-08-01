@@ -30,15 +30,13 @@ SCOPUS_API_KEY = '5e5dc847f87e9db2f294456be2b932e4'
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    "*"
     '127.0.0.1',
     'localhost',
     '192.168.1.16',
     '195.138.86.105', #external ip
     's2m.onaft.edu.ua',
     's2m.ontu.edu.ua',
-    '192.168.1.252', #localhost
-    '192.168.0.108', #localhost
-    '192.168.1.57' #localhost
 ]
 
 # Application definition
