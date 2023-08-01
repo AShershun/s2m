@@ -13,4 +13,6 @@ urlpatterns = (
     path('information/', views.information, name="information"),
     path('report/', login_required(views.report), name="report"),
     path('report/export_xlsx/', login_required(views.export_xlsx), name="export_xlsx"),
+    path('report/naukometria_xlsx/', login_required(views.naukometria_xlsx), name="naukometria_xlsx"),
+    path('scientists/update_scientists_records', login_required(views.update_scientists_records), name="update_scientists_records"),
 )

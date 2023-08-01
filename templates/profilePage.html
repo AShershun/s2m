@@ -10,9 +10,19 @@
             <p class="profile_header_code_id">{{scientist.profile_id}}</p>
         </div>
     </h4>
+    
     <div class="profile_date_update">
         <p class="profile_date_update_title">Оновлено:</p>
-        <p class="profile_date_update_data">{{scientist.date_update}}</p>
+        <div class="profile_date_update_data">
+            {{scientist.date_update}}
+            {% if user.is_authenticated %}
+            <form method="post" action="{% url 'profile' profile_id=scientist.profile_id %}">
+                {% csrf_token %}
+                <input type="submit" value="Оновити" class="profile_update_button">
+            </form>
+            {% endif %}
+        </div>
+        
     </div>
 </div>
 

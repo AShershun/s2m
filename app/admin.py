@@ -77,14 +77,14 @@ class PublicationWosAdmin(admin.ModelAdmin):
 
 @admin.register(Scientist)
 class ScientistAdmin(admin.ModelAdmin):
-    list_display = ("name", "orcid", "profile_id", "draft", "date_update")
+    list_display = ("name", "orcid", "profile_id", "staff", "draft", "date_update")
     list_display_links = ("name",)
-    list_filter = ("department__faculty__institute", "draft")
+    list_filter = ("department__faculty__institute", "draft", "staff")
     search_fields = ("profile_id", "lastname_uk", "lastname_en",
                      "email",)  # "post__title_post", "degree__title_degree", "rank__title_rank", "speciality__speciality_title", "speciality__speciality_code", "work_state__title_work_state"
     readonly_fields = ("profile_id",)
     save_on_top = True
-    list_editable = ("draft",)
+    list_editable = ("staff", "draft")
     list_per_page = 100
     fieldsets = (
         ("Основна інформація", {
@@ -102,7 +102,7 @@ class ScientistAdmin(admin.ModelAdmin):
             "fields": ("publication_wos", "publication_scopus")
         }),
         (None, {
-            "fields": ("profile_id", "draft")
+            "fields": ("profile_id", "staff", "draft")
         }),
     )
 

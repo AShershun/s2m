@@ -107,10 +107,11 @@ class Scientist(models.Model):
                                    to_field='id_department', verbose_name="Кафедра")
     rank = models.ForeignKey('Rank', on_delete=models.CASCADE, db_column='rank', to_field='id_rank', blank=True,
                              verbose_name="Наукове звання")
-    degree = models.ForeignKey('Degree', on_delete=models.CASCADE, db_column='degree', to_field='id_degree', blank=True,
+    degree = models.ForeignKey('Degree', on_delete=models.CASCADE, db_column='degree', to_field='id_degree', blank=True, null=True,
                                verbose_name="Наукова ступінь")
-    post = models.ForeignKey('Post', on_delete=models.CASCADE, db_column='post', to_field='id_post', blank=True,
+    post = models.ForeignKey('Post', on_delete=models.CASCADE, db_column='post', to_field='id_post', blank=True, null=True,
                              verbose_name="Посада")
+    staff = models.BooleanField('У штаті', default="True")
     speciality = models.ManyToManyField('Speciality', blank=True, verbose_name="Спеціальність")
     work_state = models.ForeignKey('WorkState', on_delete=models.CASCADE, db_column='work_state', to_field='id_state',
                                    verbose_name="Робочий статус", default="Працює")
@@ -148,6 +149,7 @@ class Scientist(models.Model):
 
     def get_absolute_url(self):
         return reverse("profile", kwargs={"profile_id": self.profile_id})
+    
 
     def __str__(self):
         return '%s %s %s' % (self.lastname_uk, self.firstname_uk, self.middlename_uk)

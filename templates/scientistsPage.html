@@ -21,6 +21,7 @@
                 <p class="filter_result_counter"> {{ scientists_counter }} результатів за вашим запитом</p>
             {% endif %}
             <div class="filter_form">
+                
                 <select class="search_item filter_select" id="search" name="filter">
                   <option class="select_item" value="fullname_up">Прізвище А-Я</option>
                   <option class="select_item" value="fullname_down">Прізвище Я-А</option>
@@ -34,6 +35,13 @@
             </div>
         </div>
     </form>
+    <div class="update_button_block">
+        <a href="{% url 'update_scientists_records' %}" class="functional_link">
+            <button class="main_button update_scientists">
+                Оновити
+            </button>
+        </a>
+    </div>
 </div>
 
 <hr class="dividing_line "> {% for scientist in scientist_list %}

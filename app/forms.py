@@ -6,7 +6,7 @@ class SelectForm(Form):
         ('fullname', 'ПІБ'),
         ('department', 'Кафедра'),
         ('speciality', 'Спеціальність'),
-        ('keyword', 'Ключеве слово'),
+        ('keyword', 'Ключове слово'),
     )
     # search = CharField(required=False)
     select = ChoiceField(choices=FILTER_CHOICES)
