@@ -1,6 +1,6 @@
 import openpyxl
 import pandas as pd
-import pybliometrics
+import pybliometrics, scholarly
 
 from datetime import datetime
 
@@ -18,6 +18,8 @@ from openpyxl.styles import Alignment, Font, Border
 #from pybliometrics.scopus import ScopusAuthor
 from pybliometrics.scopus import *
 from wos import *
+from scholarly import scholarly
+
 
 
 class MainPage(View):
@@ -382,29 +384,36 @@ class Search(ListView):
 
 @login_required(login_url='/accounts/login/')
 def update_scientists_records(request):
+    error_log = ''
     scientists = Scientist.objects.all().filter(draft=False)
     for scientist in scientists:
-        scopus_id = scientist.scopusid
-        # print("Update " + scientist.profile_id + scientist.lastname_uk)
-        if scopus_id:
+        if scientist.scopusid:
             try:
-                scopus_author = AuthorRetrieval(scopus_id)
+                scopus_author = AuthorRetrieval(scientist.scopusid)
 
                 # Зміненя даних у БД index, кількості
                 scientist.h_index_scopus = scopus_author.h_index
                 scientist.scopus_count_pub = scopus_author.document_count
                 scientist.save()
-                print("Success!!!!!!!")
+                print(f"Scopus: Profile {scientist.profile_id} {scientist.lastname_uk} {scientist.firstname_uk} {scientist.middlename_uk} update success!!!")
 
             except Exception as e:
-                print(f"Error updating data for {scientist.lastname_uk}: {e}")
-        # else:
-        #     print("Empty")
+                error_log += f"\nScopus: Error updating data for {scientist.lastname_uk} {scientist.firstname_uk} {scientist.middlename_uk} https://s2m.ontu.edu.ua/profile/{scientist.profile_id}: {e}"
 
-    return HttpResponse("Update completed successfully.")
+        if scientist.google_scholar:
+            try:
+                author = scholarly.search_author_id(f'{scientist.google_scholar}')
+                author = (scholarly.fill(author, sections=['indices', 'publications']))
+                
+                scientist.h_index_google_scholar = author['hindex']
+                scientist.google_scholar_count_pub = len(author['publications'])
+                scientist.save()
+
+            except Exception as e:
+                error_log += f"\nGoogle Scholar: Error updating data for {scientist.lastname_uk} {scientist.firstname_uk} {scientist.middlename_uk} https://s2m.ontu.edu.ua/profile/{scientist.profile_id}: {e}"
 
 
-''
+    return HttpResponse("Update completed successfully.\n" + error_log)
 
 
 class ProfilePage(View):
@@ -456,18 +465,30 @@ class ProfilePage(View):
 
         # Scopus
         # Отримання необхідного scopusid за profile_id
-        scopus_id = Scientist.objects.get(profile_id=profile_id).scopusid
-        if scopus_id:
-            scopus_author = AuthorRetrieval(scopus_id)
+        profile = Scientist.objects.get(profile_id=profile_id)
+        if profile.scopusid:
+            scopus_author = AuthorRetrieval(profile.scopusid)
 
             # Зміненя даних у БД та збереження
-            scientist = Scientist.objects.get(profile_id=profile_id)
-            scientist.h_index_scopus = scopus_author.h_index
-            scientist.scopus_count_pub = scopus_author.document_count
-            scientist.save()
+            profile.h_index_scopus = scopus_author.h_index
+            profile.scopus_count_pub = scopus_author.document_count
+            profile.save()
+
+        #Google Scholar
+        
+                
+        if profile.google_scholar:
+            author = scholarly.search_author_id(f'{profile.google_scholar}')
+            author = (scholarly.fill(author, sections=['indices', 'publications']))
+            
+            profile.h_index_google_scholar = author['hindex']
+            profile.google_scholar_count_pub = len(author['publications'])
+            profile.save()
+            
 
         return redirect('profile', profile_id=profile_id)
 
+        
 
 def information(request):
     """Сторінка довідки"""
@@ -615,7 +636,7 @@ def naukometria_xlsx(request):
     for scientist in queryset:
 
         full_name = ' '.join(
-            [scientist.lastname_uk, scientist.firstname_uk, scientist.middlename_uk])
+            [scientist.lastname_uk, scientist.firstname_uk, scientist.middlename_uk, scientist.profile_id])
         title_department = scientist.department.title_department if scientist.department else ''
         title_institute = scientist.department.faculty.institute.abbreviation if scientist.department.faculty.institute else ''
         title_degree = scientist.degree.title_degree if scientist.degree else ''
@@ -635,7 +656,7 @@ def naukometria_xlsx(request):
     worksheet.column_dimensions['B'].width = 18
 
     # worksheet.column_dimensions.group('C', 'D', hidden=True, outline_level=0)
-    worksheet.column_dimensions['C'].width = 24
+    worksheet.column_dimensions['C'].width = 40
     worksheet.column_dimensions['D'].width = 12
     worksheet.column_dimensions['E'].width = 14
 
@@ -699,6 +720,11 @@ def naukometria_xlsx(request):
     for cell in worksheet['B'][1:]:
         cell.font = Font(size=10)
 
+    for cell in worksheet['C'][1:]:
+        cell.font = Font(color='5c8fad')
+        cell.hyperlink = f"https://s2m.ontu.edu.ua/profile/{cell.value[-4:]}"
+        cell.value = cell.value[:-5]
+    
     for cell in worksheet['D'][1:]:
         if cell.value == 'True':
             cell.value = 'Так'
@@ -715,7 +741,7 @@ def naukometria_xlsx(request):
 
     for cell in worksheet['G'][1:]:
         cell.font = Font(underline='single', color='0563C1')
-        cell.hyperlink = f"https://scholar.google.com/{cell.value}"
+        cell.hyperlink = f"https://scholar.google.com/citations?user={cell.value}"
         if cell.value:
             cell.value = 'Link'
 

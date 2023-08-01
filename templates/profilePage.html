@@ -50,7 +50,7 @@
         <li class="profile_info_item">
             <p class="profile_info_item_title">Ступінь:</p>
             <p class="profile_info_item_data">
-                {% if scientist.degree == "" %} Немає {% else %} {{scientist.degree}} {% endif %}
+                {% if scientist.degree == None %} Немає {% else %} {{scientist.degree}} {% endif %}
             </p>
         </li>
         <li class="profile_info_item">
@@ -106,7 +106,7 @@
             <li class="profile_info_item">
                 <p class="profile_info_item_title">Google Scholar:</p>
                 {% if scientist.google_scholar == '' %} Немає {% else %}
-                <a href="https://scholar.google.com/{{scientist.google_scholar}}" target="_blank" class="profile_info_item_data profile_scientific_info_link">Посилання</a> {% endif %}
+                <a href="https://scholar.google.com/citations?user={{scientist.google_scholar}}" target="_blank" class="profile_info_item_data profile_scientific_info_link">Посилання</a> {% endif %}
             </li>
             <li class="profile_info_item">
                 <p class="profile_info_item_title">h index Google Scholar:</p>
