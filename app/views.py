@@ -47,8 +47,7 @@ class MainPage(View):
         publons_profile_id = []
 
         for i in range(10):
-            publons_name = (publons[i].lastname_uk + " " +
-                            publons[i].firstname_uk + " " + publons[i].middlename_uk)
+            publons_name = (publons[i].lastname_uk + " " + publons[i].firstname_uk + " " + publons[i].middlename_uk)
             scientist_publons.append(publons_name)
             publons_pub = publons[i].publons_count_pub
             publons_count_pub.append(publons_pub)
@@ -61,8 +60,7 @@ class MainPage(View):
         scopus_profile_id = []
 
         for i in range(10):
-            scopus_name = (scopus[i].lastname_uk + " " +
-                           scopus[i].firstname_uk + " " + scopus[i].middlename_uk)
+            scopus_name = (scopus[i].lastname_uk + " " + scopus[i].firstname_uk + " " + scopus[i].middlename_uk)
             scientist_scopus.append(scopus_name)
             scopus_pub = scopus[i].scopus_count_pub
             scopus_count_pub.append(scopus_pub)
@@ -135,26 +133,16 @@ class MainPage(View):
             'scopus_profile_id_10': scopus_profile_id[9],
 
             # Scopus h index
-            'scientist_scopus_h_1': (scopus_h[0].lastname_uk + " " + scopus_h[0].firstname_uk + " " +
-                                     scopus_h[0].middlename_uk),
-            'scientist_scopus_h_2': (scopus_h[1].lastname_uk + " " + scopus_h[1].firstname_uk + " " +
-                                     scopus_h[1].middlename_uk),
-            'scientist_scopus_h_3': (scopus_h[2].lastname_uk + " " + scopus_h[2].firstname_uk + " " +
-                                     scopus_h[2].middlename_uk),
-            'scientist_scopus_h_4': (scopus_h[3].lastname_uk + " " + scopus_h[3].firstname_uk + " " +
-                                     scopus_h[3].middlename_uk),
-            'scientist_scopus_h_5': (scopus_h[4].lastname_uk + " " + scopus_h[4].firstname_uk + " " +
-                                     scopus_h[4].middlename_uk),
-            'scientist_scopus_h_6': (scopus_h[5].lastname_uk + " " + scopus_h[5].firstname_uk + " " +
-                                     scopus_h[5].middlename_uk),
-            'scientist_scopus_h_7': (scopus_h[6].lastname_uk + " " + scopus_h[6].firstname_uk + " " +
-                                     scopus_h[6].middlename_uk),
-            'scientist_scopus_h_8': (scopus_h[7].lastname_uk + " " + scopus_h[7].firstname_uk + " " +
-                                     scopus_h[7].middlename_uk),
-            'scientist_scopus_h_9': (scopus_h[8].lastname_uk + " " + scopus_h[8].firstname_uk + " " +
-                                     scopus_h[8].middlename_uk),
-            'scientist_scopus_h_10': (scopus_h[9].lastname_uk + " " + scopus_h[9].firstname_uk + " " +
-                                      scopus_h[9].middlename_uk),
+            'scientist_scopus_h_1': (scopus_h[0].lastname_uk + " " + scopus_h[0].firstname_uk + " " + scopus_h[0].middlename_uk),
+            'scientist_scopus_h_2': (scopus_h[1].lastname_uk + " " + scopus_h[1].firstname_uk + " " + scopus_h[1].middlename_uk),
+            'scientist_scopus_h_3': (scopus_h[2].lastname_uk + " " + scopus_h[2].firstname_uk + " " + scopus_h[2].middlename_uk),
+            'scientist_scopus_h_4': (scopus_h[3].lastname_uk + " " + scopus_h[3].firstname_uk + " " + scopus_h[3].middlename_uk),
+            'scientist_scopus_h_5': (scopus_h[4].lastname_uk + " " + scopus_h[4].firstname_uk + " " + scopus_h[4].middlename_uk),
+            'scientist_scopus_h_6': (scopus_h[5].lastname_uk + " " + scopus_h[5].firstname_uk + " " + scopus_h[5].middlename_uk),
+            'scientist_scopus_h_7': (scopus_h[6].lastname_uk + " " + scopus_h[6].firstname_uk + " " + scopus_h[6].middlename_uk),
+            'scientist_scopus_h_8': (scopus_h[7].lastname_uk + " " + scopus_h[7].firstname_uk + " " + scopus_h[7].middlename_uk),
+            'scientist_scopus_h_9': (scopus_h[8].lastname_uk + " " + scopus_h[8].firstname_uk + " " + scopus_h[8].middlename_uk),
+            'scientist_scopus_h_10': (scopus_h[9].lastname_uk + " " + scopus_h[9].firstname_uk + " " + scopus_h[9].middlename_uk),
             'scopus_h_1': scopus_h[0].h_index_scopus,
             'scopus_h_2': scopus_h[1].h_index_scopus,
             'scopus_h_3': scopus_h[2].h_index_scopus,
@@ -177,26 +165,16 @@ class MainPage(View):
             'scopus_profile_id_h_10': scopus_h[9].profile_id,
 
             # Publons h index
-            'scientist_publons_h_1': (publons_h[0].lastname_uk + " " + publons_h[0].firstname_uk + " " +
-                                      publons_h[0].middlename_uk),
-            'scientist_publons_h_2': (publons_h[1].lastname_uk + " " + publons_h[1].firstname_uk + " " +
-                                      publons_h[1].middlename_uk),
-            'scientist_publons_h_3': (publons_h[2].lastname_uk + " " + publons_h[2].firstname_uk + " " +
-                                      publons_h[2].middlename_uk),
-            'scientist_publons_h_4': (publons_h[3].lastname_uk + " " + publons_h[3].firstname_uk + " " +
-                                      publons_h[3].middlename_uk),
-            'scientist_publons_h_5': (publons_h[4].lastname_uk + " " + publons_h[4].firstname_uk + " " +
-                                      publons_h[4].middlename_uk),
-            'scientist_publons_h_6': (publons_h[5].lastname_uk + " " + publons_h[5].firstname_uk + " " +
-                                      publons_h[5].middlename_uk),
-            'scientist_publons_h_7': (publons_h[6].lastname_uk + " " + publons_h[6].firstname_uk + " " +
-                                      publons_h[6].middlename_uk),
-            'scientist_publons_h_8': (publons_h[7].lastname_uk + " " + publons_h[7].firstname_uk + " " +
-                                      publons_h[7].middlename_uk),
-            'scientist_publons_h_9': (publons_h[8].lastname_uk + " " + publons_h[8].firstname_uk + " " +
-                                      publons_h[8].middlename_uk),
-            'scientist_publons_h_10': (publons_h[9].lastname_uk + " " + publons_h[9].firstname_uk + " " +
-                                       publons_h[9].middlename_uk),
+            'scientist_publons_h_1': (publons_h[0].lastname_uk + " " + publons_h[0].firstname_uk + " " + publons_h[0].middlename_uk),
+            'scientist_publons_h_2': (publons_h[1].lastname_uk + " " + publons_h[1].firstname_uk + " " + publons_h[1].middlename_uk),
+            'scientist_publons_h_3': (publons_h[2].lastname_uk + " " + publons_h[2].firstname_uk + " " + publons_h[2].middlename_uk),
+            'scientist_publons_h_4': (publons_h[3].lastname_uk + " " + publons_h[3].firstname_uk + " " + publons_h[3].middlename_uk),
+            'scientist_publons_h_5': (publons_h[4].lastname_uk + " " + publons_h[4].firstname_uk + " " + publons_h[4].middlename_uk),
+            'scientist_publons_h_6': (publons_h[5].lastname_uk + " " + publons_h[5].firstname_uk + " " + publons_h[5].middlename_uk),
+            'scientist_publons_h_7': (publons_h[6].lastname_uk + " " + publons_h[6].firstname_uk + " " + publons_h[6].middlename_uk),
+            'scientist_publons_h_8': (publons_h[7].lastname_uk + " " + publons_h[7].firstname_uk + " " + publons_h[7].middlename_uk),
+            'scientist_publons_h_9': (publons_h[8].lastname_uk + " " + publons_h[8].firstname_uk + " " + publons_h[8].middlename_uk),
+            'scientist_publons_h_10': (publons_h[9].lastname_uk + " " + publons_h[9].firstname_uk + " " + publons_h[9].middlename_uk),
             'publons_h_1': publons_h[0].h_index_publons,
             'publons_h_2': publons_h[1].h_index_publons,
             'publons_h_3': publons_h[2].h_index_publons,
@@ -220,35 +198,25 @@ class MainPage(View):
 
             # Google Scholar h index
             'scientist_google_scholar_h_1': (
-                google_scholar_h[0].lastname_uk + " " + google_scholar_h[0].firstname_uk + " " +
-                google_scholar_h[0].middlename_uk),
+                google_scholar_h[0].lastname_uk + " " + google_scholar_h[0].firstname_uk + " " + google_scholar_h[0].middlename_uk),
             'scientist_google_scholar_h_2': (
-                google_scholar_h[1].lastname_uk + " " + google_scholar_h[1].firstname_uk + " " +
-                google_scholar_h[1].middlename_uk),
+                google_scholar_h[1].lastname_uk + " " + google_scholar_h[1].firstname_uk + " " + google_scholar_h[1].middlename_uk),
             'scientist_google_scholar_h_3': (
-                google_scholar_h[2].lastname_uk + " " + google_scholar_h[2].firstname_uk + " " +
-                google_scholar_h[2].middlename_uk),
+                google_scholar_h[2].lastname_uk + " " + google_scholar_h[2].firstname_uk + " " + google_scholar_h[2].middlename_uk),
             'scientist_google_scholar_h_4': (
-                google_scholar_h[3].lastname_uk + " " + google_scholar_h[3].firstname_uk + " " +
-                google_scholar_h[3].middlename_uk),
+                google_scholar_h[3].lastname_uk + " " + google_scholar_h[3].firstname_uk + " " + google_scholar_h[3].middlename_uk),
             'scientist_google_scholar_h_5': (
-                google_scholar_h[4].lastname_uk + " " + google_scholar_h[4].firstname_uk + " " +
-                google_scholar_h[4].middlename_uk),
+                google_scholar_h[4].lastname_uk + " " + google_scholar_h[4].firstname_uk + " " + google_scholar_h[4].middlename_uk),
             'scientist_google_scholar_h_6': (
-                google_scholar_h[5].lastname_uk + " " + google_scholar_h[5].firstname_uk + " " +
-                google_scholar_h[5].middlename_uk),
+                google_scholar_h[5].lastname_uk + " " + google_scholar_h[5].firstname_uk + " " + google_scholar_h[5].middlename_uk),
             'scientist_google_scholar_h_7': (
-                google_scholar_h[6].lastname_uk + " " + google_scholar_h[6].firstname_uk + " " +
-                google_scholar_h[6].middlename_uk),
+                google_scholar_h[6].lastname_uk + " " + google_scholar_h[6].firstname_uk + " " + google_scholar_h[6].middlename_uk),
             'scientist_google_scholar_h_8': (
-                google_scholar_h[7].lastname_uk + " " + google_scholar_h[7].firstname_uk + " " +
-                google_scholar_h[7].middlename_uk),
+                google_scholar_h[7].lastname_uk + " " + google_scholar_h[7].firstname_uk + " " + google_scholar_h[7].middlename_uk),
             'scientist_google_scholar_h_9': (
-                google_scholar_h[8].lastname_uk + " " + google_scholar_h[8].firstname_uk + " " +
-                google_scholar_h[8].middlename_uk),
+                google_scholar_h[8].lastname_uk + " " + google_scholar_h[8].firstname_uk + " " + google_scholar_h[8].middlename_uk),
             'scientist_google_scholar_h_10': (
-                google_scholar_h[9].lastname_uk + " " + google_scholar_h[9].firstname_uk + " " +
-                google_scholar_h[9].middlename_uk),
+                google_scholar_h[9].lastname_uk + " " + google_scholar_h[9].firstname_uk + " " + google_scholar_h[9].middlename_uk),
             'google_scholar_h_1': google_scholar_h[0].h_index_google_scholar,
             'google_scholar_h_2': google_scholar_h[1].h_index_google_scholar,
             'google_scholar_h_3': google_scholar_h[2].h_index_google_scholar,
