@@ -28,18 +28,10 @@ class MainPage(View):
     def get(self, request):
         google_scholar_h = Scientist.objects.all().order_by('h_index_google_scholar', 'lastname_uk').filter(
             h_index_google_scholar__isnull=False, draft=False).reverse()[:10]
-        scopus_h = Scientist.objects.all().order_by('h_index_scopus', 'lastname_uk').filter(
-            h_index_scopus__isnull=False,
-            draft=False).reverse()[:10]
-        publons_h = Scientist.objects.all().order_by('h_index_publons', 'lastname_uk').filter(
-            h_index_publons__isnull=False,
-            draft=False).reverse()[:10]
-        publons = Scientist.objects.all().order_by('publons_count_pub', 'lastname_uk').filter(
-            publons_count_pub__isnull=False,
-            draft=False).reverse()[:10]
-        scopus = Scientist.objects.all().order_by('scopus_count_pub', 'lastname_uk').filter(
-            scopus_count_pub__isnull=False,
-            draft=False).reverse()[:10]
+        scopus_h = Scientist.objects.all().order_by('h_index_scopus', 'lastname_uk').filter(h_index_scopus__isnull=False, draft=False).reverse()[:10]
+        publons_h = Scientist.objects.all().order_by('h_index_publons', 'lastname_uk').filter(h_index_publons__isnull=False, draft=False).reverse()[:10]
+        publons = Scientist.objects.all().order_by('publons_count_pub', 'lastname_uk').filter(publons_count_pub__isnull=False, draft=False).reverse()[:10]
+        scopus = Scientist.objects.all().order_by('scopus_count_pub', 'lastname_uk').filter(scopus_count_pub__isnull=False, draft=False).reverse()[:10]
 
         # Publons Data
         scientist_publons = []
@@ -275,212 +267,109 @@ class Search(ListView):
         if "fullname" in select:
             if "fullname_up" in filter_dropdown_menu:
                 queryset = Scientist.objects.annotate(
-                    fullname_uk=Concat(F('lastname_uk'), Value(' '), F('firstname_uk'), Value(' '),
-                                       F('middlename_uk'))).filter(draft=False,
-                                                                   fullname_uk__icontains=self.request.GET.get(
-                                                                       "q")).order_by(
-                    "lastname_uk")
+                    fullname_uk=Concat(F('lastname_uk'), Value(' '), F('firstname_uk'), Value(' '), F('middlename_uk'))).filter(draft=False, fullname_uk__icontains=self.request.GET.get("q")).order_by("lastname_uk")
             else:
                 if "fullname_down" in filter_dropdown_menu:
                     queryset = Scientist.objects.annotate(
-                        fullname_uk=Concat(F('lastname_uk'), Value(' '), F('firstname_uk'), Value(' '),
-                                           F('middlename_uk'))).filter(draft=False,
-                                                                       fullname_uk__icontains=self.request.GET.get(
-                                                                           "q")).order_by('lastname_uk').reverse()
+                        fullname_uk=Concat(F('lastname_uk'), Value(' '), F('firstname_uk'), Value(' '), F('middlename_uk'))).filter(draft=False, fullname_uk__icontains=self.request.GET.get("q")).order_by('lastname_uk').reverse()
                 else:
                     if "gsh_down" in filter_dropdown_menu:
                         queryset = Scientist.objects.annotate(
-                            fullname_uk=Concat(F('lastname_uk'), Value(' '), F('firstname_uk'), Value(' '),
-                                               F('middlename_uk'))).filter(draft=False,
-                                                                           fullname_uk__icontains=self.request.GET.get(
-                                                                               "q")).order_by('h_index_google_scholar')
+                            fullname_uk=Concat(F('lastname_uk'), Value(' '), F('firstname_uk'), Value(' '), F('middlename_uk'))).filter(draft=False, fullname_uk__icontains=self.request.GET.get("q")).order_by('h_index_google_scholar')
                     else:
                         if "gsh_up" in filter_dropdown_menu:
                             queryset = Scientist.objects.annotate(
-                                fullname_uk=Concat(F('lastname_uk'), Value(' '), F('firstname_uk'), Value(' '),
-                                                   F('middlename_uk'))).filter(draft=False,
-                                                                               fullname_uk__icontains=self.request.GET.get(
-                                                                                   "q")).order_by(
-                                'h_index_google_scholar').reverse()
+                                fullname_uk=Concat(F('lastname_uk'), Value(' '), F('firstname_uk'), Value(' '), F('middlename_uk'))).filter(draft=False, fullname_uk__icontains=self.request.GET.get("q")).order_by('h_index_google_scholar').reverse()
                         else:
                             if "ph_down" in filter_dropdown_menu:
-                                queryset = Scientist.objects.annotate(
-                                    fullname_uk=Concat(F('lastname_uk'), Value(' '), F('firstname_uk'), Value(' '),
-                                                       F('middlename_uk'))).filter(draft=False,
-                                                                                   fullname_uk__icontains=self.request.GET.get(
-                                                                                       "q")).order_by('h_index_publons')
+                                queryset = Scientist.objects.annotate(fullname_uk=Concat(F('lastname_uk'), Value(' '), F('firstname_uk'), Value(' '), F('middlename_uk'))).filter(draft=False, fullname_uk__icontains=self.request.GET.get("q")).order_by('h_index_publons')
                             else:
                                 if "ph_up" in filter_dropdown_menu:
-                                    queryset = Scientist.objects.annotate(
-                                        fullname_uk=Concat(F('lastname_uk'), Value(' '), F('firstname_uk'), Value(' '),
-                                                           F('middlename_uk'))).filter(draft=False,
-                                                                                       fullname_uk__icontains=self.request.GET.get(
-                                                                                           "q")).order_by().order_by(
-                                        'h_index_publons').reverse()
+                                    queryset = Scientist.objects.annotate(fullname_uk=Concat(F('lastname_uk'), Value(' '), F('firstname_uk'), Value(' '), F('middlename_uk'))).filter(draft=False, fullname_uk__icontains=self.request.GET.get("q")).order_by().order_by('h_index_publons').reverse()
                                 else:
                                     if "sh_down" in filter_dropdown_menu:
-                                        queryset = Scientist.objects.annotate(
-                                            fullname_uk=Concat(F('lastname_uk'), Value(' '), F('firstname_uk'),
-                                                               Value(' '), F('middlename_uk'))).filter(draft=False,
-                                                                                                       fullname_uk__icontains=self.request.GET.get(
-                                                                                                           "q")).order_by(
-                                            'h_index_scopus')
+                                        queryset = Scientist.objects.annotate(fullname_uk=Concat(F('lastname_uk'), Value(' '), F('firstname_uk'), Value(' '), F('middlename_uk'))).filter(draft=False, fullname_uk__icontains=self.request.GET.get("q")).order_by('h_index_scopus')
                                     else:
                                         if "sh_up" in filter_dropdown_menu:
-                                            queryset = Scientist.objects.annotate(
-                                                fullname_uk=Concat(F('lastname_uk'), Value(' '), F('firstname_uk'),
-                                                                   Value(' '), F('middlename_uk'))).filter(draft=False,
-                                                                                                           fullname_uk__icontains=self.request.GET.get(
-                                                                                                               "q")).order_by(
-                                                'h_index_scopus').reverse()
+                                            queryset = Scientist.objects.annotate(fullname_uk=Concat(F('lastname_uk'), Value(' '), F('firstname_uk'), Value(' '), F('middlename_uk'))).filter(draft=False, fullname_uk__icontains=self.request.GET.get("q")).order_by('h_index_scopus').reverse()
         else:
 
             if "department" in select:
                 if "fullname_up" in filter_dropdown_menu:
-                    queryset = Scientist.objects.filter(draft=False,
-                                                        department__title_department__icontains=self.request.GET.get(
-                                                            "q")).order_by(
-                        'lastname_uk')
+                    queryset = Scientist.objects.filter(draft=False, department__title_department__icontains=self.request.GET.get("q")).order_by('lastname_uk')
                 else:
                     if "fullname_down" in filter_dropdown_menu:
-                        queryset = Scientist.objects.filter(draft=False,
-                                                            department__title_department__icontains=self.request.GET.get(
-                                                                "q")).order_by(
-                            'lastname_uk').reverse()
+                        queryset = Scientist.objects.filter(draft=False, department__title_department__icontains=self.request.GET.get("q")).order_by('lastname_uk').reverse()
                     else:
                         if "gsh_down" in filter_dropdown_menu:
-                            queryset = Scientist.objects.filter(draft=False,
-                                                                department__title_department__icontains=self.request.GET.get(
-                                                                    "q")).order_by(
-                                'h_index_google_scholar')
+                            queryset = Scientist.objects.filter(draft=False, department__title_department__icontains=self.request.GET.get("q")).order_by('h_index_google_scholar')
                         else:
                             if "gsh_up" in filter_dropdown_menu:
-                                queryset = Scientist.objects.filter(draft=False,
-                                                                    department__title_department__icontains=self.request.GET.get(
-                                                                        "q")).order_by(
-                                    'h_index_google_scholar').reverse()
+                                queryset = Scientist.objects.filter(draft=False, department__title_department__icontains=self.request.GET.get("q")).order_by('h_index_google_scholar').reverse()
                             else:
                                 if "ph_down" in filter_dropdown_menu:
-                                    queryset = Scientist.objects.filter(draft=False,
-                                                                        department__title_department__icontains=self.request.GET.get(
-                                                                            "q")).order_by(
-                                        'h_index_publons')
+                                    queryset = Scientist.objects.filter(draft=False, department__title_department__icontains=self.request.GET.get("q")).order_by('h_index_publons')
                                 else:
                                     if "ph_up" in filter_dropdown_menu:
-                                        queryset = Scientist.objects.filter(draft=False,
-                                                                            department__title_department__icontains=self.request.GET.get(
-                                                                                "q")).order_by(
-                                            'h_index_publons').reverse()
+                                        queryset = Scientist.objects.filter(draft=False, department__title_department__icontains=self.request.GET.get("q")).order_by('h_index_publons').reverse()
                                     else:
                                         if "sh_down" in filter_dropdown_menu:
-                                            queryset = Scientist.objects.filter(draft=False,
-                                                                                department__title_department__icontains=self.request.GET.get(
-                                                                                    "q")).order_by('h_index_scopus')
+                                            queryset = Scientist.objects.filter(draft=False, department__title_department__icontains=self.request.GET.get("q")).order_by('h_index_scopus')
                                         else:
                                             if "sh_up" in filter_dropdown_menu:
-                                                queryset = Scientist.objects.filter(draft=False,
-                                                                                    department__title_department__icontains=self.request.GET.get(
-                                                                                        "q")).order_by(
-                                                    'h_index_scopus').reverse()
+                                                queryset = Scientist.objects.filter(draft=False, department__title_department__icontains=self.request.GET.get("q")).order_by('h_index_scopus').reverse()
             else:
 
                 if "speciality" in select:
                     if "fullname_up" in filter_dropdown_menu:
-                        queryset = Scientist.objects.filter(draft=False,
-                                                            speciality__speciality_title__icontains=self.request.GET.get("q")).order_by(
-                            'lastname_uk')
+                        queryset = Scientist.objects.filter(draft=False, speciality__speciality_title__icontains=self.request.GET.get("q")).order_by('lastname_uk')
                     else:
                         if "fullname_down" in filter_dropdown_menu:
-                            queryset = Scientist.objects.filter(draft=False,
-                                                                speciality__speciality_title__icontains=self.request.GET.get(
-                                                                    "q")).order_by(
-                                'lastname_uk').reverse()
+                            queryset = Scientist.objects.filter(draft=False, speciality__speciality_title__icontains=self.request.GET.get("q")).order_by('lastname_uk').reverse()
                         else:
                             if "gsh_down" in filter_dropdown_menu:
-                                queryset = Scientist.objects.filter(draft=False,
-                                                                    speciality__speciality_title__icontains=self.request.GET.get(
-                                                                        "q")).order_by(
-                                    'h_index_google_scholar')
+                                queryset = Scientist.objects.filter(draft=False, speciality__speciality_title__icontains=self.request.GET.get("q")).order_by('h_index_google_scholar')
                             else:
                                 if "gsh_up" in filter_dropdown_menu:
-                                    queryset = Scientist.objects.filter(draft=False,
-                                                                        speciality__speciality_title__icontains=self.request.GET.get(
-                                                                            "q")).order_by(
-                                        'h_index_google_scholar').reverse()
+                                    queryset = Scientist.objects.filter(draft=False, speciality__speciality_title__icontains=self.request.GET.get("q")).order_by('h_index_google_scholar').reverse()
                                 else:
                                     if "ph_down" in filter_dropdown_menu:
-                                        queryset = Scientist.objects.filter(draft=False,
-                                                                            speciality__speciality_title__icontains=self.request.GET.get(
-                                                                                "q")).order_by(
-                                            'h_index_publons')
+                                        queryset = Scientist.objects.filter(draft=False, speciality__speciality_title__icontains=self.request.GET.get("q")).order_by('h_index_publons')
                                     else:
                                         if "ph_up" in filter_dropdown_menu:
-                                            queryset = Scientist.objects.filter(draft=False,
-                                                                                speciality__speciality_title__icontains=self.request.GET.get(
-                                                                                    "q")).order_by(
-                                                'h_index_publons').reverse()
+                                            queryset = Scientist.objects.filter(draft=False, speciality__speciality_title__icontains=self.request.GET.get("q")).order_by('h_index_publons').reverse()
                                         else:
                                             if "sh_down" in filter_dropdown_menu:
-                                                queryset = Scientist.objects.filter(draft=False,
-                                                                                    speciality__speciality_title__icontains=self.request.GET.get(
-                                                                                        "q")).order_by(
-                                                    'h_index_scopus')
+                                                queryset = Scientist.objects.filter(draft=False, speciality__speciality_title__icontains=self.request.GET.get("q")).order_by('h_index_scopus')
                                             else:
                                                 if "sh_up" in filter_dropdown_menu:
-                                                    queryset = Scientist.objects.filter(draft=False,
-                                                                                        speciality__speciality_title__icontains=self.request.GET.get(
-                                                                                            "q")).order_by(
-                                                        'h_index_scopus').reverse()
+                                                    queryset = Scientist.objects.filter(draft=False, speciality__speciality_title__icontains=self.request.GET.get("q")).order_by('h_index_scopus').reverse()
                 else:
 
                     if "keyword" in select:
                         if "fullname_up" in filter_dropdown_menu:
-                            queryset = Scientist.objects.filter(draft=False,
-                                                                speciality__keyword__keyword_title__icontains=self.request.GET.get(
-                                                                    "q")).order_by(
-                                'lastname_uk')
+                            queryset = Scientist.objects.filter(draft=False, speciality__keyword__keyword_title__icontains=self.request.GET.get("q")).order_by('lastname_uk')
                         else:
                             if "fullname_down" in filter_dropdown_menu:
-                                queryset = Scientist.objects.filter(draft=False,
-                                                                    speciality__keyword__keyword_title__icontains=self.request.GET.get(
-                                                                        "q")).order_by(
-                                    'lastname_uk').reverse()
+                                queryset = Scientist.objects.filter(draft=False, speciality__keyword__keyword_title__icontains=self.request.GET.get("q")).order_by('lastname_uk').reverse()
                             else:
                                 if "gsh_down" in filter_dropdown_menu:
-                                    queryset = Scientist.objects.filter(draft=False,
-                                                                        speciality__keyword__keyword_title__icontains=self.request.GET.get(
-                                                                            "q")).order_by(
-                                        'h_index_google_scholar')
+                                    queryset = Scientist.objects.filter(draft=False, speciality__keyword__keyword_title__icontains=self.request.GET.get("q")).order_by('h_index_google_scholar')
                                 else:
                                     if "gsh_up" in filter_dropdown_menu:
-                                        queryset = Scientist.objects.filter(draft=False,
-                                                                            speciality__keyword__keyword_title__icontains=self.request.GET.get(
-                                                                                "q")).order_by(
-                                            'h_index_google_scholar').reverse()
+                                        queryset = Scientist.objects.filter(draft=False, speciality__keyword__keyword_title__icontains=self.request.GET.get("q")).order_by('h_index_google_scholar').reverse()
                                     else:
                                         if "ph_down" in filter_dropdown_menu:
-                                            queryset = Scientist.objects.filter(draft=False,
-                                                                                speciality__keyword__keyword_title__icontains=self.request.GET.get(
-                                                                                    "q")).order_by(
-                                                'h_index_publons')
+                                            queryset = Scientist.objects.filter(draft=False, speciality__keyword__keyword_title__icontains=self.request.GET.get("q")).order_by('h_index_publons')
                                         else:
                                             if "ph_up" in filter_dropdown_menu:
-                                                queryset = Scientist.objects.filter(draft=False,
-                                                                                    speciality__keyword__keyword_title__icontains=self.request.GET.get(
-                                                                                        "q")).order_by(
-                                                    'h_index_publons').reverse()
+                                                queryset = Scientist.objects.filter(draft=False, speciality__keyword__keyword_title__icontains=self.request.GET.get("q")).order_by('h_index_publons').reverse()
                                             else:
                                                 if "sh_down" in filter_dropdown_menu:
-                                                    queryset = Scientist.objects.filter(draft=False,
-                                                                                        speciality__keyword__keyword_title__icontains=self.request.GET.get(
-                                                                                            "q")).order_by(
-                                                        'h_index_scopus')
+                                                    queryset = Scientist.objects.filter(draft=False, speciality__keyword__keyword_title__icontains=self.request.GET.get("q")).order_by('h_index_scopus')
                                                 else:
                                                     if "sh_up" in filter_dropdown_menu:
-                                                        queryset = Scientist.objects.filter(draft=False,
-                                                                                            speciality__keyword__keyword_title__icontains=self.request.GET.get(
-                                                                                                "q")).order_by(
-                                                            'h_index_scopus').reverse()
+                                                        queryset = Scientist.objects.filter(draft=False, speciality__keyword__keyword_title__icontains=self.request.GET.get("q")).order_by('h_index_scopus').reverse()
 
         return queryset
 
