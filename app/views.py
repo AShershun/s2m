@@ -385,7 +385,7 @@ class Search(ListView):
 @login_required(login_url='/accounts/login/')
 def update_scientists_records(request):
     error_log = ''
-    scientists = Scientist.objects.all().filter(draft=False)
+    scientists = Scientist.objects.all().filter(draft=False).order_by('date_update').reverse()
     for scientist in scientists:
         if scientist.scopusid:
             try:
