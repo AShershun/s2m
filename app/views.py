@@ -510,7 +510,7 @@ def naukometria_xlsx(request):
         cell.value = cell.value[:-5]
     
     for cell in worksheet['D'][1:]:
-        if cell.value == 'True':
+        if cell.value == 1:
             cell.value = 'Так'
         else:
             cell.value = 'Ні'
@@ -527,7 +527,7 @@ def naukometria_xlsx(request):
         cell.font = Font(underline='single', color='0563C1')
         cell.hyperlink = f"https://scholar.google.com/citations?user={cell.value}"
         if cell.value:
-            cell.value = 'Link'
+            cell.value = 'GS Link'
 
     for cell in worksheet['J'][1:]:
         cell.font = Font(size=11, underline='single', color='0563C1')
