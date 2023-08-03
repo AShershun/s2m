@@ -414,7 +414,7 @@ def update_scientists_records(request):
             except Exception as e:
                 error_log += f"\nGoogle Scholar: Error updating data for {scientist.lastname_uk} {scientist.firstname_uk} {scientist.middlename_uk} https://s2m.ontu.edu.ua/profile/{scientist.profile_id}: {e}"
         else:
-            print(f"Google Scholar: Profile {scientist.profile_id} {scientist.lastname_uk} {scientist.firstname_uk} {scientist.middlename_uk} update success!!!")
+            print(f"ERROR!!!: Google Scholar Profile {scientist.profile_id} {scientist.lastname_uk} {scientist.firstname_uk} {scientist.middlename_uk}!!!")
 
     return HttpResponse("Update completed successfully.\n" + error_log)
 
