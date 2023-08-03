@@ -387,6 +387,8 @@ def update_scientists_records(request):
     error_log = ''
     scientists = Scientist.objects.all().filter(draft=False).order_by('date_update').reverse()
     for scientist in scientists:
+        print(f"\nScopus: Profile {scientist.profile_id} {scientist.lastname_uk} {scientist.firstname_uk} {scientist.middlename_uk} updating!!!")
+        print(f"\nLast date updating {scientist.date_update}")
         if scientist.scopusid:
             try:
                 scopus_author = AuthorRetrieval(scientist.scopusid)
@@ -395,11 +397,12 @@ def update_scientists_records(request):
                 scientist.h_index_scopus = scopus_author.h_index
                 scientist.scopus_count_pub = scopus_author.document_count
                 scientist.save()
-                print(f"Scopus: Profile {scientist.profile_id} {scientist.lastname_uk} {scientist.firstname_uk} {scientist.middlename_uk} update success!!!")
+                print(f"Scopus: SUCCESS!")
 
             except Exception as e:
-                error_log += f"\nScopus: Error updating data for {scientist.lastname_uk} {scientist.firstname_uk} {scientist.middlename_uk} https://s2m.ontu.edu.ua/profile/{scientist.profile_id}: {e}"
-
+                print(f"Scopus: ERROR!")
+                error_log += f"\nScopus: Error updating data for {scientist.lastname_uk} {scientist.firstname_uk} https://s2m.ontu.edu.ua/profile/{scientist.profile_id}: {e}"
+            
         if scientist.google_scholar:
             try:
                 author = scholarly.search_author_id(f'{scientist.google_scholar}')
@@ -408,13 +411,12 @@ def update_scientists_records(request):
                 scientist.h_index_google_scholar = author['hindex']
                 scientist.google_scholar_count_pub = len(author['publications'])
                 scientist.save()
-                print(f"Google Scholar: Profile {scientist.profile_id} {scientist.lastname_uk} {scientist.firstname_uk} {scientist.middlename_uk} update success!!!")
+                print(f"Google Scholar: SUCCESS!")
 
 
             except Exception as e:
-                error_log += f"\nGoogle Scholar: Error updating data for {scientist.lastname_uk} {scientist.firstname_uk} {scientist.middlename_uk} https://s2m.ontu.edu.ua/profile/{scientist.profile_id}: {e}"
-        else:
-            print(f"ERROR!!!: Google Scholar Profile {scientist.profile_id} {scientist.lastname_uk} {scientist.firstname_uk} {scientist.middlename_uk}!!!")
+                print(f"Google Scholar: ERROR!")
+                error_log += f"\nGoogle Scholar: ERROR updating data for {scientist.lastname_uk} {scientist.firstname_uk} https://s2m.ontu.edu.ua/profile/{scientist.profile_id}: {e}"
 
     return HttpResponse("Update completed successfully.\n" + error_log)
 
