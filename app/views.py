@@ -402,6 +402,8 @@ def update_scientists_records(request):
             except Exception as e:
                 print(f"Scopus: ERROR!")
                 error_log += f"\nScopus: Error updating data for {scientist.lastname_uk} {scientist.firstname_uk} https://s2m.ontu.edu.ua/profile/{scientist.profile_id}: {e}"
+        else:
+            print(f"Scopus: EMPTY!")
             
         if scientist.google_scholar:
             try:
@@ -417,6 +419,8 @@ def update_scientists_records(request):
             except Exception as e:
                 print(f"Google Scholar: ERROR!")
                 error_log += f"Google Scholar: ERROR updating data for {scientist.lastname_uk} {scientist.firstname_uk} https://s2m.ontu.edu.ua/profile/{scientist.profile_id}: {e}"
+        else:
+            print(f"Google Scholar: EMPTY!")
 
     return HttpResponse("Update completed successfully.\n" + error_log)
 
