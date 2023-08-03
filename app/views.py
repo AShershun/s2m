@@ -385,9 +385,9 @@ class Search(ListView):
 @login_required(login_url='/accounts/login/')
 def update_scientists_records(request):
     error_log = ''
-    scientists = Scientist.objects.all().filter(draft=False).order_by('date_update').reverse()
+    scientists = Scientist.objects.all().filter(draft=False).order_by('date_update')
     for scientist in scientists:
-        print(f"\nScopus: Profile {scientist.profile_id} {scientist.lastname_uk} {scientist.firstname_uk} {scientist.middlename_uk} updating!!!")
+        print(f"\{scientist.profile_id} Profile {scientist.lastname_uk} {scientist.firstname_uk} {scientist.middlename_uk} updating!!!")
         print(f"\nLast date updating {scientist.date_update}")
         if scientist.scopusid:
             try:
@@ -416,7 +416,7 @@ def update_scientists_records(request):
 
             except Exception as e:
                 print(f"Google Scholar: ERROR!")
-                error_log += f"\nGoogle Scholar: ERROR updating data for {scientist.lastname_uk} {scientist.firstname_uk} https://s2m.ontu.edu.ua/profile/{scientist.profile_id}: {e}"
+                error_log += f"Google Scholar: ERROR updating data for {scientist.lastname_uk} {scientist.firstname_uk} https://s2m.ontu.edu.ua/profile/{scientist.profile_id}: {e}"
 
     return HttpResponse("Update completed successfully.\n" + error_log)
 
