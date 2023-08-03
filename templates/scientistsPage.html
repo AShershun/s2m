@@ -3,11 +3,6 @@
     <form class="search_form" action="{% url 'search'  %}" method="GET">
         {% csrf_token %}
         <div class="search_block">
-<!--            <select class="search_item search_select" id="search" name="select">-->
-<!--                <option class="select_item" value="fullname ">ПІБ</option>-->
-<!--                <option class="select_item" value="department">Кафедра</option>-->
-<!--                <option class="select_item" value="speciality">Спеціальність</option>-->
-<!--            </select>-->
             <span class="search_item search_select">
 <!--             Select created in forms.py -->
                 {{ form.select }}
