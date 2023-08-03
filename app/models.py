@@ -117,7 +117,7 @@ class Scientist(models.Model):
                                    verbose_name="Робочий статус", default="Працює")
     orcid = models.CharField('ORCID', max_length=25, help_text="0000-0002-1398-1472", blank=True)
     google_scholar = models.CharField('Google Scholar', max_length=200, blank=True, null=False, unique=False,
-                                      help_text="citations?user=EF1_85cAAAAJ&hl=ru")
+                                      help_text="У GS ID можуть бути знаки \"-\", \"_\" на початку, або всередені:-_EF1_85cAAAAJ&hl")
     h_index_google_scholar = models.PositiveSmallIntegerField('h-індекс Google Scholar', default=0)
     google_scholar_count_pub = models.PositiveSmallIntegerField('Кількість публікацій Google Scholar', default=0)
     publons = models.CharField('Publons', max_length=100, blank=True, null=False, unique=False, help_text="P-2507-2015")

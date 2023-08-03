@@ -408,10 +408,13 @@ def update_scientists_records(request):
                 scientist.h_index_google_scholar = author['hindex']
                 scientist.google_scholar_count_pub = len(author['publications'])
                 scientist.save()
+                print(f"Google Scholar: Profile {scientist.profile_id} {scientist.lastname_uk} {scientist.firstname_uk} {scientist.middlename_uk} update success!!!")
+
 
             except Exception as e:
                 error_log += f"\nGoogle Scholar: Error updating data for {scientist.lastname_uk} {scientist.firstname_uk} {scientist.middlename_uk} https://s2m.ontu.edu.ua/profile/{scientist.profile_id}: {e}"
-
+        else:
+            print(f"Google Scholar: Profile {scientist.profile_id} {scientist.lastname_uk} {scientist.firstname_uk} {scientist.middlename_uk} update success!!!")
 
     return HttpResponse("Update completed successfully.\n" + error_log)
 
@@ -467,24 +470,33 @@ class ProfilePage(View):
         # Отримання необхідного scopusid за profile_id
         profile = Scientist.objects.get(profile_id=profile_id)
         if profile.scopusid:
-            scopus_author = AuthorRetrieval(profile.scopusid)
+            try:
+                scopus_author = AuthorRetrieval(profile.scopusid)
 
-            # Зміненя даних у БД та збереження
-            profile.h_index_scopus = scopus_author.h_index
-            profile.scopus_count_pub = scopus_author.document_count
-            profile.save()
+                # Зміненя даних у БД та збереження
+                profile.h_index_scopus = scopus_author.h_index
+                profile.scopus_count_pub = scopus_author.document_count
+                profile.save()
+            except Exception as e:
+                error_log = f"\nScopus: Error updating data for {scientist.lastname_uk} {scientist.firstname_uk} {scientist.middlename_uk} https://s2m.ontu.edu.ua/profile/{scientist.profile_id}: {e}"
+                return HttpResponse("Error Update.\n" + error_log)
+
 
         #Google Scholar
         
                 
         if profile.google_scholar:
-            author = scholarly.search_author_id(f'{profile.google_scholar}')
-            author = (scholarly.fill(author, sections=['indices', 'publications']))
+            try:
+                author = scholarly.search_author_id(f'{profile.google_scholar}')
+                author = (scholarly.fill(author, sections=['indices', 'publications']))
+                
+                profile.h_index_google_scholar = author['hindex']
+                profile.google_scholar_count_pub = len(author['publications'])
+                profile.save()
             
-            profile.h_index_google_scholar = author['hindex']
-            profile.google_scholar_count_pub = len(author['publications'])
-            profile.save()
-            
+            except Exception as e:
+                error_log = f"\Google Scholar: Error updating data for {scientist.lastname_uk} {scientist.firstname_uk} {scientist.middlename_uk} https://s2m.ontu.edu.ua/profile/{scientist.profile_id}: {e}"
+                return HttpResponse("Error Update.\n" + error_log)
 
         return redirect('profile', profile_id=profile_id)
 
