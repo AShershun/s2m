@@ -387,8 +387,8 @@ def update_scientists_records(request):
     error_log = ''
     scientists = Scientist.objects.all().filter(draft=False).order_by('date_update')
     for scientist in scientists:
-        print(f"\{scientist.profile_id} Profile {scientist.lastname_uk} {scientist.firstname_uk} {scientist.middlename_uk} updating!!!")
-        print(f"\nLast date updating {scientist.date_update}")
+        print(f"\n{scientist.profile_id} Profile {scientist.lastname_uk} {scientist.firstname_uk} {scientist.middlename_uk} updating!!!")
+        print(f"Last date updating {scientist.date_update}")
         if scientist.scopusid:
             try:
                 scopus_author = AuthorRetrieval(scientist.scopusid)
