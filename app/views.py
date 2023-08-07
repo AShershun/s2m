@@ -3,7 +3,6 @@ import pybliometrics, scholarly, openpyxl
 
 from datetime import datetime
 from .forms import *
-from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -450,7 +449,7 @@ def naukometria_xlsx(request):
     worksheet.column_dimensions['H'].width = 10
     worksheet.column_dimensions['I'].width = 16
     worksheet.column_dimensions['J'].width = 22
-    worksheet.column_dimensions['K'].width = 16
+    worksheet.column_dimensions['K'].width = 15
 
     # worksheet.column_dimensions.group('J', 'K', hidden=True, outline_level=0)
     worksheet.column_dimensions['L'].width = 12

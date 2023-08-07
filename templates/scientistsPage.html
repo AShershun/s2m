@@ -30,6 +30,7 @@
             </div>
         </div>
     </form>
+    {% if user.is_authenticated %}
     <div class="update_button_block">
         <a href="{% url 'update_scientists_records' %}" class="functional_link">
             <button class="main_button update_scientists">
@@ -37,6 +38,7 @@
             </button>
         </a>
     </div>
+    {% endif %}
 </div>
 
 <hr class="dividing_line "> {% for scientist in scientist_list %}
