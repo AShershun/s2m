@@ -201,8 +201,6 @@ class ProfilePage(View):
         return render(request, 'profilePage.html', context)
 
     def post(self, request, profile_id):
-        #api_scpopus_key = '5e5dc847f87e9db2f294456be2b932e4'
-
         # Web of Science
 
         # wos_api_key = 'your_web_of_science_api_key'

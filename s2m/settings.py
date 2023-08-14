@@ -21,10 +21,10 @@ PROJECT_ROOT = os.path.dirname(__file__)
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ')1h$4yuw5^jx(n^qz+2=f@dcj4@qwr!%_zsmmq^irce22md8n_'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
-SCOPUS_API_KEY = '5e5dc847f87e9db2f294456be2b932e4'
+SCOPUS_API_KEY = os.environ.get('SCOPUS_API_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -89,13 +89,13 @@ WSGI_APPLICATION = 's2m.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
-        'USER': 'alexander',  # login db
-        'PASSWORD': '010980',  # password db
-        'HOST': 's2m_db',
+        'NAME': os.environ['DB_NAME'],
+        'USER': os.environ['DB_USER'],
+        'PASSWORD': os.environ['DB_PASSWORD'],
+        'HOST': os.environ['DB_HOST'],
         'PORT': '5432',
         'OPTIONS': {
-            'options': '-c search_path=s2m'  # DB Schema
+            'options': '-c search_path=s2m'  # DB SCHEMA
         }
     }
 }
