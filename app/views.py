@@ -1,5 +1,5 @@
 import pandas as pd
-import pybliometrics, scholarly, openpyxl
+import scholarly, openpyxl
 
 from datetime import datetime
 from .forms import *
@@ -340,7 +340,7 @@ def export_xlsx(request):
 
     # Форматування комірок
     border = Border(left=openpyxl.styles.Side(border_style='thin'), right=openpyxl.styles.Side(
-        border_style='thin'), top=openpyxl.styles.Side(border_style='thin'), bottom=openpyxl.styles.Side(border_style='thin'))
+    border_style='thin'), top=openpyxl.styles.Side(border_style='thin'), bottom=openpyxl.styles.Side(border_style='thin'))
     alignment = Alignment(horizontal='center',
                           vertical='center', wrap_text=True)
     font = Font(size=12)
