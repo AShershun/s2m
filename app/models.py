@@ -132,6 +132,7 @@ class Scientist(models.Model):
     profile_id = models.CharField('Код користувача', max_length=4, editable=True, unique=True, blank=True)
     draft = models.BooleanField('Чернетка', default=False)
     staff = models.BooleanField('У штаті', default="False")
+    
     class Meta:
         managed = False
         db_table = 'scientist'
