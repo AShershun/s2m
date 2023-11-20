@@ -119,7 +119,7 @@ class Scientist(models.Model):
                                       help_text="У GS ID можуть бути знаки \"-\", \"_\" на початку, або всередені (приклад -\"_EF1_85cAAAAJ\"), копіюємо код у в адресному рядку після \'?user=\'")
     h_index_google_scholar = models.PositiveSmallIntegerField('h-індекс Google Scholar', blank=True, default=0)
     google_scholar_count_pub = models.PositiveSmallIntegerField('Кількість публікацій Google Scholar', blank=True, default=0)
-    publons = models.CharField('Web of Science', max_length=100, blank=True, null=False, unique=False, help_text="P-2507-2015")
+    publons = models.CharField('Web of Science', max_length=100, blank=True, null=False, unique=False, help_text="Приклад: 799072, останні цифри до слешу \'\/\' у адресному рядку профіля")
     h_index_publons = models.PositiveSmallIntegerField('h-індекс WoS', default=0)
     publons_count_pub = models.PositiveSmallIntegerField('Кількість публікацій WoS', default=0)
     scopusid = models.CharField('Scopus ID', max_length=200, blank=True, null=False, unique=False,
