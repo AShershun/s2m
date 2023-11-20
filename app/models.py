@@ -131,7 +131,7 @@ class Scientist(models.Model):
     date_update = models.DateField("Дата оновленя", auto_now=True, null=False)
     profile_id = models.CharField('Код користувача', max_length=4, editable=True, unique=True, blank=True)
     draft = models.BooleanField('Чернетка', default=False)
-    staff = models.BooleanField('У штаті', default="False")
+    staff = models.BooleanField('У штаті', default=False)
     
     class Meta:
         managed = False
