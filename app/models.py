@@ -111,7 +111,6 @@ class Scientist(models.Model):
                                verbose_name="Наукова ступінь")
     post = models.ForeignKey('Post', on_delete=models.CASCADE, db_column='post', to_field='id_post', blank=True, null=True,
                              verbose_name="Посада")
-    staff = models.BooleanField('У штаті', default="True")
     speciality = models.ManyToManyField('Speciality', blank=True, verbose_name="Спеціальність")
     work_state = models.ForeignKey('WorkState', on_delete=models.CASCADE, db_column='work_state', to_field='id_state',
                                    verbose_name="Робочий статус", default="Працює")
@@ -132,7 +131,7 @@ class Scientist(models.Model):
     date_update = models.DateField("Дата оновленя", auto_now=True, null=False)
     profile_id = models.CharField('Код користувача', max_length=4, editable=True, unique=True, blank=True)
     draft = models.BooleanField('Чернетка', default=False)
-
+    staff = models.BooleanField('У штаті', default="False")
     class Meta:
         managed = False
         db_table = 'scientist'
