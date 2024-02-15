@@ -114,7 +114,7 @@ class Search(ListView):
     def get_queryset(self):
         queryset = Scientist.objects.filter(draft=False)
         q = self.request.GET.get("q")
-        select =  SelectForm.select # self.request.GET.get('select')
+        select = self.request.GET.get('select')
         filter_dropdown_menu = self.request.GET.get('filter')
 
         filter_mapping = {
