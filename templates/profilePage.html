@@ -39,7 +39,7 @@
         </li>
         <li class="profile_info_item">
             <p class="profile_info_item_title">Кафедра:</p>
-            <p class="profile_info_item_data">{{scientist.department}}</p>
+            <p class="profile_info_item_data"><a href="{% url 'search' %}?&select=department&q={{scientist.department|urlencode}}&filter=fullname_up">{{scientist.department}}</a></p>
         </li>
         <li class="profile_info_item">
             <p class="profile_info_item_title">Посада:</p>
