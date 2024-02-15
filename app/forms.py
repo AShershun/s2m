@@ -1,4 +1,4 @@
-from django.forms import Form, ChoiceField, CharField
+from django.forms import Form, ChoiceField
 
 
 class SelectForm(Form):
@@ -8,5 +8,5 @@ class SelectForm(Form):
         ('speciality', 'Спеціальність'),
         ('keyword', 'Ключове слово'),
     )
-    # search = CharField(required=False)
+    
     select = ChoiceField(choices=FILTER_CHOICES)
