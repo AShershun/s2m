@@ -396,6 +396,125 @@ def export_xlsx(request):
 
 
 @login_required(login_url='/accounts/login/')
+def export5_xlsx(request):
+    '''Генерація файлу .xlsx з данми кожного вченого окрім тих які позначені як draft'''
+
+    # Створюємо  Workbook
+    workbook = openpyxl.Workbook()
+
+    # Створюємо лист (worksheet)
+    worksheet = workbook.active
+    worksheet.title = "Звіт"
+
+    # Запит на вчених у яких в сумі кількість публікацій вище 5
+    filtered_scientists = Scientist.objects.annotate(
+        total_publications=F('publons_count_pub') + F('scopus_count_pub')
+    ).filter(total_publications__gte=5)
+
+    queryset = filtered_scientists.filter(draft=False).prefetch_related(
+        'department__faculty').order_by('lastname_uk')
+
+    # Створюємо порожній DataFrame для зберігання даних
+    data = pd.DataFrame(columns=['Факультет (Інститут)', 'Кафедра, відділ тощо', 'ПІБ', 'ID Scopus', 'Індекс Гірша Scopus',
+                                 'Кількість публікацій Scopus', 'ID Web of Science',
+                                 'Індекс Гірша Web of Science', 'Кількість публікацій WoS', 'Публікації Scopus', 'Публікації WoS'])
+
+    # Заповнюємо DataFrame даними із queryset
+    for scientist in queryset:
+
+        full_name = ' '.join(
+            [scientist.lastname_uk, scientist.firstname_uk, scientist.middlename_uk])
+        title_department = scientist.department.title_department if scientist.department else ''
+        title_faculty = scientist.department.faculty.title_faculty if scientist.department.faculty else ''
+
+        # Отримуємо всі назви публікацій та об'єднуємо їх в один рядок
+        scopus_publication_titles = ',\n'.join(
+            [f"{index+1}. {publication.publication_title}" for index, publication in enumerate(scientist.publication_wos.all())])
+        wos_publication_titles = ',\n'.join(
+            [f"{index+1}. {publication.publication_title}" for index, publication in enumerate(scientist.publication_scopus.all())])
+
+        # Додаємо дані в DataFrame
+        data.loc[len(data)] = [title_faculty, title_department, full_name, scientist.scopusid, scientist.h_index_scopus,
+                               scientist.scopus_count_pub, scientist.publons, scientist.h_index_publons,
+                               scientist.publons_count_pub, scopus_publication_titles, wos_publication_titles]
+
+    # worksheet.column_dimensions.group('A', 'B', hidden=True, outline_level=0)
+    worksheet.column_dimensions['A'].width = 40
+    worksheet.column_dimensions['B'].width = 35
+
+    # worksheet.column_dimensions.group('C', 'D', hidden=True, outline_level=0)
+    worksheet.column_dimensions['C'].width = 40
+    worksheet.column_dimensions['D'].width = 18
+
+    # worksheet.column_dimensions.group('E', 'I', hidden=True, outline_level=0)
+    worksheet.column_dimensions['E'].width = 18
+    worksheet.column_dimensions['F'].width = 18
+    worksheet.column_dimensions['G'].width = 18
+    worksheet.column_dimensions['H'].width = 18
+    worksheet.column_dimensions['I'].width = 18
+
+    # worksheet.column_dimensions.group('J', 'K', hidden=True, outline_level=0)
+    worksheet.column_dimensions['J'].width = 85
+    worksheet.column_dimensions['K'].width = 85
+
+    # Форматування комірок
+    border = Border(left=openpyxl.styles.Side(border_style='thin'), right=openpyxl.styles.Side(
+    border_style='thin'), top=openpyxl.styles.Side(border_style='thin'), bottom=openpyxl.styles.Side(border_style='thin'))
+    alignment = Alignment(horizontal='center',
+                          vertical='center', wrap_text=True)
+    font = Font(size=12)
+
+    # Встановлення висоти комірок
+    endRow = 800
+    for i in range(0, endRow):
+        worksheet.row_dimensions[i+1].height = 58
+
+    # Заповнюємо таблицю Excel даними з DataFrame
+    start_row_index = 2
+    for row in data.itertuples(index=False):
+        row_index = start_row_index
+        for col_index, value in enumerate(row, start=1):
+            cell = worksheet.cell(row=row_index, column=col_index)
+            cell.value = value
+
+        start_row_index += 1
+
+    # Застосовуємо форматування для кожного стовпця
+    for column in worksheet.columns:
+        for cell in column:
+            cell.border = border
+            cell.alignment = alignment
+            cell.font = font
+
+    headers = ['Факультет (Інститут)', 'Кафедра, відділ тощо', 'ПІБ', 'ID Scopus', 'Індекс Гірша Scopus',
+               'Кількість публікацій Scopus', 'ID Web of Science',
+               'Індекс Гірша Web of Science', 'Кількість публікацій WoS', 'Публікації Scopus', 'Публікації WoS']
+
+    # Застосовуємо форматування для першого рядка
+    row_index = 1
+    for col_index, header in enumerate(headers, start=1):
+        cell = worksheet.cell(row=row_index, column=col_index)
+        cell.value = header
+        cell.font = Font(bold=True, size=13)
+
+    for cell in worksheet['D'][1:]:
+        cell.font = Font(underline='single', color='0563C1')
+        cell.hyperlink = f"https://www.scopus.com/authid/detail.uri?authorId={cell.value}"
+
+    for cell in worksheet['G'][1:]:
+        cell.font = Font(underline='single', color='0563C1')
+        cell.hyperlink = f"https://publons.com/researcher/{cell.value}"
+
+    filename = "Zvit5" + datetime.now().strftime("_%d_%m_%Y") + ".xlsx"
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=%s' % filename
+    workbook.save(response)
+
+    return response
+
+
+@login_required(login_url='/accounts/login/')
 def naukometria_xlsx(request):
     '''Генерація файлу .xlsx з данми кожного вченого окрім тих які позначені як draft'''
 
