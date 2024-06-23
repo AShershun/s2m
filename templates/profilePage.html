@@ -121,7 +121,7 @@
             <li class="profile_info_item">
                 <p class="profile_info_item_title">Publons:</p>
                 {% if scientist.publons == '' %} Немає {% else %}
-                <a href="https://publons.com/researcher/{{scientist.publons}}" target="_blank" class="profile_info_item_data profile_scientific_info_link">{{scientist.publons}}</a> {% endif %}
+                <a href="https://www.webofscience.com/wos/author/record/{{scientist.publons}}" target="_blank" class="profile_info_item_data profile_scientific_info_link">{{scientist.publons}}</a> {% endif %}
             </li>
             <li class="profile_info_item">
                 <p class="profile_info_item_title">h index Web of Science:</p>
